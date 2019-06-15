@@ -1,7 +1,14 @@
 @extends('layouts.vleugelslayout')
 
 @section('content')
-<div class="container">
-    <h1>welkom pagina</h1>
+<div class="super-container">
+    <div class="modal fade" role="dialog" aria-hidden="false">
+        @include('cookieConsent::index') 
+    </div>    
+    @include('welcome.home')
+    @include('welcome.hotel')
+    @include('welcome.dagverblijf')
+    @include('welcome.therapie')
+    @include('welcome.footer')
 </div>
 @endsection
