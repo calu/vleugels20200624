@@ -31,3 +31,7 @@ Route::get('/home', function(){
    } else
         return view('adminhome'); // toon de splashscreen voor de admin
 });
+
+/* Contactpersoon */
+Route::resource('contactpersonen', 'ContactpersoonController');
+

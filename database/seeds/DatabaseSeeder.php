@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@vleugels.be',
             'password' => bcrypt('vleugels'),
             'admin' => 1
-        ]);        
+        ]);     
+        
+        factory( App\Contactpersoon::class,30)->create();   
     }
 }

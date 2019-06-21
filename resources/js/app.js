@@ -20,6 +20,9 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('getal-cirkel', require('./components/GetalCirkel.vue').default);
+Vue.component('vraagformulier', require('./components/VraagFormulier.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,4 +32,22 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    
+   methods:{
+       vermelden(param){
+          url = 'https://vleugels.test';
+          console.log("hier  kom je terecht bij vermelden - app.js");
+          if (param){
+              loc = url + '/' + param.message;
+               console.log("loc = " + loc);
+               window.location.href = loc; 
+          }
+          window.location = url;
+       }    
+   }
 });
+
+/*const getalcirkel = new Vue({
+    el: '#mijn-card',
+    
+});*/

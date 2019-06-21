@@ -8,7 +8,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">                 
             <!-- rechterzijde van de navbar -->
             <ul class="navbar-nav ml-auto">
                 <!-- authenticatie link -->
@@ -55,20 +55,13 @@
                    <li class="nav-item dropdown">
                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                            {{ Auth::user()->name }} <span class="caret"></span>
-                       </a>
-
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                           <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                              {{ __('Logout') }}
-                           </a>
-
-                           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                              @csrf 
-                           </form>
-                        </div>                       
-                       
+                       </a>                  
+                   </li>
+                   <li class="nav-item mt-2">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="bg-dark text-white border-dark">logout</button>
+                        </form>                                    
                    </li>
                 @endguest
                                 
