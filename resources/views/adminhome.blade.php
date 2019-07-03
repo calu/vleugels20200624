@@ -34,6 +34,36 @@
 			?>
 			@include('admin.partials.card', $info)
 		</div>
+		
+		<div class="col md-4">
+			<?php
+				$info = [
+					'header' => 'Mutualiteiten',
+					'icon' => 'fa-folder-open',
+					'text' => 'Overzicht van de mutualiteiten. Je kan de bestaande
+					editeren, wissen en ook een nieuwe bijvoegen',
+					'button' => 'mutualiteit',
+					'href' => '/mutualiteiten',
+					'aantal' => 0	
+				];
+			?>
+			@include('admin.partials.card', $info)
+		</div>
  	</div>
+	<div class="row">
+		<div class="col md-4">
+			<?php
+				$info = [
+					'header' => 'Codes',
+					'icon' => 'fa-euro-sign',
+					'text' => 'Overzicht van de codes voor het bepalen van de kamerprijs',
+					'button' => 'code',
+					'href' => '/codes',
+					'aantal' => 0	
+				];
+			?>
+			@include('admin.partials.card', $info)
+		</div>		
+	</div>
 </div>
 @endsection

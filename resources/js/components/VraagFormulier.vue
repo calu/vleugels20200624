@@ -164,13 +164,20 @@ export default{
 //		console.log("onSubmit : " + this.form.id);
 			if ( this.form.id == 0){
 				this.form.post('/contactpersonen')
-				  .then( data => this.$emit('completed', data))
+//				  .then( data => this.$emit('completed', data))
+                  .then ( data => this.spring(data.message))
 				  .catch( errors => console.log(errors));
 			} else {
 				this.form.patch('/contactpersonen/' + this.form.id)
-				  .then ( data => this.$emit('completed', data) )
+//				  .then ( data => this.$emit('completed', data) )
+                  .then ( data => this.spring(data.message))
 				  .catch( errors => console.log(errors));
 			}
+		}, 
+		
+		spring(data){
+		    var $url = "https://" + window.location.hostname + "/" + data;
+			window.location=$url;	
 		},
 	},
 }

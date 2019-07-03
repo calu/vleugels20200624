@@ -20,5 +20,13 @@ class DatabaseSeeder extends Seeder
         ]);     
         
         factory( App\Contactpersoon::class,30)->create();   
+        
+        $this->call([
+           MutTableSeeder::class, 
+        ]);
+        
+         $this->call([
+           CodeTableSeeder::class, 
+        ]);       
     }
 }

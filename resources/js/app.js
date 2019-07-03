@@ -22,9 +22,10 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('getal-cirkel', require('./components/GetalCirkel.vue').default);
 Vue.component('vraagformulier', require('./components/VraagFormulier.vue').default);
+Vue.component('mutformulier', require('./components/MutFormulier.vue').default);
+Vue.component('code-formulier', require('./components/CodeFormulier.vue').default);
 
-
-/**
+/*
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
@@ -32,7 +33,7 @@ Vue.component('vraagformulier', require('./components/VraagFormulier.vue').defau
 
 const app = new Vue({
     el: '#app',
-    
+     
    methods:{
        vermelden(param){
           url = 'https://vleugels.test';
@@ -43,7 +44,8 @@ const app = new Vue({
                window.location.href = loc; 
           }
           window.location = url;
-       }    
+       },
+         
    }
 });
 
@@ -51,3 +53,5 @@ const app = new Vue({
     el: '#mijn-card',
     
 });*/
+
+

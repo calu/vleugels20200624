@@ -105,9 +105,9 @@ class ContactpersoonController extends Controller
         ]);
         
         session()->flash('bericht', 'De gegevens werden verstuurd. We nemen binnenkort contact op');  
-        $this->mail('info@devleugels.be', $contactpersoon);
+        $this->mail('sociaal@devleugels.be', $contactpersoon);
         $this->mail($contactpersoon['email'], $contactpersoon); 
-        return ['message' => "Contactpersoon store uitgevoerd"];
+        return ['message' => "contactpersonen"];
     }
  
     public function mail($email,$contactpersoon){
@@ -214,8 +214,9 @@ class ContactpersoonController extends Controller
      * @param  \App\Contactpersoon  $contactpersoon
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contactpersoon $contactpersoon)
+    public function destroy($id)
     {
-        //
+        Contactpersoon::destroy($id);
+        return redirect()->action('ContactpersoonController@index');        //
     }
 }

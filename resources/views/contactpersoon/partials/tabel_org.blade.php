@@ -38,23 +38,24 @@
 						</a>							
 						@endif
 						
-						<!--button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#contactpersoonmodal" data-target-id={{$item->id }}>
+						<button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#contactpersoonmodal" data-target-id={{$item->id }}>
 							wis
-						</button -->
-						
-						<!-- button type="button" class="btn btn-primary" data-id={{ $item->id }}>wis</button -->
-						<a class="btn btn-primary" href="/contactpersonen/{{$item->id }}/destroy" titel="wis dit item" role="button">
-							wis
-						</a>
+						</button>
 					</td>
 				</tr>
 								
-<!-- onderdeel verwijderd -->
+				<?php 
+					// $url = '/contactpersonen/'.->id.'/destroy'; 
+					$urlstart = '/contactpersonen';
+					$urlend = '/destroy';
+				?>
+				@include('partials.modal',['href' => 'contactpersoonmodal', 'urlstart' => $urlstart, 'urlid' => '{{ $data-target-id }}', 'urlend' => $urlend ])				
+
 				@endforeach
 				{{ $data->links() }}
 			</tbody>
-		</table>	
+		</table>
+		
 	@endif
 </div>
-
 

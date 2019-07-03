@@ -33,5 +33,13 @@ Route::get('/home', function(){
 });
 
 /* Contactpersoon */
+Route::get('contactpersonen/{id}/destroy', 'ContactpersoonController@destroy');
 Route::resource('contactpersonen', 'ContactpersoonController');
 
+/* mutualiteiten */
+Route::get('mutualiteiten/{id}/destroy', 'MutualiteitController@destroy');
+Route::resource('mutualiteiten', 'MutualiteitController');
+
+/* codes */
+Route::get('codes/{id}/destroy', 'CodeController@destroy');
+Route::resource('codes', 'CodeController');
