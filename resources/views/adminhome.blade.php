@@ -12,7 +12,7 @@
                	'icon' => 'fa-users',
                	'text' => 'Een overzicht van alle klanten (en admins). Je kan deze editeren, aanvullen of verwijderen',
                	'button' => 'klanten',
-               	'href' => '#',
+               	'href' => '/clients',
 				'aantal' => 0
            	])
 		</div>
@@ -64,6 +64,23 @@
 			?>
 			@include('admin.partials.card', $info)
 		</div>		
+		
+		<div class="col md-4">
+			<?php
+				$info = [
+					'header' => 'Kamers',
+					'icon' => 'fa-home',
+					'text' => 'Hier kan je de kamers bewerken. Let wel : wijzig geen kamer als er diensten geprogrammeerd staan.',
+					'button' => 'kamers',
+					'href' => '/kamers',
+					'aantal' => 0	
+				];
+			?>
+			@include('admin.partials.card', $info)
+		</div>	
+				
 	</div>
+	
+	
 </div>
 @endsection

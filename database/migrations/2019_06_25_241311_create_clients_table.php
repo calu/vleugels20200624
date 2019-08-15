@@ -26,15 +26,15 @@ class CreateClientsTable extends Migration
             $table->string('telefoon')->nullable();
             $table->string('gsm')->nullable();
             $table->date('geboortedatum');
-            $table->string('RRN');
+            $table->string('rrn');
             $table->biginteger('mutualiteit_id')->unsigned();
             $table->string('factuur_naam');
             $table->string('factuur_straat');
             $table->string('factuur_huisnummer');
-            $table->string('factuur_bus');
+            $table->string('factuur_bus')->nullable();
             $table->string('factuur_postcode');
             $table->string('factuur_gemeente');
-            $table->string('factuur_email');
+            $table->string('factuur_email')->nullable();
             $table->tinyInteger('statuut')->unsigned()->default(StatuutType::RTH);
             $table->biginteger('contactpersoon_id')->unsigned();
             $table->biginteger('user_id')->unsigned();
@@ -43,7 +43,7 @@ class CreateClientsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('mutualiteit_id')->references('id')->on('mutualiteits');
             // nog een foreign key on client-code
-           
+            
             $table->timestamps();
         });
     }

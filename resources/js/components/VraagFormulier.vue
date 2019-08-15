@@ -7,7 +7,7 @@
 			maar we willen je graag contacteren om een intake gesprek
 			te hebben. Zo kunnen we beter op je vragen antwoorden.
 			</p>
-		</div>
+		</div> 
 
 	
 		<form method="POST" action="/contactpersonen"

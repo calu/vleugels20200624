@@ -12,4 +12,14 @@ class Contactpersoon extends Model
       'telefoon', 'gsm', 'email', 'rubriek', 'vraag',
       'openstaand', 'relatie'
     ];
+    
+    public function sluit()
+    {
+          $this->openstaand = 0;
+    }
+    
+    public function client()
+    {
+          return $this->hasMany('\App\Client');
+    }
 }

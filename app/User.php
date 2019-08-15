@@ -44,4 +44,11 @@ class User extends Authenticatable
     {
         return $this->admin;
     }     
+    
+    public function client()
+    {
+        // De User - geen admin - bezit een entry in Client en dus
+        // zoeken we de Client die hoort bij deze User
+        return $this->hasOne(Client::class);
+    }    
 }

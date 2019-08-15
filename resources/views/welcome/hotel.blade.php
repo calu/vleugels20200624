@@ -11,7 +11,7 @@
 				</div>
 				<div class="row">
 					<div class="col">
-						<a class="btn btn-primary" href="{{ url('rooms/visualindex') }}" role="button">meer detail</a>
+						<a class="btn btn-primary" href="{{ url('kamers/visualindex') }}" role="button">meer detail</a>
 					</div>
 					<div class="col">
 						@include('partials.steljevraag')

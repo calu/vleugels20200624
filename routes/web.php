@@ -1,5 +1,6 @@
 <?php
-
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,3 +44,34 @@ Route::resource('mutualiteiten', 'MutualiteitController');
 /* codes */
 Route::get('codes/{id}/destroy', 'CodeController@destroy');
 Route::resource('codes', 'CodeController');
+
+/** Clients **/
+Route::get('clients/{id}/createWithId', 'ClientController@createWithId');
+Route::get('clients/{id}/showAsAdmin', 'ClientController@showAsAdmin');
+Route::get('clients/{id}/aanmelden', 'ClientController@aanmelden');
+Route::get('clients/{id}/afmelden', 'ClientController@afmelden');
+Route::resource('clients', 'ClientController');
+
+/** Kamers **/
+Route::get('kamers/visualindex', 'KamerController@visualindex');
+Route::get('kamers/{id}/destroy', 'KamerController@destroy');
+Route::resource('kamers', 'KamerController');
+
+/** FileUpload **/
+Route::post('/upload', function (Request $request) {
+ //   dd($request->all());
+    $validator = Validator::make($request->all(), [
+        'image' => 'required|image64:jpeg,jpg,png'
+    ]);
+    if ($validator->fails()) {
+        return response()->json(['errors'=>$validator->errors()]);
+    } else {
+        $imageData = $request->get('image');
+        $fileName = $request->get('name');
+ //       $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+        Image::make($request->get('image'))->save(public_path('img/hotelkamers/').$fileName);
+//        Image::make($request->get('image'))->save(public_path('images/').$fileName);
+
+        return response()->json(['error'=>false]);
+    }
+}); 

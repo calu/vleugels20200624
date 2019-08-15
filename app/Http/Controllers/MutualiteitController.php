@@ -137,6 +137,5 @@ class MutualiteitController extends Controller
     {
         Mutualiteit::destroy($id);
         return redirect()->action('MutualiteitController@index');        //
-
     }
 }

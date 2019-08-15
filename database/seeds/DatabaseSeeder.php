@@ -27,6 +27,10 @@ class DatabaseSeeder extends Seeder
         
          $this->call([
            CodeTableSeeder::class, 
-        ]);       
+        ]);     
+        
+        $this->call([
+            KamerTableSeeder::class,
+        ]);  
     }
 }

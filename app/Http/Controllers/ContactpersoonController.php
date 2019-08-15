@@ -70,7 +70,7 @@ class ContactpersoonController extends Controller
     {
         $thisRequest = request()->all();
         $data = $thisRequest['data'];
- //       dd($data);
+ //        dd($data);
 
         $validator = Validator::make( $data, [
             'voornaam' => 'required | min:2',
@@ -121,9 +121,10 @@ class ContactpersoonController extends Controller
      * @param  \App\Contactpersoon  $contactpersoon
      * @return \Illuminate\Http\Response
      */
-    public function show(Contactpersoon $contactpersoon)
+    public function show($id)
     {
-        //
+        $contactpersoon = Contactpersoon::findOrFail($id);
+        return view('contactpersoon.show', compact('contactpersoon'));
     }
 
     /**
