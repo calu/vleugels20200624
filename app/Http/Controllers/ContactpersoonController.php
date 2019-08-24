@@ -105,8 +105,8 @@ class ContactpersoonController extends Controller
         ]);
         
         session()->flash('bericht', 'De gegevens werden verstuurd. We nemen binnenkort contact op');  
-  //      $this->mail('sociaal@devleugels.be', $contactpersoon);
-  //      $this->mail($contactpersoon['email'], $contactpersoon); 
+        $this->mail('sociaal@devleugels.be', $contactpersoon);
+        $this->mail($contactpersoon['email'], $contactpersoon); 
         return ['message' => "contactpersonen"];
     }
  
