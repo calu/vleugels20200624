@@ -39,9 +39,6 @@ class CreateClientsTable extends Migration
             $table->biginteger('contactpersoon_id')->unsigned();
             $table->biginteger('user_id')->unsigned();
             
-            $table->foreign('contactpersoon_id')->references('id')->on('contactpersoons');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('mutualiteit_id')->references('id')->on('mutualiteits');
             // nog een foreign key on client-code
             
             $table->timestamps();
@@ -56,8 +53,6 @@ class CreateClientsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('clients');
-        Schema::dropForeign('contactpersoon_id');
-        Schema::dropForeign('user_id');
-        Schema::dropForeign('mutualiteit_id');
+
     }
 }

@@ -25,4 +25,9 @@ class Client extends Model
     {
           return $this->hasOne('\App\Mutualiteit');
     }
+    
+    public function services()
+    {
+          return $this->belongsToMany(Service::class);
+    }
 }
