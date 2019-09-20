@@ -48,14 +48,19 @@ Route::resource('codes', 'CodeController');
 /** Clients **/
 Route::get('clients/{id}/createWithId', 'ClientController@createWithId');
 Route::get('clients/{id}/showAsAdmin', 'ClientController@showAsAdmin');
+Route::get('clients/{id}/showAsAdminBis', 'ClientController@showAsAdminBis');
 Route::get('clients/{id}/aanmelden', 'ClientController@aanmelden');
 Route::get('clients/{id}/afmelden', 'ClientController@afmelden');
+Route::get('clients/{id}/hotelcreate', 'ClientController@hotelcreate');
 Route::resource('clients', 'ClientController');
 
 /** Kamers **/
 Route::get('kamers/visualindex', 'KamerController@visualindex');
 Route::get('kamers/{id}/destroy', 'KamerController@destroy');
 Route::resource('kamers', 'KamerController');
+
+/** Hotels **/
+Route::resource('hotels', 'HotelController');
 
 /** FileUpload **/
 Route::post('/upload', function (Request $request) {

@@ -267,9 +267,23 @@ class ClientController extends Controller
         
         $client = Client::findOrFail($id);
         $contactpersoon = Contactpersoon::findOrFail($client->contactpersoon_id);
-        $user = User::findOrFail($client->user_id);
+        $user = User::findOrFail($client->user_id); 
 
         return view('clients.show', compact('client', 'contactpersoon', 'user'));
+    }
+    
+    /**
+     * Alternatieve functie showAsAdminBis waarin we hetzelfde
+     * doen als bij showAsAdmin, maar met een andere layout
+     */
+    public function showAsAdminBis($id)
+    {
+        abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+        $client = Client::findOrFail($id);
+        $contactpersoon = Contactpersoon::findOrFail($client->contactpersoon_id);
+        $user = User::findOrFail($client->user_id); 
+
+        return view('clients.showBis', compact('client', 'contactpersoon', 'user'));
     }
     
     /*
@@ -323,5 +337,19 @@ class ClientController extends Controller
         return redirect('clients');
         
     }
+    
+    /*
+     * de functie hotelcreatie, vraagt de gegevens op voor een
+     * reservatie voor deze klant. Dat zijn dus : begin- en einddatum,
+     * de status (autom. aangevraagd ) en de prijs
+     */
+     public function hotelcreate($id)
+     {
+         // deze functie wordt aanroepen als je aangemeld bent, 
+         // maar niet noodzakelijk admin
+         
+          $client = Client::findOrFail($id);
+          return view('clients/hotelcreate', compact('client'));
+     }
     
 }

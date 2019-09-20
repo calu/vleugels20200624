@@ -17,4 +17,5 @@ mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
    .copyDirectory('resources/styles', 'public/styles')
    .copyDirectory('resources/img','public/img')
-   .copyDirectory('resources/radisson', 'public/radisson');
+   .copyDirectory('resources/radisson', 'public/radisson')
+   .copyDirectory('resources/majestic', 'public/majestic');

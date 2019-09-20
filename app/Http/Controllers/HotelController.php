@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class HotelController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +40,22 @@ class HotelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            
+        ]);
+        
+        $data = $request->all();
+        $data['kamer_id'] = 1;
+        $data['service_id'] = 1;
+
+        $hotel = \App\Hotel::create($data);
+        $client = \App\Client::find($request->client_id);
+        $hotel->service($client);
+        
+        session()->flash('bericht', 'De nieuwe mutualiteit werd toegevoegd');
+        
+        $return = 'clients/'.$request->client_id;
+        return redirect($return);
     }
 
     /**

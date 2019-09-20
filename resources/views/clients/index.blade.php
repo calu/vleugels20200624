@@ -47,6 +47,10 @@
 					<a class="btn btn-primary" href="/clients/{{ $client->id }}/showAsAdmin" title="Wijzig de invoer" role="button">
 						toon
 					</a>
+					
+					<a class="btn btn-primary" href="/clients/{{ $client->id}}/showAsAdminBis" title="Wijzig de invoer" role="button">
+						toon alternatief
+					</a>
 
 					&nbsp;
 					<a href="/clients/{{ $client->id }}/destroy" title="verwijder deze invoer">

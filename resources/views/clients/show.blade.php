@@ -6,8 +6,8 @@
 		<h1 class="d-flex justify-content-center">Klantenfiche</h1>
 
 <!--	include('partials.flash') -->
-		@include('clients.partials.fiches')
-<!--	include('clients.partials.diensten') -->
+		@include('clients.partials.fiches')	
+		@include('clients.partials.services')
 	</div>
 </div>
 @endsection
