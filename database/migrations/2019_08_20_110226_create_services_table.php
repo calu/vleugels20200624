@@ -12,7 +12,7 @@ class CreateServicesTable extends Migration
      * @return void
      */
     public function up()
-    {
+    { /*
         Schema::create('services', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('reservatiesoort',['hotel', 'dagverblijf', 'therapie']);
@@ -23,6 +23,7 @@ class CreateServicesTable extends Migration
             $table->timestamps();
             
          });
+       */
     }
 
     /**

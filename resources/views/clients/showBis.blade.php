@@ -61,6 +61,7 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="#allservices-section">alle diensten</a></li>
                 <li class="nav-item"> <a class="nav-link" href="#hotel-section">hotel</a></li>
+                <li class="nav-item"> <a class="nav-link" href="#hotelreservatie-section">kamer reserveren</a></li>                  
               </ul>
             </div>
           </li>                      
@@ -85,6 +86,7 @@
           @include('clients.fiches.contactpersoon')
           @include('clients.fiches.allservices')
           @include('clients.fiches.hotel')
+          @include('clients.fiches.hotelreservatie')
  
         <!-- content-wrapper ends -->
       

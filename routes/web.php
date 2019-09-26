@@ -60,6 +60,8 @@ Route::get('kamers/{id}/destroy', 'KamerController@destroy');
 Route::resource('kamers', 'KamerController');
 
 /** Hotels **/
+// Route::post('hotels/reserveer', 'HotelController@reserveer'); 
+Route::post('hotels/reserveer', 'HotelController@reserveer');
 Route::resource('hotels', 'HotelController');
 
 /** FileUpload **/

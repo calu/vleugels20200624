@@ -12,13 +12,13 @@ class CreateClientService extends Migration
      * @return void
      */
     public function up()
-    {
+    { /*
         Schema::create('client_services', function (Blueprint $table) {
             $table->bigInteger('client_id')->unsigned();
             $table->bigInteger('service_id')->unsigned();
-            
 
         });
+      */
     }
 
     /**

@@ -18,7 +18,6 @@ class CreateHotelsTable extends Migration
             $table->date('begindatum');
             $table->date('einddatum');
             $table->bigInteger('kamer_id')->unsigned();
-            $table->bigInteger('service_id')->unsigned();
             $table->timestamps();
             
             
