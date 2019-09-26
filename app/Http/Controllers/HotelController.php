@@ -137,8 +137,9 @@ class HotelController extends Controller
         $hoteldata['kamer_id'] = $kamer_id;
         $hoteldata['status'] = 'aangevraagd';
         $hoteldata['bedrag'] = 0;
-        dd($hoteldata);
+
         $hotel = \App\Hotel::create($hoteldata);
+dd($hotel);
         $client = \App\Client::find($request->client_id);
         $hotel->service($client);
         
