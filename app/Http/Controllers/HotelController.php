@@ -108,6 +108,7 @@ class HotelController extends Controller
     public function reserveer(Request $request)
     {
         $data = $request->all();
+        dd($data);
  //       dd($request->input('begindatum'));
  //       dd("HotelController@reserveer stop".implode($data));
         
