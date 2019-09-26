@@ -108,7 +108,6 @@ class HotelController extends Controller
     public function reserveer(Request $request)
     {
         $data = $request->all();
-        dd($data);
  //       dd($request->input('begindatum'));
  //       dd("HotelController@reserveer stop".implode($data));
         
@@ -138,7 +137,7 @@ class HotelController extends Controller
         $hoteldata['kamer_id'] = $kamer_id;
         $hoteldata['status'] = 'aangevraagd';
         $hoteldata['bedrag'] = 0;
-        
+        dd($hoteldata);
         $hotel = \App\Hotel::create($hoteldata);
         $client = \App\Client::find($request->client_id);
         $hotel->service($client);
