@@ -142,18 +142,7 @@ class HotelController extends Controller
         $client = \App\Client::find($request->client_id);
         $hotel->service($client);
         
-        dd($hoteldata);
-
-  // hier verder      
-        
-        $data['kamer_id'] = $kamer_id;
-        $data['service_id'] = 1;  
-
-        $hotel = \App\Hotel::create($data);
-        $client = \App\Client::find($request->client_id);
-        $hotel->service($client);
-        
-        session()->flash('bericht', 'De nieuwe mutualiteit werd toegevoegd');
+        session()->flash('bericht', 'De nieuwe reservatie werd toegevoegd');
         
         $return = 'clients/'.$request->client_id;
         return redirect($return);      

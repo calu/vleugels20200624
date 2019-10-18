@@ -52,6 +52,7 @@ Route::get('clients/{id}/showAsAdminBis', 'ClientController@showAsAdminBis');
 Route::get('clients/{id}/aanmelden', 'ClientController@aanmelden');
 Route::get('clients/{id}/afmelden', 'ClientController@afmelden');
 Route::get('clients/{id}/hotelcreate', 'ClientController@hotelcreate');
+Route::get('clients/{id}/calendar', 'ClientController@calendar');
 Route::resource('clients', 'ClientController');
 
 /** Kamers **/
@@ -82,3 +83,6 @@ Route::post('/upload', function (Request $request) {
         return response()->json(['error'=>false]);
     }
 }); 
+
+/** Calendar **/
+Route::resource('calendars', 'CalendarController');

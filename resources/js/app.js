@@ -27,6 +27,7 @@ Vue.component('code-formulier', require('./components/CodeFormulier.vue').defaul
 Vue.component('intake-formulier', require('./components/IntakeFormulier.vue').default);
 Vue.component('kamerformulier', require('./components/KamerFormulier.vue').default);
 Vue.component('file-upload', require('./components/FileUpload.vue').default);  
+Vue.component('calendar-component', require('./components/Calendar.vue').default);
 /*     
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

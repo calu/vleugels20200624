@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @include('layouts2.basislayout')  
+    @include('layouts.basislayout')  
     @include('layouts.splash')   
+    @include('layouts.calendar')
 </head>
 <body>
     <div id="app">
@@ -14,6 +15,6 @@
         </main>
     </div>
     
-    @include('layouts2.footer')
+    @include('partials.footer')
 </body>
 </html>

@@ -13,11 +13,11 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>begindatum</th>
-        				  <th>einddatum</th>
-        				  <th>kamer</th>
-                  <th>prijs</th>
-                  <th>Status</th>
+                  <th >begindatum</th>
+        				  <th >einddatum</th>
+        				  <th >kamer</th>
+                  <th >prijs</th>
+                  <th >Status</th>
                 </tr>
               </thead>
               <tbody>

@@ -235,7 +235,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        dd($client);
     }
 
     /**
@@ -261,7 +261,8 @@ class ClientController extends Controller
         //
     }
     
-    public function showAsAdmin($id)
+    /** de oude TE WISSEN **/
+/*    public function showAsAdmin($id)
     {
         abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
         
@@ -271,19 +272,19 @@ class ClientController extends Controller
 
         return view('clients.show', compact('client', 'contactpersoon', 'user'));
     }
-    
+ */   
     /**
      * Alternatieve functie showAsAdminBis waarin we hetzelfde
      * doen als bij showAsAdmin, maar met een andere layout
      */
-    public function showAsAdminBis($id)
+    public function showAsAdmin($id)
     {
         abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
         $client = Client::findOrFail($id);
         $contactpersoon = Contactpersoon::findOrFail($client->contactpersoon_id);
         $user = User::findOrFail($client->user_id); 
 
-        return view('clients.showBis', compact('client', 'contactpersoon', 'user'));
+        return view('clients.show', compact('client', 'contactpersoon', 'user'));
     }
     
     /*
@@ -351,5 +352,43 @@ class ClientController extends Controller
           $client = Client::findOrFail($id);
           return view('clients/hotelcreate', compact('client'));
      }
+     
+     /* de calendar */
+     public function calendar($id)
+     {
+         // Zoek alle hotels voor deze klant
+//         $hotels = DB::select('SELECT * FROM serviceables WHERE client_id = '.$id.' AND serviceable_type ="App\Hotel"');
+         $query = "SELECT * FROM serviceables WHERE client_id=".$id." AND serviceable_type like '%Hotel'";
+         $hotels = DB::select($query);
+//         dd($hotels);
+         $indexes = [];
+         foreach( $hotels as $hotel)
+         {
+//             dd($hotel);
+             $indexes[] = $hotel->serviceable_id;
+         }
+         $index = "(".implode(",",$indexes).")";
+//    dd($index);
+         $services = DB::select('SELECT * FROM hotels WHERE id in '.$index);
+         // maak nu een record en voeg toe aan resultaat array
+         // de record bevat begindatum, einddatum, kamer_id ( haal kamernummer), status, bedrag
+         $results= [];
+         foreach( $services as $service)
+         {
+             // dd($service);
+             $result= [];
+             $result['id'] = $service->id;
+             $result['begindatum'] = $service->begindatum;
+             $result['einddatum'] = $service->einddatum;
+             $kamer = DB::select('SELECT kamernummer from kamers where id ='.$service->kamer_id);             
+             $result['kamernummer'] = $kamer[0]->kamernummer;
+             $result['status'] = $service->status;
+             $result['bedrag'] = $service->bedrag;
+//             dd($result);
+             $results[] = $result;               
+         }
+   
+         return view('calendar/indexClientHotel', compact('results'));
+     }    
     
 }
