@@ -5,11 +5,10 @@
     @include('layouts.splash')   
 </head>
 <body>
-    <div id="app">
-        
+    <div id="app" class="container-fluid">
         @include('partials.navbar')
         
-        <main>
+        <main class="container-fluid">
             @yield('content')
         </main>
     </div>
