@@ -91,6 +91,7 @@ class Form{
   }
   
   submit(requestType, url){
+    // hier Form.js axios entry
     return new Promise((resolve, reject) => {
       axios.post(url, { data: this.data(), _method: requestType})
          .then( response => {

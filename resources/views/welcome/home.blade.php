@@ -1,7 +1,7 @@
-<div class="home vlinder">
-  <div class="home_container">
+<div class="home vlinder" style="width:100%">
+  <div class="home_container" style="width:100%">
     @include('partials.flash')
-	  <div class="container">
+	  <div class="container-fluid">
 		  <div class="row">
 			  <div class="col">
 				  <div class="home_content text-center">

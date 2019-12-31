@@ -78,6 +78,20 @@
 			?>
 			@include('admin.partials.card', $info)
 		</div>	
+		
+		<div class="col md-4">
+			<?php
+				$info = [
+					'header' => 'Boekhouding',
+					'icon' => 'fa-paperclip',
+					'text' => 'de boekhouding gebeurt hier',
+					'button' => 'boekhouding',
+					'href' => '/boekhouding',
+					'aantal' => 0	
+				];
+			?>
+			@include('admin.partials.card', $info)
+		</div>			
 				
 	</div>
 	

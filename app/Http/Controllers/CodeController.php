@@ -55,7 +55,7 @@ class CodeController extends Controller
     public function create()
     {
          abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
-
+         
         $codes = array(
             'id' => 0,
             'statuut' => '',

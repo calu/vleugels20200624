@@ -1,7 +1,7 @@
 @extends('layouts.vleugelslayout')
 
 @section('content')
-<div class="container-fluid">
+<div class="container-fluid" style="width:100%">
     <div class="modal fade" role="dialog" aria-hidden="false">
         @include('cookieConsent::index') 
     </div>    

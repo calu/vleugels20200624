@@ -86,3 +86,13 @@ Route::post('/upload', function (Request $request) {
 
 /** Calendar **/
 Route::resource('calendars', 'CalendarController');
+
+/** boekhouding **/
+Route::get('boekhouding', 'BoekhoudingController@index');
+Route::get('boekhouding/{id}/{type}/detail', 'BoekhoudingController@detail');
+Route::post('boekhouding/bedrag', 'BoekhoudingController@store');
+Route::post('boekhouding/factuur', 'BoekhoudingController@factuur');
+Route::get('boekhouding/verzonden', 'BoekhoudingController@verzonden');
+
+/** pdf **/
+Route::get('pdf/generatePDF', 'PdfController@generatePDF');

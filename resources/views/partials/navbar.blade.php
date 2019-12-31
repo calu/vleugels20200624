@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-laravel">
-    <div class="container">
+    <div class="container-fluid" style="width:100%">
         <a class="navbar-brand" href="{{ url('/') }}">
             <img src="{{ asset('/img/logovleugels.png') }}" width="88" height="48">
         </a>

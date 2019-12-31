@@ -10,15 +10,16 @@
 				<div class="form-group col-md-4">
 					<label for="statuut">statuut</label>
 					<input type="text" class="form-control" placeholder="statuut"
-						name="statuut" id="statuut" v-model="form.statuut" :readonly="true">
+						name="statuut" id="statuut" v-model="form.statuut" :readonly="true" >
 					<div class="invalid-feedback d-block" v-if="form.errors.has('statuut')" 
 						v-text="form.errors.get('statuut')"></div>
 				</div>
-
+<!--  -->
 				<div class="form-group col-md-4">
 					<label for="activiteit">activiteit</label>
 					<input type="text" class="form-control" placeholder="activiteit"
 						name="activiteit" id="activiteit" v-model="form.activiteit" readonly='readonly'>
+						<!-- -->
 					<div class="invalid-feedback d-block" v-if="form.errors.has('activiteit')" 
 						v-text="form.errors.get('activiteit')"></div>
 				</div>

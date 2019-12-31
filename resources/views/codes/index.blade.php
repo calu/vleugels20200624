@@ -35,12 +35,11 @@
 		@endforeach
 		</tbody>
 	</table>
-
 <!--
 	<a href="codes/create">
 		<button class="btn btn-primary">codes toevoegen</button>
 	</a>
--->
+-->	
 	</div>	
 </div>
 @endsection

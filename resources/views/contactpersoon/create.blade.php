@@ -3,5 +3,5 @@
 @section('content')
 <div class="container" id="app">
 	<vraagformulier @completed="vermelden" :data="{{ $vraag }}"></vraagformulier>
-</div>
+</div> 
 @endsection
