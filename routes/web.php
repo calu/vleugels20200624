@@ -96,3 +96,10 @@ Route::get('boekhouding/verzonden', 'BoekhoudingController@verzonden');
 
 /** pdf **/
 Route::get('pdf/generatePDF', 'PdfController@generatePDF');
+
+/** algemeen **/
+Route::get('algemeen/ok', 'AlgemeenController@ok');
+Route::resource('algemeen', 'AlgemeenController');
+
+
+

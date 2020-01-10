@@ -95,6 +95,22 @@
 				
 	</div>
 	
+	<div class="row">
+		<div class="col md-4">
+			<?php
+				$info = [
+					'header' => 'Algemeen',
+					'icon' => 'fa-globe',
+					'text' => 'Algemene gegevens worden in dit onderdeel ingevuld of aangevuld',
+					'button' => 'algemeen',
+					'href' => '/algemeen',
+					'aantal' => 0	
+				];
+			?>
+			@include('admin.partials.card', $info)
+		</div>			
+	</div>
+	
 	
 </div>
 @endsection

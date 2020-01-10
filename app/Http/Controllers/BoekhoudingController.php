@@ -10,6 +10,7 @@ use App\Client;
 use App\Hotel;
 use App\Mutualiteit;
 use App\Contactpersoon;
+use App\Algemeen;
 use DateTime;
 use PDF;
 use Illuminate\Support\Facades\Mail;
@@ -159,11 +160,11 @@ class BoekhoudingController extends Controller
          abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
 
         $thisRequest = request()->all();
-        $data = $thisRequest['data'];
+        $data = $thisRequest['data']; 
         
         $validator = Validator::make( $data, [
             'factuurnummer' => 'required',
-            'factuurdatum' => 'required | date | after:today',
+            'factuurdatum' => 'required | date | after_or_equal:today',
             'vervaldatum' => 'required | date | after: factuurdatum',  // ook nog na factuurdatum
             'onzeref' => 'required',
             'bedragzonder' => 'required | numeric',
@@ -171,6 +172,10 @@ class BoekhoudingController extends Controller
             'bedrag' => 'required | numeric',
             'omschrijving' => 'required',
         ])->validate();
+        
+
+         $afzender = DB::table('algemeens')->find(1);     
+                 
              
         $pdfdata = [
             'naam' =>$data['factuur_naam'],
@@ -186,7 +191,17 @@ class BoekhoudingController extends Controller
             'omschrijving' => $data['omschrijving'],
             'bedrag1' => $data['bedragzonder'],
             'bedrag' => $data['bedrag'],
-            'btw' => $data['btw']
+            'btw' => $data['btw'],
+            
+            'afzender_naam' => $afzender->factuur_afzendernaam,
+            'afzender_straatennummer'=> $afzender->factuur_afzenderstraatennummer,
+            'afzender_ZipenGemeente' => $afzender->factuur_afzenderZipenGemeente,
+            'afzender_Telefoon' => $afzender->factuur_afzenderTelefoon,
+            'factuur_afzenderEmail' => $afzender->factuur_afzenderEmail,
+            'factuur_banknaam' => $afzender->banknaam,
+            'factuur_iban' => $afzender->iban,
+            'factuur_bic' => $afzender->bic
+            
         ];
         
         $pdf = PDF::loadView('boekhouding.sjabloon', $pdfdata);
@@ -224,5 +239,12 @@ class BoekhoudingController extends Controller
     public function update(Request $request, Client $client)
     {
         dd("update van boekhouding");
+    }
+    
+    public function test(){
+
+         $afzender = DB::table('algemeens')
+            ->where('id',1)->get(); 
+          dd($afzender);        
     }
 }

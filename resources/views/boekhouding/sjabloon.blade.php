@@ -25,7 +25,7 @@
         top : 1%;
         right : 0%;
         bottom : 80%;
-        left : 70%;
+        left : 60%;
     }
     
     .bestemmeling {
@@ -258,14 +258,14 @@
                 <img src="img/logovleugels.png" />
             </span>
             <span class="adres">
-                De Vleugels vzw<br />
-                Stokstraat 1<br />
-                8650 Klerken<br />
-                tel : 051 50 12 12<br />
-                e-mail : info@devleugels.be<br /><br />
-                Bank : ???<br />
-                IBAN : ???<br />
-                BIC : ???<br />
+                {{ $afzender_naam }}<br />
+                {{ $afzender_straatennummer }}<br /> 
+                {{ $afzender_ZipenGemeente }}<br />
+                tel : {{ $afzender_Telefoon }}<br />
+                e-mail : {{ $factuur_afzenderEmail }}<br /><br />
+                Bank : {{ $factuur_banknaam }}<br />
+                IBAN : {{ $factuur_iban }}<br />
+                BIC : {{ $factuur_bic }}<br />
             </span>
             
             <span class="bestemmeling">

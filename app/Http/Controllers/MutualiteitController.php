@@ -89,7 +89,7 @@ class MutualiteitController extends Controller
      */
     public function edit($id)
     {
-        $data = DB::table('mutualiteits')->find($id);
+        $data = DB::table('mutualiteits')->find($id); 
         
         
         $mutualiteiten = array(
