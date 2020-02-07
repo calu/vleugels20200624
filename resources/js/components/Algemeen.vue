@@ -110,7 +110,26 @@
 							</div> 
 						</div>					
 					</div>
-																				
+					
+					<div class="row">
+						<h3 class="col text-center text-bold">
+						e-mail adressen voor intern gebruik
+						</h3>
+					</div>		
+								
+					<div class="row">
+						<div class="col-md-4">
+							<label for="sysadmin_email">e-mail van de sys_admin</label>
+							<input type="text" class="form-control" id="sysadmin_email"
+								name="sysadmin_email" v-model="form.sysadmin_email" />
+							<div class="invalid-feedback d-block" 
+							   v-if="form.errors.has('sysadmin_email')"
+							   v-text="form.errors.get('sysadmin_email')">
+							</div>
+						</div>
+						
+					</div>		
+																							
 					<div class="row">
 						<div class="col control">
 							<button class="btn btn-primary">Verzend</button>							

@@ -31,6 +31,7 @@ Vue.component('calendar-component', require('./components/Calendar.vue').default
 Vue.component('boekhouding', require('./components/Boekhouding.vue').default);
 Vue.component('factuur', require('./components/Factuur.vue').default);
 Vue.component('algemeen', require('./components/Algemeen.vue').default);
+Vue.component('klantgegevens', require('./components/Klantgegevens.vue').default);
 /*     
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

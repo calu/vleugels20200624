@@ -8,7 +8,9 @@
     .vlinder{
         background-image: url("{{ asset('img/vlinder.jpg') }}"); 
         background-repeat : no-repeat; 
-        background-size : cover;
+        background-size : 100% 100%;
+        background-attachment : fixed;
+        background-clip : inherit;
     }
   
 </style>

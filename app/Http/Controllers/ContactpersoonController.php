@@ -103,11 +103,12 @@ class ContactpersoonController extends Controller
             'vraag' =>  $data['vraag'],    
             'openstaand' => 1,             
         ]);
-        
+         
         session()->flash('bericht', 'De gegevens werden verstuurd. We nemen binnenkort contact op');  
         $this->mail('sociaal@devleugels.be', $contactpersoon);
         $this->mail($contactpersoon['email'], $contactpersoon); 
-        return ['message' => "contactpersonen"];
+//        return ['message' => "contactpersonen"]; 
+        return ['message' => 'home'];
     }
  
     public function mail($email,$contactpersoon){

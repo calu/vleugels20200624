@@ -22,5 +22,18 @@ final class StatuutType extends Enum
         }
         
         return 'Enum::Statuut NOT FOUND';
-    }          
-}
+    }
+    /*
+    public static function getInstance($value)       
+    {
+        switch ($value)
+        {
+            case 'RTH' : return 0;
+            case 'MFC' : return 1;
+            case 'PVF' : return 2;
+            case 'PAB' : return 3;
+        }
+        
+    }
+    */
+} 

@@ -1,25 +1,18 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-laravel">
-    <div class="container-fluid" style="width:100%">
-        <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{ asset('/img/logovleugels.png') }}" width="88" height="48">
-        </a>
-        
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">                 
+<header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+	<a class="navbar-brand mr-0 mr-md-2" href="/" aria-label="De Vleugels">
+           <img src="{{ asset('/img/logovleugels.png') }}" width="88" height="48">		
+	</a>
             <!-- rechterzijde van de navbar -->
-            <ul class="navbar-nav ml-auto">
-                <!-- authenticatie link -->
-                @guest
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url('contactpersonen/create') }}">Stel je vraag</a>
-                    </li>
-                @else
+	
+	<ul class="navbar-nav ml-md-auto">
+		@guest
+	        <li class="nav-item">
+	            <a class="nav-link text-danger" href="{{ route('login') }}">{{ __('Login') }}</a>
+	        </li>
+	        <li class="nav-item">
+	            <a class="nav-link text-danger" href="{{ url('contactpersonen/create') }}">Stel je vraag</a>
+	        </li>			
+		@else
                    <!-- aangemeld als admin of klant -->
                    @if ( Auth::user()->admin == 1)
                         <!-- admin -->
@@ -63,10 +56,7 @@
                             <button class="bg-dark text-white border-dark">logout</button>
                         </form>                                    
                    </li>
-                @endguest
-                                
-            </ul>
-        </div>
-    </div>
-</nav>
-
+			
+		@endguest
+	</ul>
+</header>

@@ -2,10 +2,10 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-4">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <h2 class="card-header text-center bg-primary">{{ __('Login') }}</h2>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -56,12 +56,11 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
+                                
+                                <a class="btn btn-link" href="/wachtwoordvergeten" >
+                                <!-- a class="btn btn-link" href="{{ route('password.request') }}" -->
+                                    {{ __('Forgot Your Password?') }}
+                                </a>
                             </div>
                         </div>
                     </form>

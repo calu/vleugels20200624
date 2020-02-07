@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Validator;
 
+
 class AlgemeenController extends Controller
 {
     public function __construct()
@@ -26,7 +27,7 @@ class AlgemeenController extends Controller
       $algemeen = DB::table('algemeens')
          ->where('id',1)->get()->first();
             
-      return view('algemeen.index', compact('algemeen'));
+      return view('algemeen.index', compact('algemeen')); 
     }
 
     /**
@@ -67,6 +68,7 @@ class AlgemeenController extends Controller
             'factuur_afzenderZipenGemeente' => 'required | min:2',
             'factuur_afzenderTelefoon' => 'required | min:2',
             'factuur_afzenderEmail' => 'required | email:rfc,dns',
+            'sysadmin_email' => 'required | email:rfc,dns',
             
          ])->validate();  
       
@@ -80,6 +82,7 @@ class AlgemeenController extends Controller
          $algemeen->factuur_afzenderZipenGemeente = $data['factuur_afzenderZipenGemeente'];
          $algemeen->factuur_afzenderTelefoon = $data['factuur_afzenderTelefoon'];
          $algemeen->factuur_afzenderEmail = $data['factuur_afzenderEmail'];
+         $algemeen->sysadmin_email = $data['sysadmin_email'];
 
          $algemeen->save();
          
@@ -136,5 +139,14 @@ class AlgemeenController extends Controller
     public function destroy(Algemeen $algemeen)
     {
         //
+    }
+    
+    /**
+     * Wachtwoord vergeten wordt hier uitgevoerd
+     *
+     */
+    public function vergeten()
+    {
+        return view('wachtwoord.vergeten');
     }
 }

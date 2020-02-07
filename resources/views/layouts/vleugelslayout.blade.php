@@ -6,7 +6,7 @@
 </head>
 <body>
     <div id="app" class="container-fluid" style="width:100%">
-        @include('partials.navbar')
+        @include('partials.navbar') 
         
         <main class="container-fluid" style="width:100%">
             @yield('content')

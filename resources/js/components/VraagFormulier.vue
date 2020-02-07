@@ -160,7 +160,7 @@ export default{
 			return new Form(this.data);
 		},
 		
-		onSubmit(){
+		onSubmit(){ // VraagFormulier
 //		console.log("onSubmit : " + this.form.id);
 			if ( this.form.id == 0){
 				this.form.post('/contactpersonen')
@@ -176,6 +176,7 @@ export default{
 		}, 
 		
 		spring(data){
+		// console.log("stel je vraag : " + data);
 		    var $url = "https://" + window.location.hostname + "/" + data;
 			window.location=$url;	
 		},

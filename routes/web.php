@@ -13,7 +13,7 @@ use Carbon\Carbon;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome'); 
 });
 
 Auth::routes();
@@ -21,7 +21,7 @@ Auth::routes();
 // Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home', function(){
    // Hier mag je maar komen als je aangemeld bent
-   if (Auth::guest()) abort(403); 
+   if (Auth::guest()) return view('welcome'); // abort(403); 
    // Maak nu het onderscheid tussen admin en klant
    if (Auth::user()->admin == 0){
        // een klant
@@ -53,6 +53,8 @@ Route::get('clients/{id}/aanmelden', 'ClientController@aanmelden');
 Route::get('clients/{id}/afmelden', 'ClientController@afmelden');
 Route::get('clients/{id}/hotelcreate', 'ClientController@hotelcreate');
 Route::get('clients/{id}/calendar', 'ClientController@calendar');
+
+Route::post('clients/over', 'ClientController@over');
 Route::resource('clients', 'ClientController');
 
 /** Kamers **/
@@ -97,9 +99,21 @@ Route::get('boekhouding/verzonden', 'BoekhoudingController@verzonden');
 /** pdf **/
 Route::get('pdf/generatePDF', 'PdfController@generatePDF');
 
+
 /** algemeen **/
 Route::get('algemeen/ok', 'AlgemeenController@ok');
 Route::resource('algemeen', 'AlgemeenController');
+
+/** wachtwoorden **/
+Route::get('wachtwoordvergeten', function(){
+    return view('wachtwoord.vergeten');
+});
+Route::post('wachtwoord/vergeten', 'WachtwoordController@store');
+Route::get('wachtwoord/reset/{token}', 'WachtwoordController@reset');
+Route::post('wachtwoord/vernieuwen', 'WachtwoordController@vernieuwen');
+// Route::get('wachtwoord/resetPassword', 'ResetPasswordController@resetPassword');
+
+
 
 
 

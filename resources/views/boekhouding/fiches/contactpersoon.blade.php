@@ -5,7 +5,7 @@
 			<h4 class="card-title">de contactpersoon</h4>
 				
 			<p class="card-description">enkel ter info</p>
-<?php  // dd($info); ?>
+<?php  // dd($info); ?> 
 		<form>
 			
 			<!-- voor- en familienaam -->  

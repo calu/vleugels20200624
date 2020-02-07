@@ -29,7 +29,7 @@ class ClientController extends Controller
         abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
         
         $clients = DB::table('clients')->paginate(10);
-        return view('clients.index', compact('clients'));
+        return view('clients.index', compact('clients')); 
 
     }
 
@@ -224,7 +224,6 @@ class ClientController extends Controller
         $contactpersoon = Contactpersoon::findOrFail($client->contactpersoon_id);
         $user = User::findOrFail($client->user_id);
         return view('clients.show', compact('client', 'contactpersoon', 'user'));
-        // contactpersoon_id en user_id ook ophalen
     }
 
     /**
@@ -393,6 +392,50 @@ class ClientController extends Controller
          }
    
          return view('calendar/indexClientHotel', compact('results'));
-     }    
+     }   
+     
+     /** overzicht van de client **/
+     public function over(){
+        $thisRequest = request()->all();
+        $data = $thisRequest['data'];     
+        
+
+        $validator = Validator::make( $data, [
+            'voornaam' => 'required | min : 2',
+            'familienaam' => 'required | min : 2',
+            'straat' => 'required | min : 2',  
+            'huisnummer' => 'required',
+            'postcode' => 'required | numeric',
+            'gemeente' => 'required ',
+            'telefoon' => 'required_without : gsm ',
+            'gsm' => 'required_without : telefoon',
+            'geboortedatum' => 'required | date',
+            'rrn' => 'required | regex : /[0-9]{2}.[0-9]{2}.[0-9]{2}-[0-9]{3}.[0-9]{2}/',
+            'mutualiteit' => 'required',
+            'statuut' => 'required',
+        ])->validate();     
+        
+        // spaar nu de gegevens
+         DB::table('clients')
+            ->where('id', $data['client_id'])
+            ->update(
+                [
+                    'voornaam' => $data['voornaam'],
+                    'familienaam' => $data['familienaam'],
+                    'straat' => $data['straat'],
+                    'huisnummer' => $data['huisnummer'],
+                    'postcode' => $data['postcode'],
+                    'gemeente' => $data['gemeente'],
+                    'telefoon' => $data['telefoon'],
+                    'gsm' => $data['gsm'],
+                    'geboortedatum' => $data['geboortedatum'],
+                    'rrn' => $data['rrn'],
+                    'mutualiteit_id' => $data['mutualiteit_id'], // als veranderd?
+                    'statuut' => StatuutType::getValue($data['statuut']),
+                ]);              
+
+         $url = 'clients/'.$data['client_id'];
+         return ['message' => $url];
+     } 
     
 }

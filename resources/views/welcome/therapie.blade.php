@@ -18,7 +18,7 @@
 			<!-- Icon Box -->
 			<div class="col-lg-4">
 				<div class="icon_box text-center">
-					<div class="icon_box_icon"><img src="img/icon_2.svg" alt=""></div>
+					<div class="icon_box_icon"><img src="/img/icon_2.svg" alt=""></div>
 					<div class="icon_box_title"><h2>Watertherapie</h2></div>
 					<div class="icon_box_text">
 						<p>een therapie ...</p>
@@ -29,7 +29,7 @@
 			<!-- Icon Box -->
 			<div class="col-lg-4">
 				<div class="icon_box text-center">
-					<div class="icon_box_icon"><img src="img/icon_4.svg" alt=""></div>
+					<div class="icon_box_icon"><img src="/img/icon_4.svg" alt=""></div>
 					<div class="icon_box_title"><h2>Wandeltherapie</h2></div>
 					<div class="icon_box_text">
 						<p>Wandelen in Klerken</p>
@@ -40,7 +40,7 @@
 			<!-- Icon Box -->
 			<div class="col-lg-4">
 				<div class="icon_box text-center">
-					<div class="icon_box_icon"><img src="img/icon_5.svg" alt=""></div>
+					<div class="icon_box_icon"><img src="/img/icon_5.svg" alt=""></div>
 					<div class="icon_box_title"><h2>Ontspannen</h2></div>
 					<div class="icon_box_text">
 						<p>We zorgen voor een ontspannen sfeer</p>
