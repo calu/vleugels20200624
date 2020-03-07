@@ -3,6 +3,7 @@
 		<div class="col">
 			<div class="section_title_container text-center">
 				<div class="section_title"><h1>hotelverblijf</h1></div>
+				@if (auth()->guest())
 				<div class="section_text">
 					Overnachten in de vleugels kan een aangename verrassing worden.
 					Als je geïnteresseerd bent kan je meer info bekomen door het formulier
@@ -17,6 +18,21 @@
 						@include('partials.steljevraag')
 					</div>		
 				</div>
+				@else
+				<div class="section-text">
+					Overnachten in de vleugels is steeds een aangename verrassing.
+					Ben je geïnteresseerd of wil je reserveren druk dan op de knop "overzicht en/of reserveren",
+					Heb je nog een vraag, druk dan op de knop "stel je vraag"
+				</div>
+				<div class="row">
+					<div class="col">
+						<a class="btn btn-primary" href="#" role="button">overzicht en/of reserveren</a>
+					</div>
+					<div class="col">
+						<a class="btn btn-primary" href="vraag/create" role="button">stel je vraag</a>
+					</div>
+				</div>
+				@endif 
 			</div>
 		</div>
 	</div>

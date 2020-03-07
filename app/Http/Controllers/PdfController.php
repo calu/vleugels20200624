@@ -37,4 +37,16 @@ class PdfController extends Controller
         return view('pdf/succes');
     }
     
+    /** 
+     *   show toont een reeds opgeslagen pdf-document.
+     *  Omdat het doorgeven van de documentnaam gebeurt via een id geformatteerd 
+     *    als jaar-volgnummer, moeten we dit omzetten naar 'factuur'.id.'pdf'
+     */
+    public function showPDF($id)
+    {
+        // dd($id);
+        $filename = public_path('').'/facturen/factuur'.$id.'.pdf';
+        return response()->file($filename);
+    }
+    
 }

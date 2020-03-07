@@ -7,7 +7,10 @@ use App\Contactpersoon;
 use App\Mutualiteit;
 use App\User;
 use App\Enums\StatuutType;
+use App\Factuur;
 use Validator;
+use PDF;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -29,7 +32,7 @@ class ClientController extends Controller
         abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
         
         $clients = DB::table('clients')->paginate(10);
-        return view('clients.index', compact('clients')); 
+        return view('clients-old.index', compact('clients')); 
 
     }
 
@@ -221,9 +224,12 @@ class ClientController extends Controller
 
         session(['client_id' => $id]);
         $client = Client::findOrFail($id);
-        $contactpersoon = Contactpersoon::findOrFail($client->contactpersoon_id);
+        $contactpersoon = Contactpersoon::findOrFail($client->contactpersoon_id); 
         $user = User::findOrFail($client->user_id);
-        return view('clients.show', compact('client', 'contactpersoon', 'user'));
+  
+ // $statuten = StatuutType::getKeys();
+ // dd($statuten);      
+        return view('clients.show', compact('client', 'contactpersoon', 'user')); 
     }
 
     /**
@@ -407,15 +413,20 @@ class ClientController extends Controller
             'huisnummer' => 'required',
             'postcode' => 'required | numeric',
             'gemeente' => 'required ',
-            'telefoon' => 'required_without : gsm ',
-            'gsm' => 'required_without : telefoon',
+            'telefoon' => 'required_without :gsm| nullable',
+            'gsm' => 'required_without :telefoon| nullable',
             'geboortedatum' => 'required | date',
             'rrn' => 'required | regex : /[0-9]{2}.[0-9]{2}.[0-9]{2}-[0-9]{3}.[0-9]{2}/',
             'mutualiteit' => 'required',
             'statuut' => 'required',
         ])->validate();     
         
-        // spaar nu de gegevens
+        // We bekijken de mutualiteit !!!
+          $data['mutualiteit_id'] = DB::table('mutualiteits')->where('naam', $data['mutualiteit'])->get()->first()->id;
+
+        // het statuut : de key wijzigen door de value gebeurt automatisch hieronder.
+ 
+         // spaar nu de gegevens
          DB::table('clients')
             ->where('id', $data['client_id'])
             ->update(
@@ -434,8 +445,192 @@ class ClientController extends Controller
                     'statuut' => StatuutType::getValue($data['statuut']),
                 ]);              
 
+
          $url = 'clients/'.$data['client_id'];
          return ['message' => $url];
      } 
+     
+     /**
+      * Wachtwoordwijzigen - met de gegeven klant e-mail gaan we nu op zoek naar
+      * het e-mail adres van de contactpersoon.
+      * Naar die persoon sturen we een mail met de vraag om binnen het uur te 
+      * antwoorden op deze mail door op de meegegeven link te klikken - Die link
+      * zullen we ondertussen bewaren in het Laravelsysteem
+      */
+     public function wachtwoordwijzig()
+     {
+        $thisRequest = request()->all();       
+        
+  //      dd($thisRequest);     
+        
+        return redirect('password/reset')  ;
+     }
+     
+     /**
+      * functie contactpersoon valideert de waarden van deze contactpersoon
+      * en update dan ook de databank. Let wel: het is verschillend voor admin 
+      * als voor de klant
+      */
+     public function contactpersoon()
+     {
+        $thisRequest = request()->all();
+        $data = $thisRequest['data'];
+        
+         $validator = Validator::make( $data, [
+            'voornaam' => 'required | min : 2',
+            'familienaam' => 'required | min : 2',
+            'straat' => 'required | min : 2',  
+            'huisnummer' => 'required',
+            'postcode' => 'required | numeric',
+            'gemeente' => 'required ',
+            'telefoon' => 'required_without :gsm|nullable',
+            'gsm' => 'required_without :telefoon|nullable',
+            'openstaand' => 'required',
+        ])->validate();           
+        
+         DB::table('contactpersoons')
+            ->where('id', $data['id'])
+            ->update(
+                [
+                    'voornaam' => $data['voornaam'],
+                    'familienaam' => $data['familienaam'],
+                    'straat' => $data['straat'],
+                    'huisnummer' => $data['huisnummer'],
+                    'postcode' => $data['postcode'],
+                    'gemeente' => $data['gemeente'],
+                    'telefoon' => $data['telefoon'],
+                    'gsm' => $data['gsm'],
+                    'openstaand' => $data['openstaand']
+                ]);               
+        
+        /* vergeet de client_id niet */
+         $url = 'clients/'.$data['client_id'];
+         return ['message' => $url];                 
+     }
+     
+     /*** function factuur waar we de factuur opstellen voor de klant ***/
+     public function factuur()
+     {
+         $thisRequest = request()->all();
+         $data = $thisRequest['data']; 
+        // dd($request);
+        
+        // hieronder sturen we door ... maar enkel om het te kunnen bekijken
+        
+        request()->session()->flush();
+        request()->session()->put('client_id' ,$data['client_id']);
+        request()->session()->push('hotels', $data['hotels']);
+        request()->session()->push('dagverblijf', $data['dagverblijf']);
+        request()->session()->push('therapie', $data['therapie']);
+        
+        // hier de validatie toevoegen?
+        
+        // De factuur samenstellen
+        // haal de naam
+        
+         
+         $url = 'clients/'.$data['client_id'];
+         $url = 'clients/factuurview';
+         return ['message' => $url];
+     }
+     
+     public function factuurview()
+     {
+         $request = request()->all();
+         $data = request()->session()->all();
+ //        dd($data);
+ 
+         // We beginnen met de algemene data voor deze klant
+         // haal de factuurgegevens voor deze klant
+         $klant = DB::table('clients')->where('id', $data['client_id'])->get()->first();
+         
+         $info = [];
+         $info['client_id'] = $data['client_id'];
+         $info['factuur_naam'] = $klant->factuur_naam;
+         $info['factuur_straat'] = $klant->factuur_straat;
+         $info['factuur_huisnummer'] = $klant->factuur_huisnummer;
+         $info['factuur_bus'] = $klant->factuur_bus; 
+         $info['factuur_postcode'] = $klant->factuur_postcode; 
+         $info['factuur_gemeente'] = $klant->factuur_gemeente; 
+         $info['factuur_email'] = $klant->factuur_email;
+         
+         // nu halen we de gegevens van De Vleugels zelf op
+         $vleugels = DB::table('algemeens')->where('id',1)->get()->first();
+         $info['vleugels_afzendernaam'] = $vleugels->factuur_afzendernaam;
+         $info['vleugels_afzenderstraatennummer'] = $vleugels->factuur_afzenderstraatennummer;
+         $info['vleugels_afzenderZipenGemeente'] = $vleugels->factuur_afzenderZipenGemeente;
+         $info['vleugels_afzenderTelefoon'] = $vleugels->factuur_afzenderTelefoon;
+         $info['vleugels_afzenderEmail'] = $vleugels->factuur_afzenderEmail;
+         $info['vleugels_iban'] = $vleugels->iban;
+         $info['vleugels_bic'] = $vleugels->bic;
+         
+         // nu halen we het factuurnummer op
+         $jaar = date("Y");
+         $info['factuur_jaar'] = $jaar;
+         // dd($jaar);
+         $volgnummer = Factuur::where('jaar', $jaar);
+         $aantal = $volgnummer->count();
+         if ( $aantal == 0)
+            $factuurvolgnummer = 1;
+         else {
+            $hoogste = $volgnummer->max('factuurvolgnummer');
+            $factuurvolgnummer = $hoogste + 1;
+         }
+         // dd($factuurvolgnummer);
+         $info['factuur_volgnummer'] = $factuurvolgnummer;
+         $info['factuur_datum'] = date("d-m-Y");
+         
+         // Nu komen de onderscheiden activiteiten
+         $info['hotels'] = $this->getHotelInfo($data['hotels'][0]);
+         $info['dagverblijf'] = null;
+         $info['therapie'] = null;
+ //        dd($info);
+                                                
+        $pdf = PDF::loadView('clients.myPDF', $info);
+        $pdf->save('facturen/factuur'.$info['factuur_jaar'].'-'.$info['factuur_volgnummer'].'.pdf');
+        
+        // Spaar de factuur in de databank
+        foreach ($info['hotels'] as $hotel){
+            $factuur = new Factuur;
+            $factuur->factuurvolgnummer = $factuurvolgnummer;
+            $factuur->jaar = $jaar;
+            $factuur->datum = Carbon::parse($info['factuur_datum'])->format('Y-m-d');
+
+            $factuur->serviceable_id = $hotel['hotel_id'];    
+            $factuur->serviceable_type = 'App\Hotel';
+            $factuur->omschrijving = 'Verblijf in hotel van '.$hotel['begindatum'].' tot '.$hotel['einddatum'];
+            $factuur->aantal =   1;
+            $factuur->prijs = $hotel['bedrag'];
+            
+            // stel de status van deze hotel_id op 'goedgekeurd'
+            DB::table('hotels')->where('id', $hotel['hotel_id'])->update(['status' => 'goedgekeurd']);
+        }
+        
+        $factuur->save();
+
+        // stel nu de status van de betreffende hotels, dagverblijfs en therapie van "aangevraagd" naar "goedgekeurd"
+        
+        return $pdf->save('temp/testpdf.pdf')->stream('teststream.pdf');
+  
+//         return view('clients/fiches/factuurview', compact('info'));
+     }
+     
+     /***
+      * function getHotelInfo returns an array of items that has to be entered in the envoice
+      *
+      */
+     public function getHotelInfo($hotels)
+     {
+         $ret = [];
+         // enkel de hotels met hotelchoice = true worden teruggestuurd
+         foreach( $hotels as $hotel)
+         {
+             if ($hotel['hotelchoice'] == true){
+               $ret[] = $hotel;
+           //    dd($hotel);
+             }
+         }
+         return $ret;
+     }
     
 }

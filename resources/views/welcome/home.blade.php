@@ -12,7 +12,12 @@
 					  <div class="home_text">
 						  <a class="btn btn-primary" href="#hotel" role="button">Hotel</a>
 						  <a class="btn btn-primary" href="#dagverblijf" role="button">Dagverblijf</a>
-						  <a class="btn btn-primary" href="#therapie" role="button">Therapie</a>							
+						  <a class="btn btn-primary" href="#therapie" role="button">Therapie</a>	
+                           <!-- als aangemeld als klant of als admin (en daar als klant) -->
+                		   @if ( Auth::check() && Auth::user()->name)
+                             <a class="btn btn-primary" href="clients/{{ Auth::user()->id }}"
+                                 role="button">detailinfo van klant</a>
+                           @endif	
 					  </div>
 				  </div>
 			  </div>

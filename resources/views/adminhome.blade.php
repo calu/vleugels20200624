@@ -108,7 +108,21 @@
 				];
 			?>
 			@include('admin.partials.card', $info)
-		</div>			
+		</div>	
+		
+		<div class="col md-4">
+			<?php
+				$info = [
+					'header' => 'Vraagtypes',
+					'icon' => 'fa-question',
+					'text' => 'Vul hier de vragentypes bij',
+					'button' => 'vraagtype',
+					'href' => '/vragentype',
+					'aantal' => 0	
+				];
+			?>
+			@include('admin.partials.card', $info)
+		</div>					
 	</div>
 	
 	

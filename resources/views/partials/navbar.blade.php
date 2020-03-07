@@ -17,13 +17,14 @@
                    @if ( Auth::user()->admin == 1)
                         <!-- admin -->
                         <li class="nav-item">
-                            <a class="nav-link" href="/home">top</a>
+                            <a class="nav-link  text-danger" href="/home">top</a>
                         </li>
                         
                         @if ( request()->session()->has('client_id'))
                           <!-- admin maar voor klant -->
                           <?php
                               $id = Session::get('client_id');
+                             
                               try{
                                   $client = \App\Client::findOrFail($id);
                               } catch ( Exception $e){
@@ -33,23 +34,23 @@
                           
                           @isset( $client )
                             <li class="nav-item text-white">
-                                <p class="nav-link">voor {{ $client->voornaam." ".$client->familienaam }}</p>
+                                <p class="nav-link  text-danger">voor {{ $client->voornaam." ".$client->familienaam }}</p>
                             </li>
                             &nbsp;
                           @endisset
                         @endif
-                   @else
-                   <!-- gewoon als klant aangemeld -->
+                    @else
                         <li class="nav-item">
-                            <a class="nav-link" href="/home">top</a>
+                            <a class="nav-link  text-danger" href="/home">top</a>
                         </li>
                    @endif
                    
                    <li class="nav-item dropdown">
-                       <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                       <a id="navbarDropdown" class="nav-link dropdown-toggle text-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                            {{ Auth::user()->name }} <span class="caret"></span>
                        </a>                  
                    </li>
+
                    <li class="nav-item mt-2">
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf

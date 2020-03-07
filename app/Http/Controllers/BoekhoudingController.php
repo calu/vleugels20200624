@@ -31,13 +31,133 @@ class BoekhoudingController extends Controller
         // Haal alle serviceables
         $services = DB::table('serviceables')->paginate(10);
         
-        return view('boekhouding.index', compact('services'));
+        return view('boekhouding.index', compact('services')); 
     }
     
-    /** functie detail geeft de details weer van deze service **/
+    /**
+     * function detail
+     *   geeft alle details van deze service voor deze bepaalde klant en
+     *   toont meteen ook alle andere services die voor deze klant
+     *   nog open staan
+     *
+     */
     public function detail($id, $type)
     {
-        abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+        // enkel voor admin
+        abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);    
+        
+        // haal het servicetype op
+        $servicetype = \App\Enums\ServiceType::getValue($type);
+        // haal de klant-id die hoort bij deze <id,servicetype>
+       try {
+           $service = DB::table('serviceables')->where([['serviceable_id', $id], ['serviceable_type', $servicetype]])->first();       
+       } catch (Exception $e) {
+           echo "[BoekhoudingController@detail@1] TIJDELIJK - geen overeenkomstige dienst gevonden - verwittig admin";
+       }
+      
+       // haal nu de klant die hoort bij deze entry
+       $client_id = $service->client_id;
+       
+       // nu halen we alle data die nodig is voor deze service (en de andere services van deze klant die openstaan)
+       // We beginnen met alle klantgegevens
+       $client = Client::where('id', $client_id)->first();
+       
+       // We maken een array info aan
+       $info = [];
+       
+       // De mutualiteit van deze klant
+       $mutualiteit = DB::table('mutualiteits')->where('id', $client->mutualiteit_id)->first()->naam;
+       $info['mutualiteit'] = $mutualiteit;
+       $info['statuut'] = \App\Enums\StatuutType::getDescription($client->statuut);   
+       
+       $contactpersoon = DB::table('contactpersoons')->where('id', $client->contactpersoon_id)->first();    
+       $info['contactpersoon'] = $contactpersoon;
+       
+       // nu zoeken we de gegevens voor deze service
+       $info['this_service'] = $this->getServiceInfo($id, $type);
+       dd($info);
+    }
+    
+    /**
+     * function getServiceInfo
+     * @arg :
+     *   id = id van deze service
+     *   type = gewone naam van service
+     * hulpfunction voor detail
+     */
+    public function getServiceInfo($id, $type)
+    {
+        switch ($type)
+        {
+            case 'hotel' :
+              $this_service = DB::table('hotels')->where('id', $id)->first();
+              // dd($this_service);
+             
+              
+ /*
+
+                $info['hotel_id'] = $this_service->id;
+                $info["begindatum"] = $this_service->begindatum;
+                $info["einddatum"] = $this_service->einddatum;
+                $info["status"] = $this_service->status;
+                $info["bedrag"] = $this_service->bedrag;
+                
+                // haal de info van de kamer
+                $this_kamer = DB::table('kamers')->where('id', $this_service->kamer_id)->first();
+                // dd($this_kamer);
+                $info["kamer_id"] = $this_kamer->id;
+                $info["aantal_bedden"] = $this_kamer->aantal_bedden;
+                $info["kamer_soort"] = $this_kamer->soort;
+                $info["kamernummer"] = $this_kamer->kamernummer;
+                $info["kamer_beschrijving"] = $this_kamer->beschrijving;
+                $info["kamer_foto"] = $this_kamer->foto;
+                
+                // haal de klantgegevens op voor de factuur
+//                dd($client->factuur_naam);
+                $info["factuur_naam"] = $client->factuur_naam;
+                $info["factuur_straat"] = $client->factuur_straat;
+                $info["factuur_huisnummer"] = $client->factuur_huisnummer;
+                $info["factuur_bus"] = $client->factuur_bus;
+                $info["factuur_postcode"] = $client->factuur_postcode;
+                $info["factuur_gemeente"] = $client->factuur_gemeente;
+                $info["factuur_email"] = $client->factuur_email;
+                
+                
+                $date1 = new \DateTime($this_service->begindatum);
+                $date2 = new \DateTime($this_service->einddatum);
+                $aantaldagen = $date2->diff( $date1 )->format('%a');
+
+                $info["aantal_dagen"] = $aantaldagen;
+                
+                $info['factuurdatum'] = date('j-n-Y');
+                $verval = new DateTime('NOW');
+                $verval->modify('+1 month'); 
+                $info['vervaldatum'] = date_format($verval, 'j-n-Y');
+                $info['factuurnummer'] = 'A1234';
+                $info['onzeref'] = 'AB111';
+                $info['omschrijving'] = 'kamer van '.$info['begindatum'].' tot '.$info['einddatum'];
+                $btw = 21;
+                $info['btw'] = $btw;   
+                $info['bedragzonder'] = $info['bedrag'] * (100 - $btw)/100 ;
+ 
+  */             
+              
+              break;
+            case 'dagverblijf' :
+              /* TODO */
+              break;
+            case 'therapie' :
+              /* TODO */
+              break;
+        }
+        
+        
+        dd($id." en ".$type);
+    }
+    /** functie detail geeft de details weer van deze service **/
+    public function detail_oud($id, $type)
+    {
+
         
         // haal de klant voor deze service
         $servicetype = \App\Enums\ServiceType::getValue($type);
@@ -49,7 +169,7 @@ class BoekhoudingController extends Controller
         $mutualiteit = DB::table('mutualiteits')->where('id', $client->mutualiteit_id)->first()->naam;
         $info = [];  
         $info['mutualiteit'] = $mutualiteit; 
-        $info['statuut'] = \App\Enums\StatuutType::getDescription($client->statuur);
+        $info['statuut'] = \App\Enums\StatuutType::getDescription($client->statuut);
          
         $contactpersoon_id = $client->contactpersoon_id;
         $contactpersoon = DB::table('contactpersoons')->where('id', $contactpersoon_id)->first();

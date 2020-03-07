@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class Helper extends Model
 {
@@ -14,6 +15,7 @@ class Helper extends Model
      * function 1 : getService( $serviceable_id, $serviceable_type)
      * Naargelang het soort wordt de servicegegevens opgehaald.
      *
+ WORDT NIET GEBRUIKT    
      */
      public static function getService( $serviceable_id, $serviceable_type)
      {
@@ -31,4 +33,20 @@ class Helper extends Model
                break;
          }
      }
+     
+     /**
+      * de function getClient
+      *  Zal de id van de klant ophalen. Wat we kunnen ophalen is de id van de user
+      *  en met deze id gaan zoeken, welke klant het is en dan gewoon die id terugsturen
+      * Als er niemand is aangemaald retourneer dan 0 (null)
+      */
+     public static function getClient()
+     {
+          $id = $user = Auth::user()->id;
+         // dd("id = ".$id);
+          $client_id = DB::table('clients')->where('user_id', $id)->get()->first()->id;
+          return $client_id;
+     }
+     
+     
 }

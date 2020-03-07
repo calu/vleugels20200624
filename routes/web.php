@@ -27,8 +27,10 @@ Route::get('/home', function(){
        // een klant
        //   .. TODO : haal de klant_id op
        // en return naar ClientController@show -- toon de splash van de klant
-         $client = Auth::user()->client()->first();        
-         return redirect()->action('ClientController@show',['id' => $client->id]);   
+         $client = Auth::user()->client()->first();  
+         return view('welcome');
+               
+         //return redirect()->action('ClientController@show',['id' => $client->id]);   
    } else
         return view('adminhome'); // toon de splashscreen voor de admin
 });
@@ -55,6 +57,10 @@ Route::get('clients/{id}/hotelcreate', 'ClientController@hotelcreate');
 Route::get('clients/{id}/calendar', 'ClientController@calendar');
 
 Route::post('clients/over', 'ClientController@over');
+Route::post('clients/contactpersoon', 'ClientController@contactpersoon');
+Route::post('clients/wachtwoordwijzig', 'ClientController@wachtwoordwijzig');
+Route::post('clients/factuur', 'ClientController@factuur');
+Route::get('clients/factuurview', 'ClientController@factuurview');
 Route::resource('clients', 'ClientController');
 
 /** Kamers **/
@@ -98,6 +104,7 @@ Route::get('boekhouding/verzonden', 'BoekhoudingController@verzonden');
 
 /** pdf **/
 Route::get('pdf/generatePDF', 'PdfController@generatePDF');
+Route::get('pdf/{id}/show', 'PdfController@showPDF');
 
 
 /** algemeen **/
@@ -112,6 +119,16 @@ Route::post('wachtwoord/vergeten', 'WachtwoordController@store');
 Route::get('wachtwoord/reset/{token}', 'WachtwoordController@reset');
 Route::post('wachtwoord/vernieuwen', 'WachtwoordController@vernieuwen');
 // Route::get('wachtwoord/resetPassword', 'ResetPasswordController@resetPassword');
+
+Route::get('test', function(){
+    //$value = $request->session()->get('client_id');
+    //dd($value);
+    echo "test";
+});
+
+/** vragen en vraagtypes **/
+Route::resource('vraag', 'VraagController');
+Route::resource('vragentype', 'VragentypeController');
 
 
 

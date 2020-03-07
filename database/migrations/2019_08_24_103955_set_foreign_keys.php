@@ -32,13 +32,13 @@ class SetForeignKeys extends Migration
     public function down()
     {
         Schema::table('clients', function( Blueprint $table){
-            Schema::dropForeign('contactpersoon_id');
-            Schema::dropForeign('user_id');
-            Schema::dropForeign('mutualiteit_id');            
+            $table->dropForeign(['contactpersoon_id']);
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['mutualiteit_id']);            
         });
         
         Schema::table('hotels', function( Blueprint $table){
-            $table->dropForeign('kamer_id'); 
+            $table->dropForeign(['kamer_id']); 
 
         });                 
 

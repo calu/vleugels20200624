@@ -1,6 +1,6 @@
 @extends('layouts.vleugelslayout')
 
-@section('content')
+@section('content') 
 
 <div class="container">
 	<div class="row justify-content-center mt-4">

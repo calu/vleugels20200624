@@ -1,9 +1,9 @@
 <template>
-	<form class="form-sample" method="POST" action="/clients/over"
+	<form class="form-sample" method="POST" action="/clients/contactpersoon"
 		@submit.prevent="onSubmit"
 		@keydown="form.errors.clear($event.target.name)">
 		  					
-		<input type="hidden" id="client_id" name="client_id" v-model="form.client_id" />					  
+		<input type="hidden" id="contactpersoon_id" name="contactpersoon_id" v-model="form.id" />					  
 		<div class="row">
 			<div class="col">
 				<label for="voornaam" class="col-sm-3 col-form-label">voornaam </label>
@@ -86,63 +86,23 @@
 
 		<div class="row pt-3">
 			<div class="col">
-				<label for="geboortedatum" class="col-sm-5 col-form-label">geboortedatum </label>
-				<input type="text" class="form-control" name="geboortedatum"
-					id="geboortedatum" v-model="form.geboortedatum" />
-				<div class="invalid-feedback d-block" v-if="form.errors.has('geboortedatum')"
-					v-text="form.errors.get('geboortedatum')" />								
+				<label for="relatie" class="col-sm-3 col-form-label">relatie </label>
+				<input type="text" class="form-control" name="relatie"
+					id="relatie" v-model="form.relatie" />
+				<div class="invalid-feedback d-block" v-if="form.errors.has('relatie')"
+					v-text="form.errors.get('relatie')" />								
 			</div><!-- col -->
-			
+
 			<div class="col">
-				<label for="rrn" class="col-sm-5 col-form-label">rijksregisternummer </label>
-				<input type="text" class="form-control" name="rrn" placeholder="00.00.00-000.00"
-					id="rrn" v-model="form.rrn" />
-				<div class="invalid-feedback d-block" v-if="form.errors.has('rrn')"
-					v-text="form.errors.get('rrn')" />								
-			</div><!-- col -->	
+				<label for="openstaand" class="col-sm-3 col-form-label">openstaand (enkel admin) </label>
+				<input type="text" class="form-control" name="openstaand"
+					id="openstaand" v-model="form.openstaand" />
+				<div class="invalid-feedback d-block" v-if="form.errors.has('openstaand')"
+					v-text="form.errors.get('openstaand')" />								
+			</div><!-- col -->			
 		</div><!-- row -->	
 				
-		<div class="row pt-3">
-			<input type="hidden" name="mutualiteit_id"
-			    id="mutualiteit_id" v-model="form.mutualiteit_id" />
-			<div class="col">
-				<label for="mutualiteit" class="col-sm-5 col-form-label">mutualiteit </label>
-
-
-				<!-- input type="text" class="form-control" name="mutualiteit"
-					id="mutualiteit" v-model="form.mutualiteit" / -->
-				<select class="form-control" name="mutualiteit"
-				    id="mutualiteit" v-model="form.mutualiteit">
-					
-					<option v-for="elem in mut" :values='elem.id'>{{ elem.naam }}</option>
-					
-					
-				</select>
-				<!-- b-form-select v-model="form.mutualiteit" :options="options"></b-form-select -->
-
-				<div class="invalid-feedback d-block" v-if="form.errors.has('mutualiteit')"
-					v-text="form.errors.get('mutualiteit')" />								
-			</div><!-- col -->
-			
-			<div class="col">
-				<input type="hidden" name="statuut_id"
-			   	 id="statuut_id" v-model="form.statuut_id" />			
-				<label for="statuut" class="col-sm-5 col-form-label">statuut </label>
-				<!-- input type="text" class="form-control" name="statuut"
-					id="statuut" v-model="form.statuut" / -->
-					
-				<select class="form-control" name="statuut"
-				   id="statuut" v-model="form.statuut">
-				   <option v-for="elem in stats">{{ elem }}</option>
-				</select>	
-					
-				<div class="invalid-feedback d-block" v-if="form.errors.has('statuut')"
-					v-text="form.errors.get('statuut')" />								
-			</div><!-- col -->	
-		</div><!-- row -->					
-				
 		<div class="row pt-5">
-					
 			<div class="col control">
 				<button class="btn btn-primary">Verzend</button>							
 			</div><!-- col --> 
@@ -157,13 +117,11 @@
 import Form from '../utilities/Form.js'
 
 export default{
-	props:['data', 'mut', 'statuten'],
+	props:['data'],
 	
 	data(){
 		return {
 			form : this.CalcForm(),
-			stats : this.statuten, 
-			mutoptions : this.mut,
 
 		}
 	},
@@ -176,10 +134,10 @@ export default{
 		},
 		
 		onSubmit(){
-			/* console.log("Klantgegevens onSubmit");
+			/* console.log("Contactpersoon onSubmit");
 			throw new Error("geen fout, enkel stoppen");  */
 			 
-			this.form.post('/clients/over')
+			this.form.post('/clients/contactpersoon')
 			//	.then( data => this.$emit('completed', data))
 				.then( data => this.spring(data.message)) 
 				.catch(errors => console.log(errors));
