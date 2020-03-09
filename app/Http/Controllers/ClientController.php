@@ -221,14 +221,13 @@ class ClientController extends Controller
     public function show($id)
     {
   //      abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
-
         session(['client_id' => $id]);
         $client = Client::findOrFail($id);
         $contactpersoon = Contactpersoon::findOrFail($client->contactpersoon_id); 
         $user = User::findOrFail($client->user_id);
   
  // $statuten = StatuutType::getKeys();
- // dd($statuten);      
+ // dd($statuten);       
         return view('clients.show', compact('client', 'contactpersoon', 'user')); 
     }
 

@@ -7,7 +7,7 @@
       </div>
       <div class="container-fluid page-body-wrapper">
         @include('clients.partials.linkermenu') 
-        @include('clients.partials.hoofddeel')
+        @include('clients.partials.hoofddeel') 
       </div>
            
   </div>

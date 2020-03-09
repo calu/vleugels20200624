@@ -15,7 +15,12 @@
 						  <a class="btn btn-primary" href="#therapie" role="button">Therapie</a>	
                            <!-- als aangemeld als klant of als admin (en daar als klant) -->
                 		   @if ( Auth::check() && Auth::user()->name)
-                             <a class="btn btn-primary" href="clients/{{ Auth::user()->id }}"
+                           @php
+                           // Auth::user()->id is de id van de user, maar we moeten de 
+                           // id van de klant hebben
+                           $client_id = App\Helper::getClient();
+                           @endphp
+                             <a class="btn btn-primary" href="clients/{{ $client_id }}"
                                  role="button">detailinfo van klant</a>
                            @endif	
 					  </div>
