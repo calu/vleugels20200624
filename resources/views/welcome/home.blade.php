@@ -22,7 +22,7 @@
                            @endphp
                              <a class="btn btn-primary" href="clients/{{ $client_id }}"
                                  role="button">detailinfo van klant</a>
-                           @endif	
+                           @endif	 
 					  </div>
 				  </div>
 			  </div>
