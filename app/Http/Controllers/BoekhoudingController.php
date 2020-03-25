@@ -30,7 +30,7 @@ class BoekhoudingController extends Controller
         
         // Haal alle serviceables
         $services = DB::table('serviceables')->paginate(10);
-        
+
         return view('boekhouding.index', compact('services')); 
     }
     

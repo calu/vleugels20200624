@@ -106,7 +106,7 @@ Route::get('boekhouding/{id}/{type}/detail', 'BoekhoudingController@detail');
 Route::post('boekhouding/bedrag', 'BoekhoudingController@store');
 Route::post('boekhouding/factuur', 'BoekhoudingController@factuur');
 Route::get('boekhouding/verzonden', 'BoekhoudingController@verzonden');
-
+ 
 /** pdf **/
 Route::get('pdf/generatePDF', 'PdfController@generatePDF');
 Route::get('pdf/{id}/show', 'PdfController@showPDF');
