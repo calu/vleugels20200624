@@ -6,7 +6,7 @@
 		<h1 class="d-flex justify-content-center">Reservatie aanvraag</h1>
 			
 		<form action="/hotels" method="post">
-			{{ csrf_field() }}
+			{{ csrf_field() }} 
 			<!-- hidden : client_id -->
 			<input type="hidden" class="form-control" id="client_id" name="client_id" value="{{ $client->id }}" />
 			<!-- begindatum en einddatum -->

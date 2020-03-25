@@ -101,9 +101,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Errors =
-/*#__PURE__*/
-function () {
+var Errors = /*#__PURE__*/function () {
   function Errors() {
     _classCallCheck(this, Errors);
 
@@ -133,7 +131,8 @@ function () {
   }, {
     key: "record",
     value: function record(errors) {
-      this.errors = errors; // console.log("recorded  " + this.errors + "\n");
+      this.errors = errors; //    this.errors = errors.response.data.errors;
+      // console.log("recorded  " + this.errors + "\n");
     }
   }, {
     key: "clear",
@@ -173,9 +172,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var Form =
-/*#__PURE__*/
-function () {
+var Form = /*#__PURE__*/function () {
   function Form(data) {
     _classCallCheck(this, Form);
 

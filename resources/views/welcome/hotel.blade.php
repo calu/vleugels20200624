@@ -26,7 +26,7 @@
 				</div>
 				<div class="row">
 					<div class="col">
-						<a class="btn btn-primary" href="#" role="button">overzicht en/of reserveren</a>
+						<a class="btn btn-primary" href="hotels" role="button">overzicht en/of reserveren</a>
 					</div>
 					<div class="col">
 						<a class="btn btn-primary" href="vraag/create" role="button">stel je vraag</a>

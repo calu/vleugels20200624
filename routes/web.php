@@ -71,6 +71,11 @@ Route::resource('kamers', 'KamerController');
 /** Hotels **/
 // Route::post('hotels/reserveer', 'HotelController@reserveer'); 
 Route::post('hotels/reserveer', 'HotelController@reserveer');
+Route::post('hotels/{hotel}/wijzig','HotelController@wijzig');
+Route::get('hotelreservatie/{id}/detailwijzig', 'HotelController@admin_toon_wijzig');
+Route::get('hotelreservatie/adminwijzig', 'HotelController@admin_wijzig_annul');
+Route::post('hotelreservatie/storewijzig', 'HotelController@admin_store_wijzig');
+Route::patch('hotelreservatie/{id}/storewijzig','HotelController@admin_update_wijzig');
 Route::resource('hotels', 'HotelController');
 
 /** FileUpload **/
@@ -121,12 +126,16 @@ Route::post('wachtwoord/vernieuwen', 'WachtwoordController@vernieuwen');
 // Route::get('wachtwoord/resetPassword', 'ResetPasswordController@resetPassword');
 
 Route::get('test', function(){
-    //$value = $request->session()->get('client_id');
-    //dd($value);
+    $value = request()->session()->all();
+    dd($value);
     echo "test";
 });
 
 /** vragen en vraagtypes **/
+Route::get('vraag/{id}/antwoord', 'VraagController@antwoord');
+Route::post('vraag/antwoord', 'VraagController@antwoordStore');
+Route::patch('vraag/{id}/antwoord', 'VraagController@antwoordUpdate');
+Route::get('vraag/{id}/detail', 'VraagController@detail');
 Route::resource('vraag', 'VraagController');
 Route::resource('vragentype', 'VragentypeController');
 

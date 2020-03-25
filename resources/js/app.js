@@ -35,6 +35,9 @@ Vue.component('klantgegevens', require('./components/Klantgegevens.vue').default
 Vue.component('contactpersoon', require('./components/Contactpersoon.vue').default);
 Vue.component('vragentypeformulier', require('./components/Vragentypeformulier.vue').default);
 Vue.component('klantvraag', require('./components/Klantvraag.vue').default);
+Vue.component('vraagantwoord', require('./components/Vraagantwoord.vue').default);
+Vue.component('hotelreservatie', require('./components/Hotelreservatie.vue').default);
+Vue.component('adminhotelreservatiewijzig', require('./components/Adminhotelreservatiewijzig.vue').default);
 /*     
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

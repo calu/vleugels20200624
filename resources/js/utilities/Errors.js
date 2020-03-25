@@ -22,6 +22,7 @@ class Errors{
 
   record(errors){
     this.errors = errors;
+//    this.errors = errors.response.data.errors;
     // console.log("recorded  " + this.errors + "\n");
   }
 

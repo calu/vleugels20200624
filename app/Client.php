@@ -30,4 +30,6 @@ class Client extends Model
     {
           return $this->belongsToMany(Service::class);
     }
+    
+
 }

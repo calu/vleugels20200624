@@ -122,7 +122,43 @@
 				];
 			?>
 			@include('admin.partials.card', $info)
-		</div>					
+		</div>	
+		
+		<div class="col md-4">
+			<?php
+				$aantal_onbeantwoorde_vragen = App\Vraag::all()->where('status','aangevraagd')->count();
+								
+				$info = [
+					'header' => 'Vragen van klanten',
+					'icon' => 'fa-question',
+					'text' => 'Je krijgt een overzicht van alle vagen (beantwoord of niet) en krijgt de gelegenheid om een antwoord te sturen',
+					'button' => 'overzicht en beantwoord vragen',
+					'href' => '/vraag',
+					'aantal' => $aantal_onbeantwoorde_vragen
+				];
+			?>
+			@include('admin.partials.card', $info)
+		</div>							
+	</div>
+
+	
+	<div class="row">	
+		<div class="col md-4">
+			<?php
+				
+				$aantal_aanvragen = App\HotelWijzig::all()->count();
+								
+				$info = [
+					'header' => 'aanvraag wijziging/annulatie',
+					'icon' => 'fa-handshake',
+					'text' => 'Een overzicht van alle aanvragen voor wijziging of annulatie voor overnachtingen, met mogelijkheid tot wijziging',
+					'button' => 'overzicht en beantwoord vragen',
+					'href' => '/hotelreservatie/adminwijzig',
+					'aantal' => $aantal_aanvragen
+				];
+			?>
+			@include('admin.partials.card', $info)
+		</div>							
 	</div>
 	
 	
