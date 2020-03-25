@@ -20,7 +20,7 @@ class BoekhoudingController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth'); 
     }
     
     /** hier komt alles voor de boekhouding uit te voeren **/
