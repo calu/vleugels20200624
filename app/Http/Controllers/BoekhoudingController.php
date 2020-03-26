@@ -8,6 +8,7 @@ use Validator;
 use App\Serviceable;
 use App\Client;
 use App\Hotel;
+use App\Kamer;
 use App\Mutualiteit;
 use App\Contactpersoon;
 use App\Algemeen;
@@ -54,7 +55,6 @@ class BoekhoudingController extends Controller
        } catch (Exception $e) {
            echo "[BoekhoudingController@detail@1] TIJDELIJK - geen overeenkomstige dienst gevonden - verwittig admin";
        }
-      
        // haal nu de klant die hoort bij deze entry
        $client_id = $service->client_id;
        
@@ -69,9 +69,11 @@ class BoekhoudingController extends Controller
        $mutualiteit = DB::table('mutualiteits')->where('id', $client->mutualiteit_id)->first()->naam;
        $info['mutualiteit'] = $mutualiteit;
        $info['statuut'] = \App\Enums\StatuutType::getDescription($client->statuut);   
-       
+    
        $contactpersoon = DB::table('contactpersoons')->where('id', $client->contactpersoon_id)->first();    
        $info['contactpersoon'] = $contactpersoon;
+       
+       $info['client'] = $client;
        
        // nu zoeken we de gegevens voor deze service
        $info['this_service'] = $this->getServiceInfo($id, $type);
@@ -92,9 +94,45 @@ class BoekhoudingController extends Controller
             case 'hotel' :
               $this_service = DB::table('hotels')->where('id', $id)->first();
               // dd($this_service);
-             
+              
+              // om de factuur te kunnen samenstellen hebben we heel wat info nodig
+              $data['hotel'] = Hotel::findOrFail($this_service->id);
+              try{
+                $data['kamer'] = Kamer::findOrFail($this_service->kamer_id);
+              } catch (Exception $e){
+                $data['kamer'] = null;
+                echo "[BoekhoudingController@getServiceInfo] geen kamer gevonden - verwittig admin";
+              }
+              
+              $date1 = new \DateTime($this_service->begindatum);
+              $date2 = new \DateTime($this_service->einddatum);
+              $aantaldagen = $date2->diff( $date1 )->format('%a');
+
+              $data['aantal_dagen'] = $aantaldagen;    
+              $data['factuurdatum'] = date('j-n-Y');
+              $verval = new DateTime('NOW');
+              $verval->modify('+1 month'); 
+              $data['vervaldatum'] = date_format($verval, 'j-n-Y');
+              
+              // maak een factuurnummer - de vorm is 2020/0001
+              // dus huidig jaar en vervolgnummer 
+              // Het zou interessant zijn als we dit in een functie plaatsen
+              
+                    
               
  /*
+                $info['factuurdatum'] = date('j-n-Y');
+                $verval = new DateTime('NOW');
+                $verval->modify('+1 month'); 
+                $info['vervaldatum'] = date_format($verval, 'j-n-Y');
+                $info['factuurnummer'] = 'A1234';
+                $info['onzeref'] = 'AB111';
+                $info['omschrijving'] = 'kamer van '.$info['begindatum'].' tot '.$info['einddatum'];
+                $btw = 21;
+                $info['btw'] = $btw;   
+                $info['bedragzonder'] = $info['bedrag'] * (100 - $btw)/100 ;
+ 
+ 
 
                 $info['hotel_id'] = $this_service->id;
                 $info["begindatum"] = $this_service->begindatum;
@@ -151,8 +189,7 @@ class BoekhoudingController extends Controller
               break;
         }
         
-        
-        dd($id." en ".$type);
+        return $data;
     }
     /** functie detail geeft de details weer van deze service **/
     public function detail_oud($id, $type)

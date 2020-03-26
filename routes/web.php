@@ -112,7 +112,7 @@ Route::get('pdf/generatePDF', 'PdfController@generatePDF');
 Route::get('pdf/{id}/show', 'PdfController@showPDF');
 
 
-/** algemeen **/
+/** algemeen **/ 
 Route::get('algemeen/ok', 'AlgemeenController@ok');
 Route::resource('algemeen', 'AlgemeenController');
 

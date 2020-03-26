@@ -14,7 +14,7 @@
     <a class="btn  btn-primary" href="#facturenperklant">
       Facturen per klant
     </a>    
-  </div>
+  </div> 
       
       
   @include('boekhouding.fiches.tefactureren')    

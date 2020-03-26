@@ -33,7 +33,7 @@
         </thead>
         <tbody>
           @foreach ($hotels as $hotel)
-            <tr>
+            <tr> 
               <td>hotel</td>
               <td>verblijf van {{ $hotel->begindatum}} tot {{ $hotel->einddatum }}</td>
               <td>
