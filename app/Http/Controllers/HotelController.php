@@ -50,13 +50,16 @@ class HotelController extends Controller
           * daarmee zoeken we nu de entries in tabel Hotels
           */
           $serviceable_ids = DB::table('serviceables')->where([['serviceable_type', 'App\Hotel'], ['client_id', $client_id]])->get();
-          foreach ($serviceable_ids as $service)
-          {
-              $serviceable_id[] = $service->serviceable_id;           
-//              dd($serviceable_id);
+          $hotels = collect([]);
+          if (!$serviceable_ids->isEmpty()){
+              foreach ($serviceable_ids as $service)
+              {
+                  $serviceable_id[] = $service->serviceable_id;           
+    //              dd($serviceable_id);
+              }
+              $hotels = DB::table('hotels')->whereIn('id', $serviceable_id)->get();
+     //         dd($hotels);
           }
-          $hotels = DB::table('hotels')->whereIn('id', $serviceable_id)->get();
- //         dd($hotels);
          
          return view('hotelreservatie/index', compact('info', 'hotels'));
     }

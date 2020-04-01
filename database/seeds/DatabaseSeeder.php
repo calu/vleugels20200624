@@ -19,6 +19,18 @@ class DatabaseSeeder extends Seeder
             'admin' => 1
         ]);     
         
+        DB::table('algemeens')->insert([
+            'iban' => 'BE77 4761 2457 2142',
+            'bic' => 'BRUBEBB',
+            'banknaam' => 'ING',
+            'factuur_afzendernaam' => 'De vleugels vzw',
+            'factuur_afzenderstraatennummer' => 'stokstraat, 1',
+            'factuur_afzenderZipenGemeente' => '8650 Klerken',
+            'factuur_afzenderTelefoon' => '051 50 12 12',
+            'factuur_afzenderEmail' => 'info@devleugels.be',
+            'sysadmin_email' => 'johan.calu@gmail.com'
+        ]);
+        
         factory( App\Contactpersoon::class,30)->create();   
         
         $this->call([

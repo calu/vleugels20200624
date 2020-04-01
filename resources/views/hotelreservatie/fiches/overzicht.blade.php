@@ -8,7 +8,7 @@
 		<th>einddatum</th>
 		<th>status</th>
 		<th></th>
-	</thead>
+	</thead> 
 	<tbody>
 	@foreach ($hotels as $hotel)
 	<tr>

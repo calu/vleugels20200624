@@ -17,7 +17,7 @@
   </div> 
       
       
-  @include('boekhouding.fiches.tefactureren')    
+  @include('boekhouding.fiches.tefactureren')
 
       
       <div class="container" id="gefactureerdediensten">

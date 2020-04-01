@@ -153,7 +153,7 @@ export default{
 		}
 	},
 	
-	methods:{
+	methods:{  
 		CalcForm(){
 		  // console.log("CalcForm - data = " + this.data);
 			return new Form(this.data);

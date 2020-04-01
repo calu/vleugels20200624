@@ -28,7 +28,7 @@ Vue.component('intake-formulier', require('./components/IntakeFormulier.vue').de
 Vue.component('kamerformulier', require('./components/KamerFormulier.vue').default);
 Vue.component('file-upload', require('./components/FileUpload.vue').default);  
 Vue.component('calendar-component', require('./components/Calendar.vue').default);
-// Vue.component('boekhouding', require('./components/Boekhouding.vue').default);
+Vue.component('boekhouding', require('./components/Boekhouding.vue').default);
 // Vue.component('factuur', require('./components/Factuur.vue').default);
 Vue.component('algemeen', require('./components/Algemeen.vue').default);
 Vue.component('klantgegevens', require('./components/Klantgegevens.vue').default);

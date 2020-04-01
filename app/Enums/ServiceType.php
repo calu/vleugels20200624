@@ -20,7 +20,7 @@ final class ServiceType extends Enum
         
         return "[Enums-ServiceType] NOT FOUND";
     }
-    
+   
     public static function getValue($string) : string
     {
         switch ($string){

@@ -81,13 +81,14 @@
 		
 		<div class="col md-4">
 			<?php
+				$aantal_aanvragen = App\Hotel::all()->where('status','aangevraagd')->count();
 				$info = [
 					'header' => 'Boekhouding',
 					'icon' => 'fa-paperclip',
 					'text' => 'de boekhouding gebeurt hier',
 					'button' => 'boekhouding',
 					'href' => '/boekhouding',
-					'aantal' => 0	
+					'aantal' => $aantal_aanvragen
 				];
 			?>
 			@include('admin.partials.card', $info)

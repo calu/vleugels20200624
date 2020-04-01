@@ -26,6 +26,19 @@ class AlgemeenController extends Controller
             
       $algemeen = DB::table('algemeens')
          ->where('id',1)->get()->first();
+         
+      if ($algemeen == null){
+          $algemeen['id'] = 0;
+          $algemeen['iban'] = '';
+          $algemeen['bic'] = '';
+          $algemeen['banknaam'] = '';
+          $algemeen['factuur_afzendernaam'] = '';
+          $algemeen['factuur_afzenderstraatennummer'] = '';
+          $algemeen['factuur_afzenderZipenGemeente'] = '';
+          $algemeen['factuur_afzenderTelefoon'] = '';
+          $algemeen['factuur_afzenderEmail'] = '';
+          $algemeen['sysadmin_email'] = '';
+      }
             
       return view('algemeen.index', compact('algemeen')); 
     }
@@ -47,32 +60,35 @@ class AlgemeenController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store()
-    {
+    { 
         abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
 
         $thisRequest = request()->all();
         $data = $thisRequest['data'];
-
-        $validator = Validator::make( $data, [
+        
+        session(['data' => $data]);
+        
+       $validator = Validator::make($data, [
             'banknaam' => 'required | min : 2',
-            'iban' => [ 'required',
-                function( $attribute, $value, $fail)
-                {
-                    $match = preg_match('/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/', $value);
-                    if (!$match) $fail($attribute, "is verkeerd");                      
-                },
-            ],
+            'iban' => ['required' , function($attribute, $value, $fail)
+                        {
+                            $match = preg_match('/^[A-Z]{2}[0-9]{2}\s?[A-Z0-9]{1,4}\s?[A-Z0-9]{1,4}\s?[A-Z0-9]{1,4}$/', $value);
+                            if (!$match) $fail($attribute, "is verkeerd");
+                        }
+                      ],
             'bic' => 'required | regex : "/[A-Z]{6}/"',
             'factuur_afzendernaam' => 'required | min:2',
             'factuur_afzenderstraatennummer' => 'required | min:2',
             'factuur_afzenderZipenGemeente' => 'required | min:2',
             'factuur_afzenderTelefoon' => 'required | min:2',
             'factuur_afzenderEmail' => 'required | email:rfc,dns',
-            'sysadmin_email' => 'required | email:rfc,dns',
-            
-         ])->validate();  
-      
-         $algemeen = Algemeen::find(1);
+            'sysadmin_email' => 'required | email:rfc,dns',            
+        ])->validate();
+        
+        if ($data['id'] == 0)
+            $algemeen = new Algemeen;
+        else   
+             $algemeen = Algemeen::find(1);
          
          $algemeen->banknaam = $data['banknaam'];
          $algemeen->iban = $data['iban'];
@@ -87,6 +103,7 @@ class AlgemeenController extends Controller
          $algemeen->save();
          
         $url = 'algemeen/ok';
+//        $url = 'test';
         return [ 'message' => $url];
     }
     

@@ -12,10 +12,13 @@ use App\Kamer;
 use App\Mutualiteit;
 use App\Contactpersoon;
 use App\Algemeen;
+use App\Helper;
+use App\Factuur;
 use DateTime;
 use PDF;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\FactuurMail;
+use App\Enums\ServiceType;
 
 class BoekhoudingController extends Controller
 {
@@ -50,17 +53,7 @@ class BoekhoudingController extends Controller
         // haal het servicetype op
         $servicetype = \App\Enums\ServiceType::getValue($type);
         // haal de klant-id die hoort bij deze <id,servicetype>
-       try {
-           $service = DB::table('serviceables')->where([['serviceable_id', $id], ['serviceable_type', $servicetype]])->first();       
-       } catch (Exception $e) {
-           echo "[BoekhoudingController@detail@1] TIJDELIJK - geen overeenkomstige dienst gevonden - verwittig admin";
-       }
-       // haal nu de klant die hoort bij deze entry
-       $client_id = $service->client_id;
-       
-       // nu halen we alle data die nodig is voor deze service (en de andere services van deze klant die openstaan)
-       // We beginnen met alle klantgegevens
-       $client = Client::where('id', $client_id)->first();
+        $client = $this->getClientFromServiceable($id, $servicetype);
        
        // We maken een array info aan
        $info = [];
@@ -77,7 +70,8 @@ class BoekhoudingController extends Controller
        
        // nu zoeken we de gegevens voor deze service
        $info['this_service'] = $this->getServiceInfo($id, $type);
-       dd($info);
+       
+       return view('boekhouding.detail', compact('info'));
     }
     
     /**
@@ -89,6 +83,8 @@ class BoekhoudingController extends Controller
      */
     public function getServiceInfo($id, $type)
     {
+        $data['serviceable_id'] = $id;
+        $data['serviceable_type'] = ServiceType::getValue($type);
         switch ($type)
         {
             case 'hotel' :
@@ -109,7 +105,7 @@ class BoekhoudingController extends Controller
               $aantaldagen = $date2->diff( $date1 )->format('%a');
 
               $data['aantal_dagen'] = $aantaldagen;    
-              $data['factuurdatum'] = date('j-n-Y');
+              $data['factuurdatum'] = date('d-m-Y');
               $verval = new DateTime('NOW');
               $verval->modify('+1 month'); 
               $data['vervaldatum'] = date_format($verval, 'j-n-Y');
@@ -117,69 +113,8 @@ class BoekhoudingController extends Controller
               // maak een factuurnummer - de vorm is 2020/0001
               // dus huidig jaar en vervolgnummer 
               // Het zou interessant zijn als we dit in een functie plaatsen
-              
-                    
-              
- /*
-                $info['factuurdatum'] = date('j-n-Y');
-                $verval = new DateTime('NOW');
-                $verval->modify('+1 month'); 
-                $info['vervaldatum'] = date_format($verval, 'j-n-Y');
-                $info['factuurnummer'] = 'A1234';
-                $info['onzeref'] = 'AB111';
-                $info['omschrijving'] = 'kamer van '.$info['begindatum'].' tot '.$info['einddatum'];
-                $btw = 21;
-                $info['btw'] = $btw;   
-                $info['bedragzonder'] = $info['bedrag'] * (100 - $btw)/100 ;
- 
- 
-
-                $info['hotel_id'] = $this_service->id;
-                $info["begindatum"] = $this_service->begindatum;
-                $info["einddatum"] = $this_service->einddatum;
-                $info["status"] = $this_service->status;
-                $info["bedrag"] = $this_service->bedrag;
-                
-                // haal de info van de kamer
-                $this_kamer = DB::table('kamers')->where('id', $this_service->kamer_id)->first();
-                // dd($this_kamer);
-                $info["kamer_id"] = $this_kamer->id;
-                $info["aantal_bedden"] = $this_kamer->aantal_bedden;
-                $info["kamer_soort"] = $this_kamer->soort;
-                $info["kamernummer"] = $this_kamer->kamernummer;
-                $info["kamer_beschrijving"] = $this_kamer->beschrijving;
-                $info["kamer_foto"] = $this_kamer->foto;
-                
-                // haal de klantgegevens op voor de factuur
-//                dd($client->factuur_naam);
-                $info["factuur_naam"] = $client->factuur_naam;
-                $info["factuur_straat"] = $client->factuur_straat;
-                $info["factuur_huisnummer"] = $client->factuur_huisnummer;
-                $info["factuur_bus"] = $client->factuur_bus;
-                $info["factuur_postcode"] = $client->factuur_postcode;
-                $info["factuur_gemeente"] = $client->factuur_gemeente;
-                $info["factuur_email"] = $client->factuur_email;
-                
-                
-                $date1 = new \DateTime($this_service->begindatum);
-                $date2 = new \DateTime($this_service->einddatum);
-                $aantaldagen = $date2->diff( $date1 )->format('%a');
-
-                $info["aantal_dagen"] = $aantaldagen;
-                
-                $info['factuurdatum'] = date('j-n-Y');
-                $verval = new DateTime('NOW');
-                $verval->modify('+1 month'); 
-                $info['vervaldatum'] = date_format($verval, 'j-n-Y');
-                $info['factuurnummer'] = 'A1234';
-                $info['onzeref'] = 'AB111';
-                $info['omschrijving'] = 'kamer van '.$info['begindatum'].' tot '.$info['einddatum'];
-                $btw = 21;
-                $info['btw'] = $btw;   
-                $info['bedragzonder'] = $info['bedrag'] * (100 - $btw)/100 ;
- 
-  */             
-              
+              $data['factuurnummer'] = Helper::getFactuurnummer();
+              $data['omschrijving'] = 'kamer van '.$this_service->begindatum." tot ".$this_service->einddatum;              
               break;
             case 'dagverblijf' :
               /* TODO */
@@ -187,8 +122,7 @@ class BoekhoudingController extends Controller
             case 'therapie' :
               /* TODO */
               break;
-        }
-        
+        }        
         return $data;
     }
     /** functie detail geeft de details weer van deze service **/
@@ -297,20 +231,124 @@ class BoekhoudingController extends Controller
 
         $thisRequest = request()->all();
         $data = $thisRequest['data'];
-  //      dd($data);
-
-        $validator = Validator::make( $data, [
-            'bedrag' => 'required | numeric'
-         ])->validate();
         
-        DB::table('hotels')
-            ->where('id', $data['hotel_id'])
-            ->update(['bedrag' => $data['bedrag']]);
+        // eerst valideren
+        $validator = Validator::make( $data, [
+          'factuurvolgnummer' => 'required | numeric',
+          'jaar' => 'required | date_format : Y',
+          'datum' => 'required | date',
+          'prijs' => 'required | numeric'
+        ])->validate();
 
-         $url = 'boekhouding/'.$data['hotel_id'].'/hotel/detail'; 
-         return ['message' => $url];
+       $client = $this->getClientFromServiceable($data['serviceable_id'], $data['serviceable_type']);
+       $contactpersoon_id = $client->contactpersoon_id;
+       $contactpersoon = DB::table('contactpersoons')->where('id', $contactpersoon_id)->first();
 
+        // spaar alles in factuurs
+        // maar eerst de "datum" formatteren
+        $data['datum'] = date('Y-m-d',strtotime($data['datum']));
+        Factuur::create($data);
+        
+        // maak een factuur
+        $pdf = $this->maakFactuur($data);
+        $pdf->save('temp/testpdf.pdf');
+        
+        // mail de factuur naar info en contactpersoon
+        $naam = $contactpersoon->voornaam." ".$contactpersoon->familienaam;
+        Mail::to('info@devleugels.be')->send(new FactuurMail($naam));
+        if (strlen($client->factuur_email) > 0){
+          $bericht = "Er werd een e-mail verstuurd naar de contactpersoon (ook naar info)";
+          Mail::to($client->factuur_email)->send(new FactuurMail($naam));
+        } else {
+          $bericht = "Er werd geen e-mail gestuurd naar de contactpersoon, omdat we geen e-mail adres hebben, wel naar info";
+        }
+// session(['factuur_email' => $client->factuur_email]);
+        // spaar de prijs in Hotel->bedrag
+        //   we kennen de serviceable_id (en het is hotel)
+        $hotel = Hotel::findOrFail($data['serviceable_id']);
+        $hotel->bedrag = $data['prijs'];
+        $hotel->status = 'goedgekeurd';
+        $hotel->save();
+                
+        // maak een flash
+        session()->flash('bericht', $bericht); 
+
+        $url = 'boekhouding/verzonden';
+ //       $url = 'test';
+        return ['message' => $url];
     }
+    
+    /*
+     * maakFactuur
+     *   maakt een pdf document met een factuur als resultaat
+     *
+     *   We hebben dus ook een aantal data nodig
+     */
+    public function maakFactuur($data)
+    {
+      // enkel een admin mag een factuur maken
+      abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+
+      // We halen nu alle data op die we nodig hebben voor de factuur
+      // NOTEER : dit is voor hotel alleen
+      // 1. we zoeken de klant 
+      //    check of serviceable_type == App\Hotel
+      //    haal de client_id die hoort bij serviceable_id
+      $client = $this->getClientFromServiceable($data['serviceable_id'], $data['serviceable_type']);
+      $afzender = DB::table('algemeens')->find(1);  
+
+      // en vullen er een array pdfdata mee
+      $verval = date('Y-m-d',strtotime($data['datum'].' +1 month'));
+      $factuurnummer = $data['jaar'].'/'.sprintf("%04d",$data['factuurvolgnummer']);
+      
+      $pdfdata = [
+        'naam' => $client->factuur_naam,
+        'straat' => $client->factuur_straat,
+        'huisnummer' => $client->factuur_huisnummer,
+        'bus' => $client->factuur_bus,
+        'postcode' => $client->factuur_postcode,
+        'gemeente' => $client->factuur_gemeente,
+        'factuurdatum' => $data['datum'],
+        'vervaldatum' => $verval, // date_format($verval, 'j-n-Y'),
+        'factuurnummer' => $factuurnummer,
+        'onzeref' => $factuurnummer,
+        'omschrijving' => $data['omschrijving'],
+        'bedrag' => $data['prijs'],   
+        
+            'afzender_naam' => $afzender->factuur_afzendernaam,
+            'afzender_straatennummer'=> $afzender->factuur_afzenderstraatennummer,
+            'afzender_ZipenGemeente' => $afzender->factuur_afzenderZipenGemeente,
+            'afzender_Telefoon' => $afzender->factuur_afzenderTelefoon,
+            'factuur_afzenderEmail' => $afzender->factuur_afzenderEmail,
+            'factuur_banknaam' => $afzender->banknaam,
+            'factuur_iban' => $afzender->iban,
+            'factuur_bic' => $afzender->bic          
+      ];
+      
+      $pdf = PDF::loadView('boekhouding.sjabloon', $pdfdata);
+      
+      return $pdf;
+    }
+    
+    /** hulpfunctie : getClientFromServiceable($id,$type)
+     *  met de serviceable_id en serviceable_type halen we de
+     *  bijhorende klant
+     */
+   public function getClientFromServiceable($id, $type)
+   {
+       try {
+           $service = DB::table('serviceables')->where([['serviceable_id', $id], ['serviceable_type', $type]])->first();       
+       } catch (Exception $e) {
+           echo "[BoekhoudingController@getClientFromServiceable] TIJDELIJK - geen overeenkomstige dienst gevonden - verwittig admin";
+       }
+       // haal nu de klant die hoort bij deze entry
+       $client_id = $service->client_id;
+       
+       // nu halen we alle data die nodig is voor deze service (en de andere services van deze klant die openstaan)
+       // We beginnen met alle klantgegevens
+       $client = Client::where('id', $client_id)->first();
+       return $client;
+   }
     
     public function factuur()
     {
@@ -331,7 +369,7 @@ class BoekhoudingController extends Controller
         ])->validate();
         
 
-         $afzender = DB::table('algemeens')->find(1);     
+          
                  
              
         $pdfdata = [

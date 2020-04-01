@@ -15,7 +15,7 @@ class Helper extends Model
      * function 1 : getService( $serviceable_id, $serviceable_type)
      * Naargelang het soort wordt de servicegegevens opgehaald.
      *
- WORDT NIET GEBRUIKT    
+ WORDT NIET GEBRUIKT   
      */
      public static function getService( $serviceable_id, $serviceable_type)
      {
@@ -46,6 +46,33 @@ class Helper extends Model
          // dd("id = ".$id);
           $client_id = DB::table('clients')->where('user_id', $id)->get()->first()->id;
           return $client_id;
+     }
+     
+     /**
+      * getFactuurnummer
+      *   maakt een factuurnummer aan. Let wel het volledig
+      *   factuurnummer heeft de form "jaar/volgnummer" en
+      *   hier maken we enkel het volgnummer aan.
+      *   Het volgnummer halen we uit
+      *   de tabel factuurs - waar we het hoogste nummer
+      *   halen voor de entry's van dit jaar.
+      *   Als er geen zo'n nummer is ... dan geven we hier het
+      *   nummer 1
+      */
+     public static function getFactuurnummer()
+     {
+          // bepaal het huidig jaar
+          $jaar = date('Y');
+          // Haal alle entries in factuurs waar jaar = $jaar
+          // rangschik desc en neem dan de eerste
+          $nummer = DB::table('factuurs')->where('jaar',$jaar)->orderByRaw('factuurvolgnummer DESC')->first();
+          if ($nummer == null)
+            return 1;
+          else {
+ //              dd($nummer);            
+//             dd("Helper.php - getFactuurnummer - verder doen");
+             return $nummer->factuurvolgnummer + 1;
+          }
      }
      
      
