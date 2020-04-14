@@ -36,6 +36,7 @@ Route::get('/home', function(){
 });
 
 /* Contactpersoon */
+Route::patch('contactpersonen/{id}/cpupdate', 'ContactpersoonController@cpupdate');
 Route::get('contactpersonen/{id}/destroy', 'ContactpersoonController@destroy');
 Route::resource('contactpersonen', 'ContactpersoonController');
 
@@ -61,6 +62,7 @@ Route::post('clients/contactpersoon', 'ClientController@contactpersoon');
 Route::post('clients/wachtwoordwijzig', 'ClientController@wachtwoordwijzig');
 Route::post('clients/factuur', 'ClientController@factuur');
 Route::get('clients/factuurview', 'ClientController@factuurview');
+Route::patch('clients/{id}/klantupdate', 'ClientController@klantupdate');
 Route::resource('clients', 'ClientController');
 
 /** Kamers **/
@@ -69,13 +71,14 @@ Route::get('kamers/{id}/destroy', 'KamerController@destroy');
 Route::resource('kamers', 'KamerController');
 
 /** Hotels **/
-// Route::post('hotels/reserveer', 'HotelController@reserveer'); 
+/*
 Route::post('hotels/reserveer', 'HotelController@reserveer');
 Route::post('hotels/{hotel}/wijzig','HotelController@wijzig');
 Route::get('hotelreservatie/{id}/detailwijzig', 'HotelController@admin_toon_wijzig');
 Route::get('hotelreservatie/adminwijzig', 'HotelController@admin_wijzig_annul');
 Route::post('hotelreservatie/storewijzig', 'HotelController@admin_store_wijzig');
 Route::patch('hotelreservatie/{id}/storewijzig','HotelController@admin_update_wijzig');
+*/
 Route::resource('hotels', 'HotelController');
 
 /** FileUpload **/
@@ -101,11 +104,19 @@ Route::post('/upload', function (Request $request) {
 Route::resource('calendars', 'CalendarController');
 
 /** boekhouding **/
+/*
 Route::get('boekhouding', 'BoekhoudingController@index');
 Route::get('boekhouding/{id}/{type}/detail', 'BoekhoudingController@detail');
 Route::post('boekhouding/bedrag', 'BoekhoudingController@store');
 Route::post('boekhouding/factuur', 'BoekhoudingController@factuur');
 Route::get('boekhouding/verzonden', 'BoekhoudingController@verzonden');
+*/
+Route::get('boekhouding/{id}/{type}/detail', 'BoekhoudingController@detail');
+Route::resource('boekhouding', 'BoekhoudingController');
+
+/** factuur **/
+Route::post('factuur/{id}/print', 'FactuurController@drukFactuur');
+Route::resource('factuur', 'FactuurController');
  
 /** pdf **/
 Route::get('pdf/generatePDF', 'PdfController@generatePDF');
@@ -130,12 +141,22 @@ Route::get('test', function(){
     dd($value);
     echo "test";
 });
+Route::get('testen', function(){
+   if (Auth::user()->admin == 0){
+       return view('welcome'); 
+   } else
+        return view('testen.index'); 
+    
+});
+
 
 /** vragen en vraagtypes **/
+/*
 Route::get('vraag/{id}/antwoord', 'VraagController@antwoord');
 Route::post('vraag/antwoord', 'VraagController@antwoordStore');
 Route::patch('vraag/{id}/antwoord', 'VraagController@antwoordUpdate');
 Route::get('vraag/{id}/detail', 'VraagController@detail');
+*/
 Route::resource('vraag', 'VraagController');
 Route::resource('vragentype', 'VragentypeController');
 

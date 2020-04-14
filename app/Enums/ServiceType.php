@@ -8,7 +8,6 @@ final class ServiceType extends Enum
 {
     public static function getDescription($value) : string
     {
-
         switch ($value){
             case 'App\Hotel':
                 return "hotel";

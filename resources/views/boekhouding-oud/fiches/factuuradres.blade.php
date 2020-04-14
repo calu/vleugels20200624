@@ -1,82 +1,50 @@
 <section id="facturatie-section">
 	
 	<div class="col-12 grid-margin">
-		<div class="cord">
-			<h4 class="card-title">Het facturatie adres</h4>
-				
-			<p class="card-description">De betaling gegevens ter controle</p>
-<?php  // dd($info); ?>
-		<form>
-			<div class="row">
-				<div class="col-md-10">
-					<div class="form-group row">
-						<label for="naam" class="col-sm-4 col-form-label">bestemmeling</label>
-						<div class="col-sm-6">
-							<input type="text" class="form-control" 
-							  name="naam" readonly="readonly" value="{{ $info['factuur_naam'] }}" />
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title">Facturatie adres</h4>  
+
+			  	<p class="card-description">Deze gegevens enkel ter controle</p>
+				@php
+				$client = $info['client'];
+				$adres = $client->straat.",".$client->huisnummer;
+				if (strlen($client->bus) > 0)
+				  $adres = $adres." bus : ".$client->bus;
+				$gemeente = $client->postcode." ".$client->gemeente;
+				@endphp
+				<form> 
+					<div class="form-group row" style="margin-bottom: -2.25rem">
+						<label for="naam" class="col-sm-2 col-form-label  font-weight-bold">Bestemmeling</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control-plaintext" id="naam"
+							       readonly="readonly" value="{{ $client->factuur_naam  }}" />
 						</div>
 					</div>
-				</div><!-- col-md-4 -->							
-			</div><!-- row -->
-			
-			<div class="row">
-				<div class="col">
-					<label for="straat" class="col-form-label">straat </label>
-				</div>
-				<div class="col">
-					<input type="text" class="form-control" name="straat"
-					       value="{{ $info['factuur_straat'] }}" readonly="readonly" />
-				</div>
-				
-				<div class="col">
-					<label for="huisnummer" class="col-form-label">nummer </label>
-				</div>
-				<div class="col-md-2">
-					<input type="text" class="form-control" name="huisnummer"
-					       value="{{ $info['factuur_huisnummer'] }}" readonly="readonly" />
-				</div>	
-
-				<div class="col">
-					<label for="bus" class="col-form-label">bus </label>
-				</div>
-				<div class="col-md-2">
-					<input type="text" class="form-control" name="bus"
-					       value="{{ $info['factuur_bus'] }}" readonly="readonly" />
-				</div>	
-			</div>
-			
-			<div class="row">
-				<div class="col">
-					<label for="postcode" class="col-form-label">postcode </label>
-				</div>
-				<div class="col">
-					<input type="text" class="form-control" name="postcode"
-					       value="{{ $info['factuur_postcode'] }}" readonly="readonly" />
-				</div>
-				
-				<div class="col">
-					<label for="gemeente" class="col-form-label">nummer </label>
-				</div>
-				<div class="col-md-2">
-					<input type="text" class="form-control" name="gemeente"
-					       value="{{ $info['factuur_gemeente'] }}" readonly="readonly" />
-				</div>	
-			</div>		
-			
-			<div class="row">
-				<div class="col">
-					<label for="email" class="col-form-label">e-mail </label>
-				</div>
-				<div class="col">
-					<input type="text" class="form-control" name="email"
-					       value="{{ $info['factuur_email'] }}" readonly="readonly" />
-				</div>
-			</div>
-				
-		</form>
-		</div><!-- cord -->
-	</div><!-- col-12 -->
-
-
-
+					
+					<div class="form-group row" style="margin-top: -2.25rem; margin-bottom: -2.25rem">
+						<label class="col-sm-2 col-form-label font-weight-bold">adres</label>	
+						<div class="col-sm-6">
+							<input type="text" class="form-control-plaintext" id="straat"
+							       readonly="readonly" value="{{ $adres }}" />							
+						</div>
+					</div>
+					<div class="form-group row" style="margin-top: -2.25rem; margin-bottom: -2.25rem">
+						<label class="col-sm-2 col-form-label font-weight-bold">gemeente</label>	
+						<div class="col-sm-6">
+							<input type="text" class="form-control-plaintext" id="gemeente"
+							       readonly="readonly" value="{{ $gemeente }}" />							
+						</div>
+					</div>
+					<div class="form-group row" style="margin-top: -2.25rem; margin-bottom: -2.25rem">
+						<label class="col-sm-2 col-form-label font-weight-bold">e-mail</label>	
+						<div class="col-sm-6">
+							<input type="text" class="form-control-plaintext" id="-email"
+							       readonly="readonly" value="{{ $client->email }}" />							
+						</div>
+					</div>								
+				</form>   
+        	</div>
+		</div>	
+    </div>
 </section>

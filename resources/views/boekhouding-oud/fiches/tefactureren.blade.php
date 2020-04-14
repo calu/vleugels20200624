@@ -11,9 +11,6 @@
  $dagverblijfs
  $therapies
  ** einde TODO */
- 
- 
- 
  // dd($hotels);
 @endphp
 

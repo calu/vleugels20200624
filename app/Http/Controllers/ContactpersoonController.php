@@ -209,6 +209,60 @@ class ContactpersoonController extends Controller
        
         return ['message' => 'contactpersonen'];       
     }
+    
+    /**
+     * update de contacptersoongegevens
+     * 
+     * @param 
+     * @return
+     *
+     */
+    public function cpupdate(Request $request)
+    {
+        // enkel admin mag hier komen
+        abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+        
+        $thisRequest = request()->all();
+        $data = $thisRequest['data'];    
+
+        session(['thisRequest' => $thisRequest]);
+        
+        // We beginnen met de validatie
+         $validator = Validator::make( $data, [
+          'voornaam' => 'required | min:2',
+          'familienaam' => 'required | min:2',
+          'relatie' => 'required',
+          'straat' => 'required | min:2',
+          'huisnummer' => 'required',
+          'postcode' => 'required | min:4',
+          'gemeente' => 'required | min:3',
+          'telefoon' => 'required_without:gsm',
+          'gsm' => 'required_without:telefoon',   
+          'email' => 'email'
+        ])->validate();      
+        
+        // spaar nu alles op
+        $cp = Contactpersoon::findOrFail($data['id']);             
+        $cp->voornaam = $data['voornaam'];
+        $cp->familienaam = $data['familienaam'];
+        $cp->relatie = $data['relatie'];
+        $cp->straat = $data['straat'];
+        $cp->huisnummer = $data['huisnummer'];
+        $cp->postcode = $data['postcode'];
+        $cp->gemeente = $data['gemeente'];
+        $cp->telefoon = $data['telefoon'];
+        $cp->gsm = $data['gsm'];
+        $cp->email = $data['email'];
+        $cp->save();
+        
+        $bericht = "de gegevens van de contactpersoon werden geupdate";
+        session()->flash('bericht', $bericht); 
+       
+        
+//        $url = 'test';
+        $url = "boekhouding/". $data['serviceable_id']."/".$data['serviceable_type']."/detail";
+        return ['message' => $url];         
+    }
 
     /**
      * Remove the specified resource from storage.

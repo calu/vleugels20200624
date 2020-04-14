@@ -9,7 +9,7 @@ class Factuur extends Model
 {
     protected $fillable = [
         'factuurvolgnummer', 'jaar', 'datum', 'serviceable_id', 'serviceable_type',
-        'omschrijving', 'aantal', 'prijs'
+        'omschrijving', 'aantal', 'prijs', 'betaald', 'referentie'
     ];
     
     /**
@@ -21,4 +21,6 @@ class Factuur extends Model
         $x = Factuur::where('jaar', $jaar)->get();
         dd($x);
     }
+    
+
 }

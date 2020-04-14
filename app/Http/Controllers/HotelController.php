@@ -31,6 +31,36 @@ class HotelController extends Controller
      */
     public function index()
     {
+        // al wie aangemeld is (klant) mag hier binnenkomen - en dus geen bijkomende restrictie
+        
+        // welke klant is dit?
+        try{
+            $client_id = Helper::getClient();
+            $client = \App\Client::findOrFail($client_id);
+        } catch( Exception $e){
+            dd("HotelController@index - geen client gevonden");
+        }
+        
+        // We verzamelen alle informatie voor de reservatie hier om een nieuwe Hotel entry te maken
+        $vandaag = date("Y-m-d"); // in sql formaat
+        $info['id'] = 0;
+        $info['begindatum'] = $vandaag;
+        $info['einddatum'] = $vandaag;
+        $info['kamer_id'] = 1;
+        $info['status'] = 'aangevraagd';
+        $info['bedrag'] = 0;
+        $info = json_encode($info);
+        
+        // verzamel nu ook data voor de reedsuitgevoerde reservaties voor deze klant
+        // TODO
+        $hotelreservaties = [];
+        $hotelreservaties = json_encode($hotelreservaties);
+        
+        // roep nu de view
+        return view('hotelreservatie/index', compact('info', 'client', 'hotelreservaties'));
+    }
+    /* public function index()
+    {
         // ieder aangemelde client mag hier binnenkomen
         // We halen de client_id op uit de sessie
          $client_id = Helper::getClient();
@@ -48,7 +78,7 @@ class HotelController extends Controller
          /*
           * in serviceables zoek je de serviceable_id voor deze klant die App\Hotel als serviceable_type hebben
           * daarmee zoeken we nu de entries in tabel Hotels
-          */
+          * /
           $serviceable_ids = DB::table('serviceables')->where([['serviceable_type', 'App\Hotel'], ['client_id', $client_id]])->get();
           $hotels = collect([]);
           if (!$serviceable_ids->isEmpty()){
@@ -60,7 +90,6 @@ class HotelController extends Controller
               $hotels = DB::table('hotels')->whereIn('id', $serviceable_id)->get();
      //         dd($hotels);
           }
-         
          return view('hotelreservatie/index', compact('info', 'hotels'));
     }
 
@@ -68,7 +97,7 @@ class HotelController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     * /
     public function create()
     {
         //
@@ -80,6 +109,40 @@ class HotelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function store(Request $request)
+    {
+        $thisRequest = request()->all();
+        $data = $thisRequest['data'];
+        // session(['requesty' => $thisRequest]);
+        
+        // Valideer de invoer
+        $validator = Validator::make($data, [
+           'begindatum' => 'required | date | after:tomorrow',
+           'einddatum' => 'required | date | after:begindatum', 
+        ])->validate();
+        
+        // Als we hier terechtkomen is alles ok en kunnen we nu opsparen
+        // eerst een entry bijvoegen in Hotels
+        $hotel = \App\Hotel::create($data);
+        // zoek nu de klant
+         try{
+            $client_id = Helper::getClient();
+            $client = \App\Client::findOrFail($client_id);
+        } catch( Exception $e){
+            dd("HotelController@store - geen client gevonden");
+        }     
+        // voeg nu ook toe aan serviceable
+        $hotel->service($client);
+        
+        // voeg nu een flash bericht toe
+        $bericht = "Je aanvraag werd geregistreerd. Binnenkort contacteren we je voor bevestiging";
+        session()->flash('bericht', $bericht);  
+        
+        $message = 'test';
+        $message = 'home';
+        return ['message' => $message];
+    }
+    /*
     public function store(Request $request)
     {
        // session(['request' => $request]);
@@ -137,7 +200,7 @@ class HotelController extends Controller
      *
      * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
-     */
+     * /
     public function show(Hotel $hotel)
     {
         // iedereen die aangemeld is, mag hier komen
@@ -150,7 +213,7 @@ class HotelController extends Controller
      *
      * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
-     */
+     * /
     public function edit(Hotel $hotel)
     {
         //
@@ -162,20 +225,50 @@ class HotelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
+     *
+     *  Hier kom je vanuit :
+     *    Reservatie.vue opgeroepen in boekhouding.detail.reservatie dat komt uit boekhouding.detail
      */
-/*****     
-    public function update(Request $request, Hotel $hotel)
+     
+    public function update(Request $request, $id)
     {
-        //
+        // enkel admin mag hier komen
+       abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);    
+       
+        $thisRequest = request()->all();
+        $data = $thisRequest['data'];
+        session(['thisRequest' => $thisRequest]);
+        
+        // Voer nu de validatie uit
+        // Valideer de invoer - we zeggen hier niet dat de data in de toekomst moeten liggen,
+        //   maar dit komt doordat de boekhouder ook oudere data moet kunnen bewerken
+        $validator = Validator::make($data, [
+           'begindatum' => 'required | date ',
+           'einddatum' => 'required | date ', 
+        ])->validate();     
+           
+        // spaar het nu
+        $hotel = Hotel::findOrFail($data['id']);
+        $hotel->begindatum = $data['begindatum'];
+        $hotel->einddatum = $data['einddatum'];
+        $hotel->save();
+        
+        $bericht = "De verblijfdata werden geupdated";
+        session()->flash('bericht', $bericht);
+        
+       $message = 'test';
+       $message = "/boekhouding/".$data['serviceable_id']."/".$data['serviceable_type']."/detail";
+        // /boekhouding/{{ $dienst->serviceable_id }}/{{ $type }}/detail
+        return ['message' => $message];
     }
-***/
+
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Hotel  $hotel
      * @return \Illuminate\Http\Response
-     */
+     * /
     public function destroy(Hotel $hotel)
     {
         //
@@ -208,7 +301,7 @@ class HotelController extends Controller
         }
         
         
-        $hoteldata['begindatum'] = $request->input('begindatum');
+        $hoteldata['begindatum'] = $request->input('begindatum'); 
         $hoteldata['einddatum'] = $request->input('einddatum');
         $hoteldata['kamer_id'] = $kamer_id;
         $hoteldata['status'] = 'aangevraagd';
@@ -255,7 +348,7 @@ class HotelController extends Controller
      *  met daarin de inhoud van de vraag zoals aangevraagd
      *
      * @param : $data is hetgeen van het formulier werd gestuurd
-     */
+     * /
     public function zendMail($data)
     {
  //       dd($data);
@@ -296,7 +389,7 @@ class HotelController extends Controller
      * Deze functie geeft een overzicht van de hotel aanvragen
      * voor wijziging of annulatie.
      * 
-     */
+     * /
     public function admin_wijzig_annul()
     {
         abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);        
@@ -312,7 +405,7 @@ class HotelController extends Controller
      * admin_toon_wijzig
      * haalt de nodig info van hotel op en 
      * gaat dan naar views.hotelreservatie.fiches.detailwijzig
-     */
+     * /
     public function admin_toon_wijzig($id)
     {
         // enkel admin mag dit doen
@@ -357,7 +450,7 @@ class HotelController extends Controller
     /** admin_store_wijzig
      * hier komen we waarschijnlijk nooit terecht
      *
-     */
+     * /
     public function admin_store_wijzig_oud()
     {
         session(['request' => 'admin_store_wijzig']);
@@ -389,7 +482,7 @@ class HotelController extends Controller
         * misschien ook nieuwe factuur verzenden
         * ook entry in hotel_wiizigs verwijderen
         * dan melden als aangepast, met misschien een e-mail
-        */
+        * /
        
        // stel de status op goedgekeurd 
        // sla de hotel gegevens op
@@ -461,7 +554,7 @@ class HotelController extends Controller
         $info['vleugels_email'] = $algemeen->factuur_afzenderEmail;
         
         // nu zend je de mail
-        /*als de contactpersoon geen mail heeft .... stuur naar info */
+        /*als de contactpersoon geen mail heeft .... stuur naar info *   /
         $return = true;
         if (empty($email)){
 //            stuur de mail naar de info
@@ -471,12 +564,12 @@ class HotelController extends Controller
         Mail::to($email)->send(new bevestigWijzigingMail($info));
         
   /*      session(['mail1' => $contactpersoon]);
-        session(['mail2' => $data]);
+        session(['mail2' => $data]); 
         session(['mail3' => $origdata]);
         session(['mail4' => $info]);
-        session(['test' => $algemeen]); */
+        session(['test' => $algemeen]); * /
         return $return; // false als geen mail kan verstuurd worden
     }
     
-    
+ */   
 }

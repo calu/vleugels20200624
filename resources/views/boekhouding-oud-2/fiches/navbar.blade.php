@@ -11,20 +11,6 @@
     </li>
     
      <li class="nav-item">
-      <a class="nav-link" href="#reservatie-section">
-        <i class="mdi mdi-calendar-plus menu-icon"></i>
-        <span class="menu-title">reservatie</span>
-      </a>
-    </li>   
-
-     <li class="nav-item">
-      <a class="nav-link" href="#client-section">
-        <i class="mdi mdi-contact-mail menu-icon"></i>
-        <span class="menu-title">klant</span>
-      </a>
-    </li>   
-        
-     <li class="nav-item">
       <a class="nav-link" href="#facturatie-section">
         <i class="mdi mdi-login menu-icon"></i>
         <span class="menu-title">adres factuur</span>
@@ -43,6 +29,14 @@
         <i class="mdi mdi-contact-mail menu-icon"></i>
         <span class="menu-title">contactpersoon</span>
       </a>
-    </li>                   
+    </li>   
+
+      <li class="nav-item">
+      <a class="nav-link" href="#zendfactuur-section">
+        <i class="mdi mdi-contact-mail menu-icon"></i>
+        <span class="menu-title">zend factuur</span>
+      </a>
+    </li>                         
   </ul>
+
 </nav>

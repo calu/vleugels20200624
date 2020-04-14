@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -131,7 +131,7 @@ var Errors = /*#__PURE__*/function () {
   }, {
     key: "record",
     value: function record(errors) {
-      this.errors = errors; //    this.errors = errors.response.data.errors;
+      this.errors = errors; //   this.errors = errors.response.data.errors;
       // console.log("recorded  " + this.errors + "\n");
     }
   }, {
@@ -154,7 +154,7 @@ var Errors = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!************************************************!*\
   !*** multi ./resources/js/utilities/Errors.js ***!
   \************************************************/

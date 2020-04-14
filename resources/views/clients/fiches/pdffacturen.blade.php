@@ -17,14 +17,19 @@ foreach ($koppels as $koppel)
 		$facturen[] = $jaarnummer;
 	}
 }
-// verwijder alle dubbele entries
-$factuniek = array_unique($facturen);
+//dd($facturen);
+// verwijder alle dubbele entries -- deze komen niet voor !!??
+// $factuniek = array_unique($facturen);
+$factuniek = $facturen;
 // dd($factuniek);
 @endphp
 <div class="col-12 grid-margin">
 	<div class="card">
 		<div class="card-body">
 			<h4 class="card-title">De reeds verstuurde Facturen</h4>  
+		    @if (empty($factuniek))
+			  <h4 class="d-flex justify-content-center">geen facturen verstuurd</h4>
+			@else
 			<table class="table">
 				<thead>
 					<th scope="col">Jaar</th>
@@ -41,6 +46,7 @@ $factuniek = array_unique($facturen);
 				  @endforeach
 				</tbody>
 		      </table>
+			  @endif
 			</ul>
 		</div>
 	</div>

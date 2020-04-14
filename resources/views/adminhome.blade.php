@@ -162,6 +162,20 @@
 		</div>							
 	</div>
 	
-	
+	<div class="row">	
+		<div class="col md-4">
+			<?php				
+				$info = [
+					'header' => 'TEST',
+					'icon' => 'fa-handshake',
+					'text' => 'een test',
+					'button' => 'test',
+					'href' => '/testen',
+					'aantal' => 0
+				];
+			?>
+			@include('admin.partials.card', $info)
+		</div>							
+	</div>	
 </div>
 @endsection

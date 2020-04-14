@@ -3,7 +3,7 @@
 @section('content')
 <div class="super-container">
 	<h1 class="d-flex justify-content-center">Overzicht van de vragen van de klanten</h1>
-	@include('partials.flash')
+	@include('partials.flash') 
 	
 	
 	<div class="container">

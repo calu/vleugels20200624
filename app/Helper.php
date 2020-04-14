@@ -15,16 +15,17 @@ class Helper extends Model
      * function 1 : getService( $serviceable_id, $serviceable_type)
      * Naargelang het soort wordt de servicegegevens opgehaald.
      *
- WORDT NIET GEBRUIKT   
+     * gebruikt bij Boekhouding - aangevraagde diensten 
      */
-     public static function getService( $serviceable_id, $serviceable_type)
+     public static function getServiceOmschrijving( $serviceable_id, $serviceable_type)
      {
          switch ($serviceable_type)
          {
              case 'App\Hotel':
-               $service = DB::table('hotels')->find($serviceable_id);
- //              dd($service);
-               return $service;
+               $hotel = DB::table('hotels')->find($serviceable_id);
+               $omschrijving = "verblijf van ".$hotel->begindatum." tot ".$hotel->einddatum;
+//               dd($hotel);
+               return $omschrijving;
              case 'App\Dagverblijf':
                dd("[Helper@getService] dagverblijf nog te implementeren ");
                break;
@@ -73,6 +74,27 @@ class Helper extends Model
 //             dd("Helper.php - getFactuurnummer - verder doen");
              return $nummer->factuurvolgnummer + 1;
           }
+     }
+     
+     /** 
+      * We halen het klant record, vertrekkend van een serviceable(id,type);
+      *
+      * @param :
+      *    serviceable_id
+      *    serviceable_type
+      *
+      * @return : $client
+      *
+      */
+     public static function getClientFromServiceable($id,$type)
+     {
+          $client_id = DB::table('serviceables')->where([
+               ['serviceable_id', $id],
+               ['serviceable_type', $type]
+          ])->first()->client_id;
+          
+          $client = \App\Client::findOrFail($client_id)->first();
+          return $client;
      }
      
      

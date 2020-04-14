@@ -5,8 +5,8 @@
 	<h1 class="d-flex justify-content-center">Alle services</h1>
 	<div class="container">
 		@include('partials.flash');
-
-		<h1>verzonden</h1>
+		
+		<p><a href="/home" class="btn btn-primary">terug naar top</a></p>
 	</div>	
 </div>
 @endsection

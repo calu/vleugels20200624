@@ -24,7 +24,7 @@
 				    <div class="invalid-feedback d-block" v-if="form.errors.has('einddatum')"
 					     v-text="form.errors.get('einddatum')" />									 
 				</div>			
-			</div>		
+			</div>		 
 						
 			<div class="control">
 				<button class="btn btn-primary">Reserveer</button>
@@ -47,20 +47,16 @@ export default{
 	
 	methods:{
 		CalcForm(){
-//		  console.log("CalcForm - data = " + this.data);
 			return new Form(this.data);
 		},
 		
 		onSubmit(){
-//		console.log("onSubmit : " + this.form.id);
 			if ( this.form.id == 0){
 				this.form.post('/hotels')
-//				  .then( data => this.$emit('completed', data))
 				  .then( data => this.spring(data.message))
 				  .catch( errors => console.log(errors));
 			} else {
 				this.form.patch('/hotels/' + this.form.id)
-//				  .then ( data => this.$emit('completed', data) )
                   .then ( data => this.spring(data.message))
 				  .catch( errors => console.log(errors));
 			}

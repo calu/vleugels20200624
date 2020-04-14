@@ -251,9 +251,116 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
-    }
+        // enkel admin mag hier komen
+        abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+        
+        $thisRequest = request()->all();
+        $data = $thisRequest['data'];
+               
 
+        session(['thisRequest' => $thisRequest]);
+        
+        // eerst valideren we
+        $validator = Validator::make( $data, [
+          'voornaam' => 'required | min:2',
+          'familienaam' => 'required | min:2',
+          'factuur_straat' => 'required | min:2',
+          'factuur_huisnummer' => 'required | min:1',
+          'factuur_postcode' => 'required | min:4',
+          'factuur_gemeente' => 'required | min:2',
+          'factuur_email' => 'email | nullable'
+        ])->validate();        
+        
+        // hier moet je met voor- en familienaam de "factuur_naam" maken
+        // update de data
+        $client = Client::findOrFail($data['id']);
+ //        session(['client' => $client]);       
+        $client->factuur_naam = $data['voornaam']." ".$data['familienaam'];
+        $client->factuur_straat = $data['factuur_straat'];
+        $client->factuur_huisnummer = $data['factuur_huisnummer'];
+        $client->factuur_bus = $data['factuur_bus'];
+        $client->factuur_postcode = $data['factuur_postcode'];
+        $client->factuur_gemeente = $data['factuur_gemeente'];
+        $client->factuur_email = $data['factuur_email'];
+        $client->save();
+        
+        // nu maken we ook nog een bericht
+        $bericht = "de factuuradres gegevens werden geupdate";
+        session()->flash('bericht', $bericht);
+        
+        $url = 'test';
+
+//        $servicetype = \App\Enums\ServiceType::getDescription($data['serviceable_type']);
+        $url = "boekhouding/". $data['serviceable_id']."/".$data['serviceable_type']."/detail";
+    
+        return ['message' => $url];        
+    }
+    
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Client  $client
+     * @return \Illuminate\Http\Response
+     */
+    public function klantupdate(Request $request, Client $client)
+    {
+        // enkel admin mag hier komen
+        abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+        
+        $thisRequest = request()->all();
+        $data = $thisRequest['data'];
+               
+
+        session(['thisRequest' => $thisRequest]);
+        
+        // validate
+         $validator = Validator::make( $data, [
+          'voornaam' => 'required | min:2',
+          'familienaam' => 'required | min:2',
+          'straat' => 'required | min:2',
+          'huisnummer' => 'required',
+          'postcode' => 'required | min:4',
+          'gemeente' => 'required | min:3',
+          'telefoon' => 'required_without:gsm',
+          'gsm' => 'required_without:telefoon',   
+          'geboortedatum' =>  'required | date',
+          'mutualiteit_id' =>  'required | integer',
+          'rrn' => 'required | regex : /[0-9]{2}.[0-9]{2}.[0-9]{2}-[0-9]{3}.[0-9]{2}/',
+          'statuut' => 'required',
+        ])->validate();         
+        
+        
+        
+        
+        // save
+        $client = Client::findOrFail($data['id']);
+        $client->voornaam = $data['voornaam'];
+        $client->familienaam = $data['familienaam'];
+        $client->straat = $data['straat'];
+        $client->huisnummer = $data['huisnummer'];
+        $client->bus = $data['bus'];
+        $client->postcode = $data['postcode'];
+        $client->gemeente = $data['gemeente'];
+        $client->telefoon = $data['telefoon'];
+        $client->gsm = $data['gsm'];
+        $client->geboortedatum = $data['geboortedatum'];
+        $client->mutualiteit_id = $data['mutualiteit_id'];
+        $client->rrn = $data['rrn'];
+        $client->statuut = $data['statuut'];
+        // ook de factuur_naam aanpassen !!!!        
+        $client->factuur_naam = $data['voornaam']." ".$data['familienaam'];
+        $client->save();
+
+       // nu maken we ook nog een bericht
+        $bericht = "de klantgegevens werden geupdate";
+        session()->flash('bericht', $bericht); 
+       
+//       $url = 'test';
+        $url = "boekhouding/". $data['serviceable_id']."/".$data['serviceable_type']."/detail";
+        return ['message' => $url];      
+    }
+     
     /**
      * Remove the specified resource from storage.
      *
@@ -600,6 +707,7 @@ class ClientController extends Controller
             $factuur->omschrijving = 'Verblijf in hotel van '.$hotel['begindatum'].' tot '.$hotel['einddatum'];
             $factuur->aantal =   1;
             $factuur->prijs = $hotel['bedrag'];
+            $factuur->betaald = false;
             
             // stel de status van deze hotel_id op 'goedgekeurd'
             DB::table('hotels')->where('id', $hotel['hotel_id'])->update(['status' => 'goedgekeurd']);

@@ -11,6 +11,7 @@
         "php": "^7.2.5",
         "barryvdh/laravel-dompdf": "^0.8.5",
         "bensampo/laravel-enum": "^1.20",
+        "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^7.0",

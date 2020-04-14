@@ -107,7 +107,7 @@
 						</option>
 					  </select>
 					  <div class="invalid-feedback" v-if="form.errors.has('mutualiteit')" v-text="form.errors.get('mutualiteit')"></div>
-					</div>
+					</div> 
 
 					<div class="form-group col-md-6">
 					  <label for="statuut">Statuut</label>
@@ -116,7 +116,7 @@
 						  {{ statuut.key }} 
 						</option>
 					  </select>
-					  <div class="invalid-feedback" v-if="form.errors.has('mutualiteit')" v-text="form.errors.get('mutualiteit')"></div>
+					  <div class="invalid-feedback" v-if="form.errors.has('statuut')" v-text="form.errors.get('statuut')"></div>
 					</div>					
 				</div>						
 			</div>

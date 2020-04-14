@@ -1,13 +1,11 @@
       <div class="main-panel">
         <div class="content-wrapper">
-          @include('boekhouding.fiches.betaling')
-          @include('boekhouding.fiches.factuuradres')
-          @include('boekhouding.fiches.kamer')
-          @include('boekhouding.fiches.contactpersoon')
-          @include('boekhouding.fiches.zendfactuur')
-          
-
- 
+           @include('boekhouding.fiches.betaling')	
+           @include('boekhouding.fiches.reservatie')
+           @include('boekhouding.fiches.client')
+           @include('boekhouding.fiches.factuuradres')
+           @include('boekhouding.fiches.kamer')		
+           @include('boekhouding.fiches.contactpersoon') 
         <!-- content-wrapper ends -->
       
         <!-- partial:partials/_footer.html -->
