@@ -3,17 +3,18 @@
 		<a class="nav-link active" id="pills-aangevraagd-tab" data-toggle="pill" href="#pills-aangevraagd" role="tab" aria-controls="pills-aangevraagd" aria-selected="true">aangevraagd</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link" id="pills-wijzig-tab" data-toggle="tab" href="#pills-wijzig" role="tab" aria-controls="pills-wijzig" aria-selected="true">wijzig/annulatie</a>
+		<a class="nav-link" id="pills-goedgekeurd-tab" data-toggle="tab" href="#pills-goedgekeurd" role="tab" aria-controls="pills-goedgekeurd" aria-selected="true">goedgekeurd</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link" id="pills-aanvaard-tab" data-toggle="tab" href="#pills-aanvaard" role="tab" aria-controls="pills-aanvaard" aria-selected="true">aanvaard</a>
+		<a class="nav-link" id="pills-wijziging-tab" data-toggle="tab" href="#pills-wijziging" role="tab" aria-controls="pills-wijziging" aria-selected="true">wijziging/annulatie</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link" id="pills-actief-tab" data-toggle="tab" href="#pills-actief" role="tab" aria-controls="pills-actief" aria-selected="true">actief</a>
+		<a class="nav-link" id="pills-aftewerken-tab" data-toggle="tab" href="#pills-aftewerken" role="tab" aria-controls="pills-aftewerken" aria-selected="true">aftewerken</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link" id="pills-factuur-tab" data-toggle="tab" href="#pills-factuur" role="tab" aria-controls="pills-factuur" aria-selected="true">factuur</a>
-	</li>			
+		<a class="nav-link" id="pills-gefactureerd-tab" data-toggle="tab" href="#pills-gefactureerd" role="tab" aria-controls="pills-gefactureerd" aria-selected="true">gefactureerd</a>
+	</li>	
+		
 </ul>
 
 

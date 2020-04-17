@@ -34,9 +34,15 @@ class BoekhoudingController extends Controller
     {
       // enkel de admin mag dit bekijken
       abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
-      $diensten = DB::table('serviceables')->paginate(10);
       
-      return view('boekhouding.index', compact('diensten')); 
+     // $diensten = DB::table('serviceables')->paginate(10);
+      
+      // We onderzoeken per categorie ($hotels, $dagverblijf, $therapie)
+      $info['hotel'] = DB::table('hotels')->get();
+      $info['dagverblijf'] = null; // TODO
+      $info['therapie'] = null; // TODO
+      $info = json_encode($info);
+      return view('boekhouding.index', compact('info')); 
       
     }
     /*
@@ -104,8 +110,7 @@ class BoekhoudingController extends Controller
          $factuur['aantal'] = $info['service']['aantaldagen'];
          $factuur['prijs'] = $info['service']['hotel']->bedrag;
          $factuur['betaald'] = false;
-         $factuur['referentie'] = null;
-         $info['factuur'] = $factuur;   
+         $factuur['referentie'] = null; 
       }
       else
       {
@@ -116,9 +121,13 @@ class BoekhoudingController extends Controller
         Als dat zo is, dan tonen we hier enkel de laatste (datum = leidraad)
          */
         $factuur = $facturen->first();
-        $info['factuur'] = $factuur;
+        
       }
- 
+      $info['factuur'] = $factuur;
+      
+      $info['factuur']['mogelijknr'] = Helper::getFactuurnummer();
+      $info['factuur']['mogelijkjaar'] = date('Y');
+      
       return view('boekhouding.detail', compact('info'));
     }
     /*

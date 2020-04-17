@@ -7,33 +7,40 @@
 			  	<p class="card-description">
 				  het officiële factuurnummer krijgt de vorm jaar/volgnummer (vb. 2020/0001)
 				  <br />Check de overige rubrieken alvorens te bevestigen
+				  <br />druk steeds op "Verzend" om je wijziging te bevestigen
 				 </p>
-
 				<form class="form-sample" method="POST" action="/factuur"
               		@submit.prevent="onSubmit"
               		@keydown="form.errors.clear($event.target.name)">
 					  
 					<!--   factuurvolgnummer en jaar worden pro forma als het 0 is -->
 					<!--   datum is de factuurdatum, maar moet kunnen gewijzigd worden -->			
-					<div class="form-group row" style="margin-bottom: +2.25rem">
+					<div class="form-group row" style="margin-bottom: +3.25rem" :key="gewijzigd">
 						<label for="factuurnummer" class="col-sm-2 col-form-label  font-weight-bold">factuurnummer</label>
 						<span v-if="form.factuurvolgnummer == null">
-							<div class="col-sm-10">
-								<input type="text" class="form-control-plaintext" id="factuurnummer"
-	   							       readonly="readonly" value = 'PRO FORMA' />
+							<!-- we maken een radiobutton met vraag Pro forma ... Ja? Neen? -->
+							<label class="form-check-label">PRO FORMA?</label> 
+							<div class="form-check form-check-inline">
+							  <input class="form-check-input" type="radio" name="factuurnrradio" id="factuurnrradio1" value="ja" checked @change="onFactuurnr($event)">
+							  <label class="form-check-label" for="factuurnrradio1">Ja</label>
 							</div>
+							<div class="form-check form-check-inline">
+							  <input class="form-check-input" type="radio" name="factuurnrradio" id="factuurnrradio2" value="neen" @change="onFactuurnr($event)">
+							  <label class="form-check-label" for="factuurnrradio2">Neen</label>
+							</div>													
 						</span>
-						<span v-if="form.factuurvolgnummer">
-							<div class="col-sm-4">
+						<span v-if="form.factuurvolgnummer" class="col form-inline">
+						    <label for="factuurvolgnummer" class="col-sm-2 col-form-label font-weight-bold">volgnummer</label>
+							<div class="col-sm-4 col"> 
 								<input type="text" class="form-control" name="factuurvolgnummer" id="factuurvolgnummer"
-								       v-model="form.factuurvolgnummer">
+								       v-model="form.factuurvolgnummer" readonly="readonly">
 							    <div class="invalid-feedback d-block" v-if="form.errors.has('factuurvolgnummer')"
 								     v-text="form.errors.get('factuurvolgnummer')"></div>	
 							</div>
-							<label for="jaar" class="col-sm-2 col-form-label  font-weight-bold">jaar</label>
+							<label for="jaar" class="col-sm-2 col-form-label font-weight-bold">jaar</label>
 							<div class="col-sm-4">							
 								<input type="text" class="form-control" name="jaar" id="jaar"
-								       v-model="form.jaar">
+								       v-model="form.jaar" readonly="readonly">
 							    <div class="invalid-feedback d-block" v-if="form.errors.has('jaar')"
 								     v-text="form.errors.get('jaar')"></div>	
 							</div>									 						
@@ -60,7 +67,7 @@
 					  en als er ook nog andere zijn - referentie -->
 					<div class="form-group row" style="margin-top : +2.25rem; margin-bottom: -2.25rem">						 						
 						<!-- als betaald, meld dit -->
-						<span v-if="form.betaald == true">						
+						<span v-if="form.betaald == true" class="col-sm-6">	 					
 							<div class="form-group col-sm-6">
 								<div class="form-group col-sm-6">
 								  <span class="text-danger font-weight-bold">betaald</span>
@@ -112,12 +119,19 @@ export default{
 	data(){
 		return {
 			form : this.CalcForm(),
+			gewijzigd : false,
 		}
 	},
 	
 	methods:{
 		CalcForm(){
 			return new Form(this.data);
+		},
+		
+		onFactuurnr(event){
+		  this.form.factuurvolgnummer = this.form.mogelijknr;
+		  this.form.jaar = this.form.mogelijkjaar;
+		  this.gewijzigd = true;
 		},
 		
 		onSubmit(){

@@ -78,7 +78,8 @@ Route::get('hotelreservatie/{id}/detailwijzig', 'HotelController@admin_toon_wijz
 Route::get('hotelreservatie/adminwijzig', 'HotelController@admin_wijzig_annul');
 Route::post('hotelreservatie/storewijzig', 'HotelController@admin_store_wijzig');
 Route::patch('hotelreservatie/{id}/storewijzig','HotelController@admin_update_wijzig');
-*/
+*/ 
+Route::get('hotelreservatie/{id}/wijzig', 'HotelController@klant_wijzig_show');
 Route::resource('hotels', 'HotelController');
 
 /** FileUpload **/
@@ -115,7 +116,7 @@ Route::get('boekhouding/{id}/{type}/detail', 'BoekhoudingController@detail');
 Route::resource('boekhouding', 'BoekhoudingController');
 
 /** factuur **/
-Route::post('factuur/{id}/print', 'FactuurController@drukFactuur');
+Route::post('factuur/{id}/print', 'FactuurController@drukFactuur'); 
 Route::resource('factuur', 'FactuurController');
  
 /** pdf **/

@@ -80,6 +80,9 @@ class FactuurController extends Controller
       $hotel->bedrag = $data['prijs'];
       $hotel->status = 'goedgekeurd';
       $hotel->save();
+ 
+      $bericht = "Deze gegevens werden opgeslaan";
+      session()->flash('bericht', $bericht);
       
       // we keren nu terug naar dezelfde pagina waar we van komen      
       $url = 'test';
@@ -128,7 +131,32 @@ class FactuurController extends Controller
       
       session(['data' => $data]);
       
+      // validatie
+      // valideer
+      $validator = Validator::make( $data, [
+        'factuurvolgnummer' => ' nullable | numeric',
+        'jaar' => ' nullable | date_format : Y',
+        'datum' => 'required | date',
+        'prijs' => 'required | numeric',
+        'betaald' => 'required | boolean', 
+      ])->validate();  
+      
+      // update
+      $factuur = Factuur::findOrFail($data['id']);
+      $factuur->factuurvolgnummer = $data['factuurvolgnummer'];      
+      $factuur->jaar = $data['jaar'];      
+      $factuur->datum = $data['datum'];      
+      $factuur->prijs = $data['prijs']; 
+      $factuur->betaald = $data['betaald'];    
+      $factuur->save();
+      
+      $bericht = "Deze gegevens werden opgeslaan";
+      session()->flash('bericht', $bericht);         
+      
+      // we keren nu terug naar dezelfde pagina waar we van komen      
       $url = 'test';
+      $servicetype = \App\Enums\ServiceType::getDescription($data['serviceable_type']);
+      $url = "boekhouding/". $data['serviceable_id']."/".$servicetype."/detail";
       return  ['message' => $url];
     }
 

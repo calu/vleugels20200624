@@ -43,7 +43,16 @@ class Helper extends Model
       */
      public static function getClient()
      {
-          $id = $user = Auth::user()->id;
+          try{
+            $id = $user = Auth::user()->id;
+          } catch (Exception $e)
+          {
+               dd("[Helper::getClient] sorry, maar dit werkt niet");
+          }
+          
+          if ($id == null){
+               dd("Gelieve je af te melden en opnieuw aan te melden");
+          }
          // dd("id = ".$id);
           $client_id = DB::table('clients')->where('user_id', $id)->get()->first()->id;
           return $client_id;

@@ -16,5 +16,8 @@
   </li>   
   <li class="nav-item">
     <a class="nav-link" id="pills-kamer-tab" data-toggle="pill" href="#pills-kamer" role="tab" aria-controls="pills-kamer" aria-selected="false">kamer</a>
-  </li>    
+  </li>  
+  <li>
+    <a href="/boekhouding" class="btn btn-success">terug naar overzicht</a>
+  </li>      
 </ul>

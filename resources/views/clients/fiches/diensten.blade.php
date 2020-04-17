@@ -76,8 +76,8 @@
                       <a class="btn btn-primary" href="/kamers/{{ $hotelit['kamer_id']}}">toon detail</a>
                       
                     </td>
-                    <td>{{ $hotelit['bedrag']}} knop admin</td>
-                    <td>als admin knop wijzig</td>
+                    <td>{{ $hotelit['bedrag']}}</td>
+                    <td><a href="/hotelreservatie/{{ $hotelit['hotel_id']}}/wijzig" class="btn btn-primary">wijzig of annuleer</td></td>
                   </tr>
                 @endforeach
             </table>    

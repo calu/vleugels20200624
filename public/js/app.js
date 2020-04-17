@@ -2319,17 +2319,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
   data: function data() {
     return {
-      form: this.CalcForm()
+      form: this.CalcForm(),
+      gewijzigd: false
     };
   },
   methods: {
     CalcForm: function CalcForm() {
       return new _utilities_Form_js__WEBPACK_IMPORTED_MODULE_0__["default"](this.data);
+    },
+    onFactuurnr: function onFactuurnr(event) {
+      this.form.factuurvolgnummer = this.form.mogelijknr;
+      this.form.jaar = this.form.mogelijkjaar;
+      this.gewijzigd = true;
     },
     onSubmit: function onSubmit() {
       var _this = this;
@@ -42554,8 +42567,9 @@ var render = function() {
             _c(
               "div",
               {
+                key: _vm.gewijzigd,
                 staticClass: "form-group row",
-                staticStyle: { "margin-bottom": "+2.25rem" }
+                staticStyle: { "margin-bottom": "+3.25rem" }
               },
               [
                 _c(
@@ -42568,12 +42582,87 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _vm.form.factuurvolgnummer == null
-                  ? _c("span", [_vm._m(1)])
+                  ? _c("span", [
+                      _c("label", { staticClass: "form-check-label" }, [
+                        _vm._v("PRO FORMA?")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-check form-check-inline" },
+                        [
+                          _c("input", {
+                            staticClass: "form-check-input",
+                            attrs: {
+                              type: "radio",
+                              name: "factuurnrradio",
+                              id: "factuurnrradio1",
+                              value: "ja",
+                              checked: ""
+                            },
+                            on: {
+                              change: function($event) {
+                                return _vm.onFactuurnr($event)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "factuurnrradio1" }
+                            },
+                            [_vm._v("Ja")]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "form-check form-check-inline" },
+                        [
+                          _c("input", {
+                            staticClass: "form-check-input",
+                            attrs: {
+                              type: "radio",
+                              name: "factuurnrradio",
+                              id: "factuurnrradio2",
+                              value: "neen"
+                            },
+                            on: {
+                              change: function($event) {
+                                return _vm.onFactuurnr($event)
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-check-label",
+                              attrs: { for: "factuurnrradio2" }
+                            },
+                            [_vm._v("Neen")]
+                          )
+                        ]
+                      )
+                    ])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.form.factuurvolgnummer
-                  ? _c("span", [
-                      _c("div", { staticClass: "col-sm-4" }, [
+                  ? _c("span", { staticClass: "col form-inline" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass:
+                            "col-sm-2 col-form-label font-weight-bold",
+                          attrs: { for: "factuurvolgnummer" }
+                        },
+                        [_vm._v("volgnummer")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-4 col" }, [
                         _c("input", {
                           directives: [
                             {
@@ -42587,7 +42676,8 @@ var render = function() {
                           attrs: {
                             type: "text",
                             name: "factuurvolgnummer",
-                            id: "factuurvolgnummer"
+                            id: "factuurvolgnummer",
+                            readonly: "readonly"
                           },
                           domProps: { value: _vm.form.factuurvolgnummer },
                           on: {
@@ -42620,7 +42710,7 @@ var render = function() {
                         "label",
                         {
                           staticClass:
-                            "col-sm-2 col-form-label  font-weight-bold",
+                            "col-sm-2 col-form-label font-weight-bold",
                           attrs: { for: "jaar" }
                         },
                         [_vm._v("jaar")]
@@ -42637,7 +42727,12 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", name: "jaar", id: "jaar" },
+                          attrs: {
+                            type: "text",
+                            name: "jaar",
+                            id: "jaar",
+                            readonly: "readonly"
+                          },
                           domProps: { value: _vm.form.jaar },
                           on: {
                             input: function($event) {
@@ -42755,7 +42850,9 @@ var render = function() {
                 }
               },
               [
-                _vm.form.betaald == true ? _c("span", [_vm._m(2)]) : _vm._e(),
+                _vm.form.betaald == true
+                  ? _c("span", { staticClass: "col-sm-6" }, [_vm._m(1)])
+                  : _vm._e(),
                 _vm._v(" "),
                 _vm.form.betaald == false
                   ? _c("span", { staticClass: "col-sm-6" }, [
@@ -42816,7 +42913,7 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm._m(3)
+                _vm._m(2)
               ]
             ),
             _vm._v(" "),
@@ -42871,7 +42968,7 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _vm._m(4)
+            _vm._m(3)
           ]
         )
       ])
@@ -42888,23 +42985,11 @@ var staticRenderFns = [
         "\n\t\t\t\t  het officiële factuurnummer krijgt de vorm jaar/volgnummer (vb. 2020/0001)\n\t\t\t\t  "
       ),
       _c("br"),
-      _vm._v("Check de overige rubrieken alvorens te bevestigen\n\t\t\t\t ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-sm-10" }, [
-      _c("input", {
-        staticClass: "form-control-plaintext",
-        attrs: {
-          type: "text",
-          id: "factuurnummer",
-          readonly: "readonly",
-          value: "PRO FORMA"
-        }
-      })
+      _vm._v("Check de overige rubrieken alvorens te bevestigen\n\t\t\t\t  "),
+      _c("br"),
+      _vm._v(
+        'druk steeds op "Verzend" om je wijziging te bevestigen\n\t\t\t\t '
+      )
     ])
   },
   function() {

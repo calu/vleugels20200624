@@ -316,7 +316,27 @@ class HotelController extends Controller
         $return = 'clients/'.$request->client_id;
         return redirect($return);      
     }
+    */
     
+    /**
+     * we springen nu naar een view waarin we de wijziging / annulatie aanvraag
+     * als formulier weergeven
+     *
+     * @param : $id is de id van het hotel
+     * @return
+     */
+    public function klant_wijzig_show($id)
+    {
+       // dd("klant_wijzig_show : ".$id);
+       
+    }
+    
+    public function wijzig($id)
+    {
+        dd("wijzig : ".$id);
+        
+    }
+    /*
     public function wijzig($hotel)
     {
         $thisRequest = request()->all();
@@ -402,7 +422,7 @@ class HotelController extends Controller
     }
     
     /**
-     * admin_toon_wijzig
+     * admin_toon_wijzig 
      * haalt de nodig info van hotel op en 
      * gaat dan naar views.hotelreservatie.fiches.detailwijzig
      * /
