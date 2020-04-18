@@ -43,6 +43,7 @@ Vue.component('factuuradres', require('./components/FactuurAdres.vue').default);
 Vue.component('client', require('./components/Client.vue').default);
 Vue.component('cp', require('./components/Cp.vue').default);
 Vue.component('hotelfiche', require('./components/HotelFiche.vue').default);
+Vue.component('wijzigformulier', require('./components/WijzigFormulier.vue').default);
 /*     
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

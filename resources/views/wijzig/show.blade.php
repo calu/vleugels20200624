@@ -6,12 +6,7 @@
 	@include('partials.flash') 
 	@php
 	// dd($info);
-	$info['service']['knop'] = false;
 	@endphp
-	<!-- we beginnen met een overzicht van de aangevraagde dienst -->
-	@include('wijzig.fiches.overzicht')
-	<!-- vervolgens geven we een form weer voor de wijziging aan te vragen -->
-	<!-- geef eerst uitleg dat het een aanvraag is en dat men contact opneemt voor bespreking -->
-	<!-- include('wijzig.fiches.wijzigaanvraag') -->
+	<wijzigformulier @completed="vermelden" :data="{{ json_encode($info) }}"></wijzigformulier>
 </div>
 @endsection
