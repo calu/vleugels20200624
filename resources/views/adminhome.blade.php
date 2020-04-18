@@ -147,7 +147,7 @@
 		<div class="col md-4">
 			<?php
 				
-				$aantal_aanvragen = App\HotelWijzig::all()->count();
+				$aantal_aanvragen = App\Wijzig::all()->count();
 								
 				$info = [
 					'header' => 'aanvraag wijziging/annulatie',

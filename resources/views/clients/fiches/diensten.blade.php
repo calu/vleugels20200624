@@ -77,7 +77,7 @@
                       
                     </td>
                     <td>{{ $hotelit['bedrag']}}</td>
-                    <td><a href="/hotelreservatie/{{ $hotelit['hotel_id']}}/wijzig" class="btn btn-primary">wijzig of annuleer</td></td>
+                    <td><a href="/wijzig/{{ $hotelit['hotel_id']}}/hotel" class="btn btn-primary">wijzig of annuleer</td></td>
                   </tr>
                 @endforeach
             </table>    

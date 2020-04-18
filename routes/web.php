@@ -78,8 +78,8 @@ Route::get('hotelreservatie/{id}/detailwijzig', 'HotelController@admin_toon_wijz
 Route::get('hotelreservatie/adminwijzig', 'HotelController@admin_wijzig_annul');
 Route::post('hotelreservatie/storewijzig', 'HotelController@admin_store_wijzig');
 Route::patch('hotelreservatie/{id}/storewijzig','HotelController@admin_update_wijzig');
-*/ 
 Route::get('hotelreservatie/{id}/wijzig', 'HotelController@klant_wijzig_show');
+*/ 
 Route::resource('hotels', 'HotelController');
 
 /** FileUpload **/
@@ -161,7 +161,10 @@ Route::get('vraag/{id}/detail', 'VraagController@detail');
 Route::resource('vraag', 'VraagController');
 Route::resource('vragentype', 'VragentypeController');
 
+/** de dienst wijzigen / annuleren **/
+Route::get('wijzig/{id}/{type}', 'WijzigController@showService');
 
+Route::resource('wijzig', 'WijzigController');
 
 
 

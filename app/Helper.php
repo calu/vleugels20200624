@@ -96,14 +96,18 @@ class Helper extends Model
       *
       */
      public static function getClientFromServiceable($id,$type)
-     {
-          $client_id = DB::table('serviceables')->where([
-               ['serviceable_id', $id],
-               ['serviceable_type', $type]
-          ])->first()->client_id;
-          
-          $client = \App\Client::findOrFail($client_id)->first();
-          return $client;
+     {        
+           $servicetype = \App\Enums\ServiceType::getValue($type);
+           try{
+             $service = DB::table('serviceables')
+                     ->where([
+                       ['serviceable_id', $id],
+                       ['serviceable_type', $servicetype]
+                     ])->first();
+           } catch (Exception $e){
+              dd("[BoekhoudingController@getClientFromServiceable] - geen overeenkomstige dienst ($id,$type)");
+           }
+          return Client::where('id', $service->client_id)->first();          
      }
      
      

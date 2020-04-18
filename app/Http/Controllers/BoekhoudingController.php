@@ -73,7 +73,7 @@ class BoekhoudingController extends Controller
      
       // we zullen hier een factuur aanmaken en dus verzamelen 
       $servicetype = \App\Enums\ServiceType::getValue($type);
-      $client = $this->getClientFromServiceable($id, $servicetype);
+      $client = Helper::getClientFromServiceable($id, $servicetype);
       // voeg mutualiteiten en statuten toe aan de client
       $mutualiteiten = Mutualiteit::all();
       $statuten = StatuutType::getInstances();
@@ -163,7 +163,7 @@ class BoekhoudingController extends Controller
     /** hulpfunctie : getClientFromServiceable($id,$type)
      *  met de serviceable_id en serviceable_type halen we de
      *  bijhorende klant
-     */
+     */ /*
     public function getClientFromServiceable($id, $type)
     {
       try{
@@ -177,7 +177,7 @@ class BoekhoudingController extends Controller
       }
       
       return Client::where('id', $service->client_id)->first();
-    }
+    } */
    /*  
    public function getClientFromServiceable($id, $type)
    {
