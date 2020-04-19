@@ -128,7 +128,7 @@ export default{
 			return new Form(this.data);
 		},
 		
-		onFactuurnr(event){
+		onFactuurnr(event){ 
 		  this.form.factuurvolgnummer = this.form.mogelijknr;
 		  this.form.jaar = this.form.mogelijkjaar;
 		  this.gewijzigd = true;

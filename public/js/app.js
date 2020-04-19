@@ -4971,17 +4971,63 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
   data: function data() {
     return {
-      form: this.CalcForm()
+      form: this.CalcForm(),
+      gewijzigd: false
     };
   },
   methods: {
     CalcForm: function CalcForm() {
       return new _utilities_Form_js__WEBPACK_IMPORTED_MODULE_0__["default"](this.data);
+    },
+    onRubriek: function onRubriek(event) {
+      this.gewijzigd = true;
+      this.form.rubriek = "wijziging"; // alert("event");
     },
     onSubmit: function onSubmit() {
       var _this = this;
@@ -50040,19 +50086,173 @@ var render = function() {
   return _c("div", { staticClass: "col-12 grid-margin" }, [
     _vm._m(0),
     _vm._v(" "),
-    _c("form", {
-      staticClass: "form-sample",
-      attrs: { method: "POST" },
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.onSubmit($event)
-        },
-        keydown: function($event) {
-          return _vm.form.errors.clear($event.target.name)
+    _c(
+      "form",
+      {
+        staticClass: "form-sample",
+        attrs: { method: "POST" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.onSubmit($event)
+          },
+          keydown: function($event) {
+            return _vm.form.errors.clear($event.target.name)
+          }
         }
-      }
-    })
+      },
+      [
+        _c("div", { key: _vm.gewijzigd, staticClass: "form-row" }, [
+          _c("label", { staticClass: "form-check-label form-check-inline" }, [
+            _vm._v("soort : ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-check form-check-inline" }, [
+            _c("input", {
+              staticClass: "form-check-input",
+              attrs: {
+                type: "radio",
+                name: "rubriek",
+                id: "rubriekradio1",
+                value: "ja",
+                checked: ""
+              },
+              on: {
+                change: function($event) {
+                  return _vm.onRubriek($event)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "label",
+              {
+                staticClass: "form-check-label",
+                attrs: { for: "rubriekradio1" }
+              },
+              [_vm._v("annulatie")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-check form-check-inline" }, [
+            _c("input", {
+              staticClass: "form-check-input",
+              attrs: {
+                type: "radio",
+                name: "rubriek",
+                id: "rubriekradio2",
+                value: "neen"
+              },
+              on: {
+                change: function($event) {
+                  return _vm.onRubriek($event)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "label",
+              {
+                staticClass: "form-check-label",
+                attrs: { for: "rubriekradio1" }
+              },
+              [_vm._v("wijziging")]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _vm.gewijzigd
+          ? _c(
+              "div",
+              {
+                staticClass: "form-row",
+                staticStyle: { "margin-bottom": "+3.25rem" }
+              },
+              [
+                _c(
+                  "label",
+                  { staticClass: "form-check-label form-check-inline" },
+                  [_vm._v("van")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-check form-check-inline" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.datumvan,
+                        expression: "form.datumvan"
+                      }
+                    ],
+                    staticClass: "form-check-input",
+                    attrs: { type: "date", name: "datumvan", id: "datumvan" },
+                    domProps: { value: _vm.form.datumvan },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "datumvan", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.form.errors.has("datumvan")
+                    ? _c("div", {
+                        staticClass: "invalid-feedback d-block",
+                        domProps: {
+                          textContent: _vm._s(_vm.form.errors.get("datumvan"))
+                        }
+                      })
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  { staticClass: "form-check-label form-check-inline" },
+                  [_vm._v("tot")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-check form-check-inline" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.datumtot,
+                        expression: "form.datumtot"
+                      }
+                    ],
+                    staticClass: "form-check-input",
+                    attrs: { type: "date", name: "datumtot", id: "datumtot" },
+                    domProps: { value: _vm.form.datumtot },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "datumtot", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.form.errors.has("datumtot")
+                    ? _c("div", {
+                        staticClass: "invalid-feedback d-block",
+                        domProps: {
+                          textContent: _vm._s(_vm.form.errors.get("datumtot"))
+                        }
+                      })
+                    : _vm._e()
+                ])
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._m(1)
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -50074,6 +50274,22 @@ var staticRenderFns = [
         _vm._v(
           "\n\t\tJe zal gecontacteerd worden om de aanvraag af te werken.  \n\t\t"
         )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "form-group row", staticStyle: { "margin-top": "+3rem" } },
+      [
+        _c("label", [_vm._v("  ")]),
+        _vm._v(" "),
+        _c("button", { staticClass: "btn btn-primary" }, [
+          _vm._v("Bevestig de wijziging")
+        ])
       ]
     )
   }

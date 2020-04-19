@@ -39,7 +39,24 @@ class WijzigController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       // enkel voor admin
+      abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);    
+
+      $thisRequest = request()->all();
+      $data = $thisRequest['data'];
+      
+      session(['thisRequest', $thisRequest]);
+
+      // valideer
+      
+      // spaar
+      
+      // stuur e-mail
+      
+      // bericht
+      
+      $url = 'test';
+      return ['message' => $url];       
     }
 
     /**
@@ -65,7 +82,10 @@ class WijzigController extends Controller
         switch ($type){
             case 'hotel' :
               $hotel = Hotel::findOrFail($id)->first();
+             //  dd($hotel);
               $info['service'] = $hotel;
+              $info['datumvan'] = $hotel->begindatum;
+              $info['datumtot'] = $hotel->einddatum;
               break;
             case 'dagverblijf':
               break;
@@ -74,13 +94,14 @@ class WijzigController extends Controller
         }
         
         // maak nu een blanko Wijzig
-        $wijzig['id'] = 0;
-        $wijzig['serviceable_id'] = $id;
-        $wijzig['serviceable_type'] = \App\Enums\ServiceType::getValue($type); 
-        $wijzig['rubriek'] = 'wijziging';
-        $wijzig['datumvan'] = null;
-        $wijzig['datumtot'] = null;
-        $info['wijzig'] = $wijzig;
+        $info['id'] = 0;
+        $info['fullserviceable_type'] = \App\Enums\ServiceType::getValue($type); 
+        $info['rubriek'] = 'annulatie';
+        $info['wijzigstatus'] = 'aangevraagd';
+ // de onderstaande waarden worden ingevuld in de soort dienst hierboven       
+ //       $wijzig['datumvan'] = null;
+ //       $wijzig['datumtot'] = null;
+ //       $info['wijzig'] = $wijzig;
         
         $client = Helper::getClientFromServiceable($id,$type);
         $info['service']['client'] = $client;
@@ -108,9 +129,26 @@ class WijzigController extends Controller
      * @param  \App\Wijzig  $wijzig
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Wijzig $wijzig)
+    public function update(Request $request, $id)
     {
-        //
+       // enkel voor admin
+      abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);    
+
+      $thisRequest = request()->all();
+      $data = $thisRequest['data'];
+      
+      session(['thisRequest', $thisRequest]);
+      session(['update', 'update']);
+      // valideer
+      
+      // spaar
+      
+      // stuur e-mail
+      
+      // bericht
+      
+      $url = 'test';
+      return ['message' => $url];   
     }
 
     /**
