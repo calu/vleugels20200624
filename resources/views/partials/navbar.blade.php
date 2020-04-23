@@ -58,6 +58,6 @@
                         </form>                                    
                    </li>
 			
-		@endguest
+		@endguest 
 	</ul>
 </header>

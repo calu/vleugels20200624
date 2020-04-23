@@ -2,9 +2,13 @@
   <div class="card-body">
     <h5 class="card-title text-primary text-center">Overzicht van de aangevraagde dienst</h5>
     <h6 class="card-subtitle mb-2 text-muted text-center">Dit is enkel een overzicht</h6>
+    @php
+    // dd($info);
+    @endphp
+    
     @switch ( $info['serviceable_type'])
       @case('hotel')
-        <hotelfiche @completed="vermelden" :data="{{ json_encode($info['service']) }}"></hotelfiche>
+        <hotelfiche @completed="vermelden" :data="{{ json_encode($info['hotel']) }}"></hotelfiche>
         @break
       @case('dagverblijf')
         <!-- TODO -->

@@ -3468,7 +3468,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
@@ -5012,6 +5011,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
@@ -5027,10 +5032,21 @@ __webpack_require__.r(__webpack_exports__);
     },
     onRubriek: function onRubriek(event) {
       this.gewijzigd = true;
-      this.form.rubriek = "wijziging"; // alert("event");
+      this.form.rubriek = "wijziging";
+      this.form.wijzigstatus = "aanvaard"; // alert("event"); 
+    },
+    onGeweigerd: function onGeweigerd(event) {
+      this.form.wijzigstatus = "geweigerd";
     },
     onSubmit: function onSubmit() {
       var _this = this;
+
+      // Als het niet geweigerd is en ook niet gewijzigd -> wijzigstatus is aanvaard
+      if (this.form.wijzigstatus != "geweigerd" && this.gewijzigd == false) {
+        this.form.wijzigstatus = "aanvaard";
+      }
+
+      ; // alert(this.form.wijzigstatus);	  
 
       if (this.form.id == 0) {
         this.form.post('/wijzig').then(function (data) {
@@ -50090,7 +50106,7 @@ var render = function() {
       "form",
       {
         staticClass: "form-sample",
-        attrs: { method: "POST" },
+        attrs: { method: "POST", action: "/wijzig" },
         on: {
           submit: function($event) {
             $event.preventDefault()
@@ -50158,7 +50174,36 @@ var render = function() {
               },
               [_vm._v("wijziging")]
             )
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "form-check form-check-inline",
+              staticStyle: { "margin-left": "5em" }
+            },
+            [
+              _c(
+                "label",
+                {
+                  staticClass: "form-check-label text-danger",
+                  staticStyle: { "margin-right": "0.5em" },
+                  attrs: { for: "geweigerd" }
+                },
+                [_vm._v("geweigerd")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "form-check-input",
+                attrs: { type: "radio", name: "geweigerd", id: "geweigerd" },
+                on: {
+                  change: function($event) {
+                    return _vm.onGeweigerd($event)
+                  }
+                }
+              })
+            ]
+          )
         ]),
         _vm._v(" "),
         _vm.gewijzigd

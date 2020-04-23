@@ -97,7 +97,10 @@ class Helper extends Model
       */
      public static function getClientFromServiceable($id,$type)
      {        
-           $servicetype = \App\Enums\ServiceType::getValue($type);
+           if (preg_match('/\bApp\b/', $type))
+             $servicetype = $type;
+           else
+             $servicetype = \App\Enums\ServiceType::getValue($type);
            try{
              $service = DB::table('serviceables')
                      ->where([
@@ -107,6 +110,7 @@ class Helper extends Model
            } catch (Exception $e){
               dd("[BoekhoudingController@getClientFromServiceable] - geen overeenkomstige dienst ($id,$type)");
            }
+           // dd("[Helper::getClientFromServiceable] 1service = [id=$id en type= $type en servicetype = $servicetype ".$service);
           return Client::where('id', $service->client_id)->first();          
      }
      

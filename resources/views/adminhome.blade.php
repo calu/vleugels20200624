@@ -154,11 +154,11 @@
 					'icon' => 'fa-handshake',
 					'text' => 'Een overzicht van alle aanvragen voor wijziging of annulatie voor overnachtingen, met mogelijkheid tot wijziging',
 					'button' => 'overzicht en beantwoord vragen',
-					'href' => '/hotelreservatie/adminwijzig',
+					'href' => '/wijzig/adminwijzig',
 					'aantal' => $aantal_aanvragen
 				];
 			?>
-			@include('admin.partials.card', $info)
+			@include('admin.partials.card', $info) 
 		</div>							
 	</div>
 	

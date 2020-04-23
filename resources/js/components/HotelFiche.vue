@@ -3,7 +3,6 @@
 		<form class="form-sample" method="POST" 
       		@submit.prevent="onSubmit"
       		@keydown="form.errors.clear($event.target.name)">
-
 			<div class="form-group row">
 				<label class="col-sm-12 col-form-label font-weight-bold">dienst : hotel</label>				
 			</div>	
@@ -125,7 +124,7 @@ export default{
 	},
 	
 	methods:{
-		CalcForm(){
+		CalcForm(){ 
 			return new Form(this.data);
 		}, 
 			

@@ -162,9 +162,15 @@ Route::resource('vraag', 'VraagController');
 Route::resource('vragentype', 'VragentypeController');
 
 /** de dienst wijzigen / annuleren **/
+Route::get('wijzig/admin/overzicht', 'WijzigController@adminOverzicht');
 Route::get('wijzig/{id}/{type}', 'WijzigController@showService');
 
 Route::resource('wijzig', 'WijzigController');
+
+/* test logout */
+Route::get('/logout', function(){
+    location.reload();
+});
 
 
 

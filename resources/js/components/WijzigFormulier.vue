@@ -5,7 +5,7 @@
 		<br/>
 		Je zal gecontacteerd worden om de aanvraag af te werken.  
 		</div>		
-		<form class="form-sample" method="POST" 
+		<form class="form-sample" method="POST" action="/wijzig"
       		@submit.prevent="onSubmit"
       		@keydown="form.errors.clear($event.target.name)">
 			
@@ -26,6 +26,12 @@
 						id="rubriekradio2" value="neen" @change="onRubriek($event)">
 					<label class="form-check-label" for="rubriekradio1">wijziging</label>
 				</div>
+				
+				<div class="form-check form-check-inline" style="margin-left : 5em">
+				  <label class="form-check-label text-danger" style="margin-right : 0.5em" for="geweigerd">geweigerd</label>
+				  <input class="form-check-input" type="radio" name="geweigerd"
+				         id="geweigerd" @change="onGeweigerd($event)">
+				</div>
 			</div>	   
 			
 			<div v-if="gewijzigd" class="form-row" style="margin-bottom: +3.25rem"> 
@@ -44,7 +50,7 @@
 					     v-text="form.errors.get('datumtot')"></div>	
 				</div> 
 			</div>
-			
+		
 			<div class="form-group row" style="margin-top : +3rem" >
 				<label>&nbsp; </label>
 				<button class="btn btn-primary">Bevestig de wijziging</button>
@@ -75,10 +81,20 @@ export default{
 		onRubriek(event){
 		   this.gewijzigd = true;
 		   this.form.rubriek = "wijziging";
-		   // alert("event");
+		   this.form.wijzigstatus = "aanvaard";
+		   // alert("event"); 
+		},
+		
+		onGeweigerd(event){
+		   this.form.wijzigstatus = "geweigerd";
 		},
 			
 		onSubmit(){
+			// Als het niet geweigerd is en ook niet gewijzigd -> wijzigstatus is aanvaard
+			if (this.form.wijzigstatus != "geweigerd" && this.gewijzigd == false){
+			  this.form.wijzigstatus = "aanvaard";
+			};
+		// alert(this.form.wijzigstatus);	  
 			if (this.form.id == 0){
 				this.form.post('/wijzig')
 					.then( data => this.spring(data.message)) 
