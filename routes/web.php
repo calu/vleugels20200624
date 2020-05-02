@@ -118,7 +118,8 @@ Route::get('boekhouding/{id}/{type}/detail', 'BoekhoudingController@detail');
 Route::resource('boekhouding', 'BoekhoudingController');
 
 /** factuur **/
-Route::patch('factuur/{id}/print', 'FactuurController@drukFactuur'); 
+Route::patch('factuur/{id}/print', 'FactuurController@drukFactuur');  
+Route::post('factuur/{id}/print', 'FactuurController@drukFactuur');
 
 Route::get('factuur/{id}/drukken', 'FactuurController@vraagDrukFactuur');
 Route::resource('factuur', 'FactuurController');

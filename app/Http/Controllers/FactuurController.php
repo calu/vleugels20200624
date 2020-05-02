@@ -123,7 +123,7 @@ class FactuurController extends Controller
      * @param  \App\Factuur  $factuur
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Factuur $factuur)
+    public function update(Request $request, Factuur $factuur) 
     {
       // enkel de admin mag dit bekijken
       abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
