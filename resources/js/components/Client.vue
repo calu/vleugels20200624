@@ -5,7 +5,7 @@
 				<h4 class="card-title">De klant gegevens</h4>     
         
 			  	<p class="card-description">
-				Als admin kan je hier de data wijzigen
+				Als admin kan je hier de data wijzigen 
 				 </p> 
 
 				<form class="form-sample" method="POST" 
@@ -164,6 +164,7 @@ export default{
 			extended.serviceable_type = this.data.service.typedescription; 
 			extended.mutualiteiten = this.data.mutualiteiten;
 			extended.statuten = this.data.statuten;
+			// alert("ok"); 
 			return new Form(extended);
 
 //			return new Form(this.data);
@@ -176,13 +177,18 @@ export default{
 					.catch(errors => console.log(errors));
 */ alert("[Client.vue] hier mag je nooit komen");
 			} else {
-				this.form.patch('/clients/' + this.form.id + '/klantupdate')
+			this.form.patch('/clients/' + this.form.id + '/klantupdate')
 					.then( data => this.spring(data.message))
 					.catch( errors => console.log(errors));
 			} 
 		},
 				
 		spring(data){
+			/* toegevoegd wanneer je bvb van wijzig komt */
+			// alert("terug = " + this.data.urlterug); 
+			if (typeof this.data.urlterug !== 'undefined'){ 
+			  data = this.data.urlterug; 
+			} 
 		    var $url = "https://" + window.location.hostname + "/" + data;
 			window.location=$url;	
 		},

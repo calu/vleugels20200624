@@ -154,7 +154,7 @@
 					'icon' => 'fa-handshake',
 					'text' => 'Een overzicht van alle aanvragen voor wijziging of annulatie voor overnachtingen, met mogelijkheid tot wijziging',
 					'button' => 'overzicht en beantwoord vragen',
-					'href' => '/wijzig/adminwijzig',
+					'href' => '/wijzig/admin/overzicht',
 					'aantal' => $aantal_aanvragen
 				];
 			?>

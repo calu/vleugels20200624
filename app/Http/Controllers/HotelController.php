@@ -261,6 +261,46 @@ class HotelController extends Controller
         // /boekhouding/{{ $dienst->serviceable_id }}/{{ $type }}/detail
         return ['message' => $message];
     }
+    
+    /** De admin heeft een wijziging aangebracht en deze moet nu geupdate worden
+     *
+     * @param : id = id van het hotels
+     * @return : geen
+     */
+    public function admin_update(Request $request, $id)
+    {
+        // enkel admin mag hier komen
+        abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);    
+
+        $thisRequest = request()->all();
+        $data = $thisRequest['data'];
+        session(['thisRequest' => $thisRequest]);
+                
+        // Voer nu de validatie uit
+        // Valideer de invoer - we zeggen hier niet dat de data in de toekomst moeten liggen,
+        //   maar dit komt doordat de boekhouder ook oudere data moet kunnen bewerken
+        $validator = Validator::make($data, [
+           'begindatum' => 'required | date ',
+           'einddatum' => 'required | date ', 
+           'bedrag' => 'required | numeric',
+        ])->validate();          
+        
+        // spaar de gegevens in hotels
+        $hotel = Hotel::findOrFail($data['id']);
+        $hotel->begindatum = $data['begindatum'];
+        $hotel->einddatum = $data['einddatum'];
+        $hotel->bedrag = $data['bedrag'];
+        $hotel->save();
+        
+        $bericht = "De hotel data werden aangepast";
+        session()->flash('bericht', $bericht);
+        
+        // bericht sturen
+        
+        $url = "test";
+        $url = "wijzig/admin/overzicht";
+        return ['message' => $url];
+    }
 
 
     /**

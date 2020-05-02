@@ -4,4 +4,4 @@
 //	dd($info['service']);
 	@endphp
 	<reservatie @completed="vermelden" :data="{{ json_encode($info['service']) }}"></reservatie>	
-</div>
+</div> 

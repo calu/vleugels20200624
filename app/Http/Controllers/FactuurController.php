@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Hotel;
 use App\Helper;
+use App\Contactpersoon;
 use Illuminate\Support\Facades\DB;
 use PDF;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\FactuurMail;
+use App\Enums\ServiceType;
 
 class FactuurController extends Controller
 {
@@ -56,7 +58,7 @@ class FactuurController extends Controller
       
       session(['data' => $data]);
       
-      // valideer
+      // valideer 
       $validator = Validator::make( $data, [
         'factuurvolgnummer' => ' nullable | numeric',
         'jaar' => ' nullable | date_format : Y',
@@ -125,7 +127,7 @@ class FactuurController extends Controller
     {
       // enkel de admin mag dit bekijken
       abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
-
+      
       $thisRequest = request()->all();
       $data = $thisRequest['data'];     
       
@@ -185,10 +187,16 @@ class FactuurController extends Controller
       abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
 
       $thisRequest = request()->all();
+      $data = $thisRequest['data'];
+      session(['thisRequest' => $thisRequest]);
       
-      $factuur_id = $thisRequest['factuur_id'];
-      $stuurNaarKlant = $thisRequest['inlineRadioOptions']; // is 'ja' of 'neen'
-      
+      if (isset($thisRequest['inlineRadioOptions'])){
+            $factuur_id = $thisRequest['factuur_id'];
+            $stuurNaarKlant = $thisRequest['inlineRadioOptions']; // is 'ja' of 'neen'
+      } else {
+            $factuur_id = $data['factuur_id'];
+            $stuurNaarKlant = $data['inlineRadioOptions'];
+      }
       // Nu halen we alle gegevens op die we nodig hebben om de factuur te maken
       /* we starten met het zoeken naar het e-mail adres voor de klant */
       $factuur = Factuur::where('id', $factuur_id)->first();
@@ -204,7 +212,8 @@ class FactuurController extends Controller
       // nu kunnen we de factuur verzenden
       $naam = $cp->voornaam.' '.$cp->familienaam;
       Mail::to($pdfdata['factuur_afzenderEmail'])->send(new FactuurMail($naam));
-         
+      
+      $bericht = "TODO";   
       if (strlen($client->factuur_email) == 0){
         // meld in de mail aan de boekhouder dat de contactpersoon geen e-mail adres heeft
         $bericht = "Er werd geen e-mail gestuurd naar de contactpersoon, omdat we geen e-mail hebben.";
@@ -265,5 +274,46 @@ class FactuurController extends Controller
           $pdfdata['factuur_iban'] = $afzender->iban;          
           $pdfdata['factuur_bic'] = $afzender->bic;       
           return $pdfdata;
+      }
+      
+      /**
+       *  vraagDrukFactuur verzamelt de gegevens nodig voor een factuur
+       *  en gaat naar een Formulier
+       *
+       */
+      public function vraagDrukFactuur($id)
+      {
+            // enkel de admin mag dit bekijken
+            abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
+            
+            // Haal nu de factuurgegevens op
+            $factuur = Factuur::findOrFail($id);
+            $info['factuur'] = $factuur;
+            $servicetype = \App\Enums\ServiceType::getdescription($factuur->serviceable_type);
+            $hotel = [];
+            $dagverblijf = [];
+            $therapie = [];
+            switch ($servicetype){
+                  case 'hotel' :
+                    $hotel = Hotel::findOrFail($factuur->serviceable_id);
+                    break;
+                  case 'dagverblijf' :
+                    // TODO
+                    dd('TODO vraagDrukFactuur:dagverblijf');
+                    break;
+                  case 'therapie' :
+                    // TODO
+                    dd('TODO vraagDrukFactuur:therapie');
+                    break;
+            }
+            $info['hotel'] = $hotel;
+            $info['dagverblijf'] = $dagverblijf;
+            $info['therapie'] = $therapie;
+            $client = Helper::getClientFromServiceable($factuur->serviceable_id,$factuur->serviceable_type);
+            $info['client'] = $client;
+            $contactpersoon = Contactpersoon::where('id', $client->contactpersoon_id)->first();
+            $info['contactpersoon'] = $contactpersoon;
+            
+            return view('factuur/vraagDruk', compact('info'));
       }
 }

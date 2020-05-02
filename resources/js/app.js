@@ -29,7 +29,8 @@ Vue.component('kamerformulier', require('./components/KamerFormulier.vue').defau
 Vue.component('file-upload', require('./components/FileUpload.vue').default);  
 Vue.component('calendar-component', require('./components/Calendar.vue').default);
 Vue.component('boekhouding', require('./components/Boekhouding.vue').default);
-// Vue.component('factuur', require('./components/Factuur.vue').default);
+Vue.component('factuur', require('./components/Factuur.vue').default);
+Vue.component('factuurdruk', require('./components/FactuurDruk.vue').default);
 Vue.component('algemeen', require('./components/Algemeen.vue').default);
 Vue.component('klantgegevens', require('./components/Klantgegevens.vue').default);
 Vue.component('contactpersoon', require('./components/Contactpersoon.vue').default);
@@ -44,6 +45,8 @@ Vue.component('client', require('./components/Client.vue').default);
 Vue.component('cp', require('./components/Cp.vue').default);
 Vue.component('hotelfiche', require('./components/HotelFiche.vue').default);
 Vue.component('wijzigformulier', require('./components/WijzigFormulier.vue').default);
+Vue.component('adminwijzig', require('./components/AdminWijzig.vue').default);
+Vue.component('hotel', require('./components/Hotel.vue').default);
 /*     
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

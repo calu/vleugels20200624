@@ -207,7 +207,7 @@ class ContactpersoonController extends Controller
         
     //    return redirect()->action('ContactpersoonController@index');
        
-        return ['message' => 'contactpersonen'];       
+        return ['message' => 'contactpersonen'];        
     }
     
     /**

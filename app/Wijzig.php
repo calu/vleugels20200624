@@ -8,6 +8,6 @@ class Wijzig extends Model
 {
      protected $fillable=[
          'serviceable_id', 'serviceable_type', 'rubriek',
-         'datumvan', 'datumtot'
+         'datumvan', 'datumtot','wijzigstatus'
      ];
 }

@@ -1,5 +1,5 @@
 <template>
-	<div class="col-12 grid-margin">
+	<div class="col-12 grid-margin"> 
 		<div class="alert alert-warning text-center" role="alert">
 		Door dit formulier in te vullen en te verzenden vraag je een annulatie of wijziging aan.
 		<br/>
@@ -81,7 +81,7 @@ export default{
 		onRubriek(event){
 		   this.gewijzigd = true;
 		   this.form.rubriek = "wijziging";
-		   this.form.wijzigstatus = "aanvaard";
+		   this.form.wijzigstatus = "aangevraagd";
 		   // alert("event"); 
 		},
 		
@@ -89,12 +89,7 @@ export default{
 		   this.form.wijzigstatus = "geweigerd";
 		},
 			
-		onSubmit(){
-			// Als het niet geweigerd is en ook niet gewijzigd -> wijzigstatus is aanvaard
-			if (this.form.wijzigstatus != "geweigerd" && this.gewijzigd == false){
-			  this.form.wijzigstatus = "aanvaard";
-			};
-		// alert(this.form.wijzigstatus);	  
+		onSubmit(){  
 			if (this.form.id == 0){
 				this.form.post('/wijzig')
 					.then( data => this.spring(data.message)) 

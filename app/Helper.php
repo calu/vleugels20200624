@@ -110,7 +110,7 @@ class Helper extends Model
            } catch (Exception $e){
               dd("[BoekhoudingController@getClientFromServiceable] - geen overeenkomstige dienst ($id,$type)");
            }
-           // dd("[Helper::getClientFromServiceable] 1service = [id=$id en type= $type en servicetype = $servicetype ".$service);
+          //  dd("[Helper::getClientFromServiceable] 1service = [id=$id en type= $type en servicetype = $servicetype ".$service);
           return Client::where('id', $service->client_id)->first();          
      }
      

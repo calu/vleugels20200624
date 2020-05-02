@@ -59,6 +59,7 @@ Route::get('clients/{id}/calendar', 'ClientController@calendar');
 
 Route::post('clients/over', 'ClientController@over');
 Route::post('clients/contactpersoon', 'ClientController@contactpersoon');
+Route::patch('clients/contactpersoon/{id}', 'ContactpersoonController@update');
 Route::post('clients/wachtwoordwijzig', 'ClientController@wachtwoordwijzig');
 Route::post('clients/factuur', 'ClientController@factuur');
 Route::get('clients/factuurview', 'ClientController@factuurview');
@@ -80,6 +81,7 @@ Route::post('hotelreservatie/storewijzig', 'HotelController@admin_store_wijzig')
 Route::patch('hotelreservatie/{id}/storewijzig','HotelController@admin_update_wijzig');
 Route::get('hotelreservatie/{id}/wijzig', 'HotelController@klant_wijzig_show');
 */ 
+Route::patch('hotels/{id}/wijzig', 'HotelController@admin_update');
 Route::resource('hotels', 'HotelController');
 
 /** FileUpload **/
@@ -116,7 +118,9 @@ Route::get('boekhouding/{id}/{type}/detail', 'BoekhoudingController@detail');
 Route::resource('boekhouding', 'BoekhoudingController');
 
 /** factuur **/
-Route::post('factuur/{id}/print', 'FactuurController@drukFactuur'); 
+Route::patch('factuur/{id}/print', 'FactuurController@drukFactuur'); 
+
+Route::get('factuur/{id}/drukken', 'FactuurController@vraagDrukFactuur');
 Route::resource('factuur', 'FactuurController');
  
 /** pdf **/
@@ -163,6 +167,8 @@ Route::resource('vragentype', 'VragentypeController');
 
 /** de dienst wijzigen / annuleren **/
 Route::get('wijzig/admin/overzicht', 'WijzigController@adminOverzicht');
+Route::get('wijzig/admin/{id}/detail', 'WijzigController@adminDetail');
+Route::patch('wijzig/admin/{id}', 'WijzigController@adminUpdate');
 Route::get('wijzig/{id}/{type}', 'WijzigController@showService');
 
 Route::resource('wijzig', 'WijzigController');

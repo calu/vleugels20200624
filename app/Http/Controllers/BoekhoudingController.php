@@ -75,7 +75,7 @@ class BoekhoudingController extends Controller
       $servicetype = \App\Enums\ServiceType::getValue($type);
       $client = Helper::getClientFromServiceable($id, $servicetype);
       // voeg mutualiteiten en statuten toe aan de client
-      $mutualiteiten = Mutualiteit::all();
+      $mutualiteiten = Mutualiteit::all(); 
       $statuten = StatuutType::getInstances();
       $info['mutualiteiten'] = $mutualiteiten;
       $info['statuten'] = $statuten;

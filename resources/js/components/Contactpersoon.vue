@@ -20,7 +20,7 @@
 				<div class="invalid-feedback d-block" v-if="form.errors.has('familienaam')"
 					v-text="form.errors.get('familienaam')" />								
 			</div><!-- col -->	
-		</div><!-- row -->
+		</div><!-- row --> 
 		
 		<div class="row pt-3 ">
 			<div class="col">
@@ -134,19 +134,27 @@ export default{
 		},
 		
 		onSubmit(){
-			/* console.log("Contactpersoon onSubmit");
-			throw new Error("geen fout, enkel stoppen");  */
-			 
-			this.form.post('/clients/contactpersoon')
-			//	.then( data => this.$emit('completed', data))
-				.then( data => this.spring(data.message)) 
-				.catch(errors => console.log(errors));
+			if (this.form.id == 0){	
+			// alert("post");		 
+				this.form.post('/clients/contactpersoon')
+					.then( data => this.spring(data.message)) 
+					.catch(errors => console.log(errors));
+			} else {
+			// alert("patch en id = " + this.form.id);
+				this.form.patch('/clients/contactpersoon/' + this.form.id)
+					.then( data => this.spring(data.message))
+					.catch( errors => console.log(errors));
+			}
 		},
-		
-		
+			
 		spring(data){
-//			console.log("spring : " + data);
-//			throw new Error("geen fout, maar stop");
+			/* toegevoegd wanneer je bvb van wijzig komt */
+			//  alert("terug = " + this.data.urlterug);  
+			if (typeof this.data.urlterug !== 'undefined'){ 
+			  data = this.data.urlterug; 
+			  // alert('data = ' + this.data.urlterug); 
+			} 
+
 		    var $url = "https://" + window.location.hostname + "/" + data;
 			window.location=$url;	
 		},

@@ -3,7 +3,6 @@
 	//dd($info);
 	$factuur_id = $info['factuur']['id'];
 	@endphp
-	<boekhouding @completed="vermelden" :data="{{ json_encode($info['factuur']) }}"></boekhouding>	
 	@if ( $factuur_id != 0)
 	<hr>
 	<h4>Nu kan je een factuur afdrukken met de gegevens die hierboven staan.</h4>
@@ -31,6 +30,7 @@
 		</div>
 	</form> 
 	@endif
+	<boekhouding @completed="vermelden" :data="{{ json_encode($info['factuur']) }}"></boekhouding>		
 </div>
 
 
