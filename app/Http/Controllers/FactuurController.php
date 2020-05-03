@@ -187,7 +187,7 @@ class FactuurController extends Controller
       abort_unless(\Auth::check() && \Auth::User()->isAdmin(), 403);
 
       $thisRequest = request()->all();
-      $data = $thisRequest['data']; 
+ //     $data = $thisRequest['data']; 
       session(['thisRequest' => $thisRequest]);
       
       if (isset($thisRequest['inlineRadioOptions'])){

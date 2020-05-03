@@ -28,7 +28,7 @@
 		<div class="form-group-row"  style="margin-left : 2rem">
 		  <button type="submit" class="btn btn-primary">verstuur</button>	 
 		</div>
-	</form> 
+	</form>  
 	@endif
 	<boekhouding @completed="vermelden" :data="{{ json_encode($info['factuur']) }}"></boekhouding>		
 </div>
